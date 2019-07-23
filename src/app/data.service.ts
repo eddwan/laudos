@@ -10,23 +10,23 @@ import cordovaSqlitePlugin from 'pouchdb-adapter-cordova-sqlite'
   providedIn: 'root'
 })
 export class DataService {
-
+  
   public db: any
   public dbInfo: any
-
+  
   constructor(public electron: ElectronService, private platform: Platform, private events: Events) {}
-
+  
   public setup() {
     const ctx = this
     console.log('Setting up the application database')
-
+    
     if (ctx.platform.is('mobile')) {
       return ctx.mobileDB()
     } else {
       return ctx.webDB()
     }
   }
-
+  
   private mobileDB() {
     const ctx = this
     console.log('This app is running on a mobile device')
@@ -58,7 +58,7 @@ export class DataService {
       })
     })
   }
-
+  
   private webDB() {
     const ctx = this
     console.log('This app is running in a web browser')
@@ -67,7 +67,7 @@ export class DataService {
       .then(() => {
         PouchDB.plugin(SecurePouch)
         return ctx.db = new PouchDB('app.db')
-
+        
       })
       .then(res => {
         ctx.db.encrypt('password') // <<<<<<<<<<<<< Replace with your secret key

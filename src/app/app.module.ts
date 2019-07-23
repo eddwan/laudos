@@ -13,13 +13,22 @@ import { AppComponent } from './app.component'
 
 import { NgxElectronModule } from 'ngx-electron'
 
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { HttpClientModule} from '@angular/common/http'
+import { HttpErrorHandler } from './http-error-handler.service';
+import { MessageService } from './message.service';
+import { MaterialModule } from './material.module'
+import { MainToolBarComponent} from './main-tool-bar/main-tool-bar.component'
+
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MainToolBarComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, NgxElectronModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, NgxElectronModule, BrowserAnimationsModule, MaterialModule, HttpClientModule],
   providers: [
     StatusBar,
     SplashScreen,
+    HttpErrorHandler,
+    MessageService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

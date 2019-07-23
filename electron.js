@@ -3,12 +3,19 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
+const ipcMain = electron.ipcMain
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
 
 let win, serve
 const args = process.argv.slice(1)
 serve = args.some(val => val === '--serve')
+
+ipcMain.on('online-status-changed', (event, status) => {
+  console.log(status);
+  event.returnValue = status
+  win.webContents.send('online-status-changed', status)
+})
 
 function createWindow () {
   win = new BrowserWindow({

@@ -1,0 +1,12 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Laudos</span>
+    <span class="example-spacer"></span>
+    <button mat-button [matMenuTriggerFor]="menu">Novo Laudo</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Histeroscopia</button>
+      <button mat-menu-item>Laparoscopia</button>
+    </mat-menu>
+    <button mat-button>Sair</button>
+  </mat-toolbar-row>
+</mat-toolbar>

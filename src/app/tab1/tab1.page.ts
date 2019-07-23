@@ -1,37 +1,38 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core'
 import { Platform, Events } from '@ionic/angular'
 import { ElectronService } from 'ngx-electron'
 import { DataService } from '../data.service'
+import { LaudoHisteroscopia } from '../laudo';
+import { LaudosRemoteService } from '../laudos-remote.service';
+import { MatPaginator, MatSort } from '@angular/material';
+import { DataTableDataSource } from './data-table-datasource';
+
+export interface listLaudo {
+  [id: number] : LaudoHisteroscopia
+}
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  styleUrls: ['tab1.page.scss'],
+  providers: [ LaudosRemoteService]
 })
 export class Tab1Page  implements OnInit {
 
-  public db: any
-  public dbInfo: Object
-  public electron: any
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  dataSource: listLaudo = [];
+  displayedColumns = ['nome', 'tipo', 'data_exame'];
 
-  constructor(public electronService: ElectronService, private data: DataService, private platform: Platform, private events: Events) {
-    this.events.subscribe('database:available', (info) => {
-      console.log('Database is now available')
-      this.db = this.data.db
-      this.dbInfo = info
-    })
+  constructor(private remoteLaudos: LaudosRemoteService){
   }
 
   ngOnInit () {
-    const ctx = this
-    ctx.electron = ctx.electronService
-
-    if (ctx.electron.isElectronApp) {
-      ctx.db = ctx.data.db
-      ctx.data.db.info()
-      .then(info => ctx.dbInfo = info)
-      .catch(err => console.log(err))
-    }
+    // this.dataSource = new DataTableDataSource(this.paginator, this.sort);
+    this.remoteLaudos.getTableLaudos().subscribe( resp => {
+      console.log(JSON.parse(resp["body"]))
+      this.dataSource = JSON.parse(resp["body"])
+    })
   }
 
 }
