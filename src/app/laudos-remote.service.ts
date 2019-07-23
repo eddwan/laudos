@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Laudo, listLaudo } from './laudo';
+import { LaudoRemote, Laudo, listLaudo } from './laudo';
 import { HttpErrorHandler, HandleError } from './http-error-handler.service';
+import { environment } from '../environments/environment';
 
 const httpOptions ={
   headers: new HttpHeaders({
@@ -17,9 +18,10 @@ const httpOptions ={
 })
 export class LaudosRemoteService {
   
-  tableUrl = 'https://hlmwkuk8ba.execute-api.us-east-1.amazonaws.com/prod/laudos/table'
-  laudosUrl = 'https://hlmwkuk8ba.execute-api.us-east-1.amazonaws.com/prod/laudos'
-  laudoUrl = 'https://hlmwkuk8ba.execute-api.us-east-1.amazonaws.com/prod/laudo'
+  tableUrl = environment.apiUrl+'/laudos/table'
+  laudosUrl = environment.apiUrl+'/laudos'
+  laudoUrl = environment.apiUrl+'/laudo'
+  
   private handleError: HandleError;
   
   constructor(private http: HttpClient,httpErrorHandler: HttpErrorHandler){
@@ -35,14 +37,14 @@ export class LaudosRemoteService {
       );
     }
     
-  /** GET heroes from the server */
-  getTableLaudos (): Observable<listLaudo[]> {
-    return this.http.get<listLaudo[]>(this.tableUrl, httpOptions)
-    .pipe(
-      // catchError(this.handleError('getLaudos', []))
-      // catchError( console.log('error'))
-      );
-    }
+  // /** GET heroes from the server */
+  // getTableLaudos (): Observable<LaudoRemote[]> {
+  //   return this.http.get<LaudoRemote[]>(this.tableUrl, httpOptions)
+  //   .pipe(
+  //     // catchError(this.handleError('getLaudos', []))
+  //     // catchError( console.log('error'))
+  //     );
+  //   }
     //////// Save methods //////////
     
     /** POST: add a new hero to the database */

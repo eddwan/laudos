@@ -22,11 +22,11 @@ export class DataTableDataSource extends DataSource<DataTableItem> {
     constructor(private paginator: MatPaginator, private sort: MatSort) {
         super();
         
-        let files = fs.readdirSync('/Users/usuario/Desktop/laudos/laudos');
+        let files = fs.readdirSync('/Users/usuario/Desktop/laudos/laudos-json-teste');
         
         files.forEach(file => {
             console.log(file);
-            let rawData = fs.readFileSync('/Users/usuario/Desktop/laudos/laudos/'+file, "utf8");
+            let rawData = fs.readFileSync('/Users/usuario/Desktop/laudos/laudos-json-teste/'+file, "utf8");
             let obj = JSON.parse(rawData);
             const laudo ={
                 "nome": obj["paciente"]["nome"],

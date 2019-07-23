@@ -3,6 +3,12 @@ export interface Laudo {
     tipo: string,
     data_exame: string
 }
+
+export interface LaudoRemote {
+  nome: string,
+  tipo: string
+}
+
 export interface LaudoHisteroscopia{
     titulo: string,
     status: string,

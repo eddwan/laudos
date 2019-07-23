@@ -27,20 +27,6 @@ export class DataTableDataSource extends DataSource<DataTableItem> {
             resp.forEach( file => console.log(file))
         })
         
-        // let files = fs.readdirSync('/Users/usuario/Desktop/laudos/laudos');
-        
-        // files.forEach(file => {
-        //     console.log(file);
-        //     let rawData = fs.readFileSync('/Users/usuario/Desktop/laudos/laudos/'+file, "utf8");
-        //     let obj = JSON.parse(rawData);
-        //     const laudo ={
-        //         "nome": obj["paciente"]["nome"],
-        //         "tipo": obj["laudo"]["tipo"],
-        //         "data_exame": obj["data_exame"],
-        //         "status": obj["status"]
-        //     }
-        //     this.data.push(laudo)
-        // });
     }
     
     /**

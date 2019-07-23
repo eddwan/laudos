@@ -19,6 +19,7 @@ import { HttpErrorHandler } from './http-error-handler.service';
 import { MessageService } from './message.service';
 import { MaterialModule } from './material.module'
 import { MainToolBarComponent} from './main-tool-bar/main-tool-bar.component'
+import { LaudosService } from './services/laudos.service';
 
 @NgModule({
   declarations: [AppComponent, MainToolBarComponent],
@@ -29,6 +30,7 @@ import { MainToolBarComponent} from './main-tool-bar/main-tool-bar.component'
     SplashScreen,
     HttpErrorHandler,
     MessageService,
+    LaudosService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

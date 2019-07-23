@@ -1,32 +1,41 @@
-
-<mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+<div class="laudos">
   
+  <mat-form-field>
+    
+    <input matInput placeholder="Pesquisar Laudos" #input>
+    
+  </mat-form-field>
+  
+  <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+    
+    <mat-spinner></mat-spinner>
+    
+  </div>
+  
+  <mat-table #table class="laudos-table mat-elevation-z8" [dataSource]="dataSource" aria-label="Elements" matSort matSortActive="seqNo" matSortDirection="asc" matSortDisableClear>
+    
     <!-- Id Column -->
+    <ng-container matColumnDef="_id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row._id}}</mat-cell>
+    </ng-container>
+    
+    <!-- Nome Column -->
     <ng-container matColumnDef="nome">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.nome}}</mat-cell>
     </ng-container>
     
-    <!-- Name Column -->
+    <!-- Tipo Column -->
     <ng-container matColumnDef="tipo">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.tipo}}</mat-cell>
-    </ng-container>
-    
-    <!-- Amount Column -->
-    <ng-container matColumnDef="data_exame">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Data</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.data_exame}}</mat-cell>
     </ng-container>
     
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
   
-  <mat-paginator #paginator
-  [length]="dataSource.data.length"
-  [pageIndex]="0"
-  [pageSize]="20"
-  [pageSizeOptions]="[5, 10, 20, 50]">
-  </mat-paginator>
+  <mat-paginator [length]="laudo?.laudosCount" [pageSize]="3" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
   
+</div>

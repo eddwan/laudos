@@ -25,7 +25,7 @@ export class Tab2Page  implements OnInit {
 
   constructor(private remoteLaudos: LaudosRemoteService){
 
-    fs.watch("/Users/usuario/Desktop/laudos/laudos/", (event, filename) => {
+    fs.watch("/Users/usuario/Desktop/laudos/laudos-json-teste/", (event, filename) => {
       console.log(event,filename)
     })
 
@@ -33,21 +33,6 @@ export class Tab2Page  implements OnInit {
 
   ngOnInit() {
     this.dataSource = new DataTableDataSource(this.paginator, this.sort);
-    let files = fs.readdirSync('/Users/usuario/Desktop/laudos/laudos');
-    files.forEach(file => {
-        let rawData = fs.readFileSync('/Users/usuario/Desktop/laudos/laudos/'+file, "utf8");
-        let obj = JSON.parse(rawData);
-        const laudo ={
-            "nome": obj["paciente"]["nome"],
-            "tipo": obj["laudo"]["tipo"],
-            "data_exame": obj["data_exame"]
-        }
-        // this.remoteLaudos.addLaudo(obj).subscribe(laudo => console.log(laudo));
-        // var json = JSON.stringify(laudo)
-       
-    });
-
-    // this.remoteLaudos.getLaudos().subscribe( laudos => console.log(laudos));
   }
 
 }
