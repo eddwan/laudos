@@ -1,18 +1,12 @@
 <div class="laudos">
   
-  <mat-form-field>
-    
-    <input matInput placeholder="Pesquisar Laudos" #input>
-    
-  </mat-form-field>
-  
-  <div class="spinner-container" *ngIf="dataSource.loading$ | async">
-    
-    <mat-spinner></mat-spinner>
-    
+  <div fxLayout fxLayoutAlign="center center">
+    <mat-form-field fxFlex="40%">
+      <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
   </div>
   
-  <mat-table #table class="laudos-table mat-elevation-z8" [dataSource]="dataSource" aria-label="Elements" matSort matSortActive="seqNo" matSortDirection="asc" matSortDisableClear>
+  <mat-table #table class="laudos-table mat-elevation-z8" [dataSource]="dataSource" matSort>
     
     <!-- Id Column -->
     <ng-container matColumnDef="_id">
@@ -32,10 +26,37 @@
       <mat-cell *matCellDef="let row">{{row.tipo}}</mat-cell>
     </ng-container>
     
+    <ng-container matColumnDef="details">
+      <mat-header-cell *matHeaderCellDef>Detalhes</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary" (click)="redirectToDetails(element.id)">
+          <mat-icon class="mat-18">reorder</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="download">
+      <mat-header-cell *matHeaderCellDef>Download</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+          <mat-icon class="mat-18">system_update</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef>Apagar</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+          <mat-icon class="mat-18">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
   
-  <mat-paginator [length]="laudo?.laudosCount" [pageSize]="3" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
   
 </div>

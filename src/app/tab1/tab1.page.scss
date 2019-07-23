@@ -1,20 +1,23 @@
-.laudos {
-  text-align: center;
-  // max-width: 390px;
-  // margin: 0 auto;
-}
-
-.spinner-container {
-  height: 360px;
+table {
   width: 100%;
-  position: fixed;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 500px;
 }
 
-.laudos-table {
-  min-height: 360px;
-  margin-top: 10px;
+th.mat-header-cell {
+  text-align: left;
+  max-width: 300px;
 }
 
-.spinner-container mat-spinner {
-  margin: 130px auto 0 auto;
+.mat-column-details {
+  flex: 0 0 60px;
+}
+
+.mat-column-download {
+  flex: 0 0 60px;
+}
+
+.mat-column-delete {
+  flex: 0 0 60px;
 }
