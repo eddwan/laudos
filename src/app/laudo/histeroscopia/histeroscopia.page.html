@@ -3,7 +3,7 @@
     <span>Laudo de Histeroscopia</span>
     <span class="empty-space"></span>
     <span>
-      <button mat-raised-button matTooltip="Salvar" color="primary" (click)="save()">
+      <button mat-raised-button matTooltip="Salvar" color="primary" (click)="onSubmit()">
         <i class="material-icons">save</i> Salvar
       </button>
     </span>
@@ -17,24 +17,24 @@
       <mat-card-content>
         <p>
           <mat-form-field class="full-width">
-            <input matInput placeholder="Nome do paciente">
+            <input matInput [(ngModel)]="laudo.paciente.nome" placeholder="Nome do paciente">
           </mat-form-field>
         </p>
         <p>
           <mat-form-field>
-            <input type="number" matInput placeholder="Idade">
+            <input type="number" matInput [(ngModel)]="laudo.paciente.idade" placeholder="Idade">
           </mat-form-field>
           &nbsp;
           <mat-form-field>
-            <input matInput [matDatepicker]="pickerDataExame" (click)="pickerDataExame.open()" placeholder="Data do Exame">
-            <mat-datepicker-toggle matSuffix [for]="pickerDataExame"></mat-datepicker-toggle>
-            <mat-datepicker #pickerDataExame></mat-datepicker>
+            <input matInput [(ngModel)]="laudo.paciente.data_exame" (dateInput)="addEvent('data_exame', $event)" (dateChange)="addEvent('data_exame', $event)" [matDatepicker]="data_exame" (click)="data_exame.open()" placeholder="Data do Exame">
+            <mat-datepicker-toggle matSuffix [for]="data_exame"></mat-datepicker-toggle>
+            <mat-datepicker #data_exame></mat-datepicker>
           </mat-form-field>
           &nbsp;
           <mat-form-field>
-            <input matInput [matDatepicker]="pickerDUM" (click)="pickerDUM.open()" placeholder="DUM (Data da Última Menstruação)">
-            <mat-datepicker-toggle matSuffix [for]="pickerDUM"></mat-datepicker-toggle>
-            <mat-datepicker #pickerDUM></mat-datepicker>
+            <input matInput [(ngModel)]="laudo.paciente.data_ultima_menstruacao" (dateInput)="addEvent('data_ultima_menstruacao', $event)" (dateChange)="addEvent('data_ultima_menstruacao', $event)" [matDatepicker]="data_ultima_menstruacao" (click)="data_ultima_menstruacao.open()" placeholder="DUM (Data da Última Menstruação)">
+            <mat-datepicker-toggle matSuffix [for]="data_ultima_menstruacao"></mat-datepicker-toggle>
+            <mat-datepicker #data_ultima_menstruacao></mat-datepicker>
           </mat-form-field>
           &nbsp;
           <ion-chip color="danger">
@@ -49,17 +49,17 @@
         </p>
         <p>
           <mat-form-field class="full-width">
-            <input matInput placeholder="Anticoncepcional / Hormônio">
+            <input matInput [(ngModel)]="laudo.paciente.hormonio" placeholder="Anticoncepcional / Hormônio">
           </mat-form-field>
         </p>
         <p>
           <mat-form-field class="full-width">
-            <input matInput placeholder="Indicação">
+            <input matInput [(ngModel)]="laudo.paciente.indicacao" placeholder="Indicação">
           </mat-form-field>
         </p>
         <p>
           <mat-form-field class="full-width">
-            <input matInput placeholder="Médico Assistente">
+            <input matInput [(ngModel)]="laudo.paciente.medico_assistente" placeholder="Médico Assistente">
           </mat-form-field>
         </p>
       </mat-card-content>
@@ -97,30 +97,30 @@
         
         <p>
           <mat-form-field class="full-width">
-            <textarea matInput placeholder="Dados técnicos"></textarea>
+            <textarea matInput [(ngModel)]="laudo.laudo.dados_tecnicos" placeholder="Dados técnicos"></textarea>
           </mat-form-field>
         </p>
         
         <p>
           <mat-form-field class="full-width">
-            <textarea matInput placeholder="Canal endocervical"></textarea>
+            <textarea matInput [(ngModel)]="laudo.laudo.canal_endocervical" placeholder="Canal endocervical"></textarea>
           </mat-form-field>
         </p>
         <p>
           <mat-form-field class="full-width">
-            <textarea matInput placeholder="Cavidade Uterina"></textarea>
+            <textarea matInput [(ngModel)]="laudo.laudo.cavidade_uterina" placeholder="Cavidade Uterina"></textarea>
           </mat-form-field>
         </p>
         <p>
           <mat-form-field class="full-width">
-            <textarea matInput placeholder="Istmo"></textarea>
+            <textarea matInput [(ngModel)]="laudo.laudo.istmo" placeholder="Istmo"></textarea>
           </mat-form-field>
         </p>
         <p>Endométrio</p>
         <p>
           <mat-form-field>
             <mat-label>Cor</mat-label>
-            <mat-select required>
+            <mat-select [(ngModel)]="laudo.laudo.endometrio.cor" required>
               <mat-option value="Normal">Normal</mat-option>
               <mat-option value="Avermelhado">Avermelhado</mat-option>
               <mat-option value="Pálido">Pálido</mat-option>
@@ -130,7 +130,7 @@
           &nbsp;
           <mat-form-field>
             <mat-label>Espessura</mat-label>
-            <mat-select required>
+            <mat-select [(ngModel)]="laudo.laudo.endometrio.espessura" required>
               <mat-option value="Normal">Normal</mat-option>
               <mat-option value="Aumentada">Aumentada</mat-option>
               <mat-option value="Diminuída">Diminuída</mat-option>
@@ -141,7 +141,7 @@
           &nbsp;
           <mat-form-field>
             <mat-label>Vascularização</mat-label>
-            <mat-select required>
+            <mat-select [(ngModel)]="laudo.laudo.endometrio.vascularizacao" required>
               <mat-option value="Normal">Normal</mat-option>
               <mat-option value="Aumentada">Aumentada</mat-option>
               <mat-option value="Atípica">Atípica</mat-option>
@@ -151,7 +151,7 @@
           &nbsp;
           <mat-form-field>
             <mat-label>Superfície</mat-label>
-            <mat-select required>
+            <mat-select [(ngModel)]="laudo.laudo.endometrio.superficie" required>
               <mat-option value="Regular">Regular</mat-option>
               <mat-option value="Irregular">Irregular</mat-option>
               <mat-option value="Não Avaliado">Não Avaliado</mat-option>
@@ -160,7 +160,7 @@
           &nbsp;
           <mat-form-field>
             <mat-label>Friabilidade</mat-label>
-            <mat-select required>
+            <mat-select [(ngModel)]="laudo.laudo.endometrio.friabilidade" required>
               <mat-option value="Normal">Normal</mat-option>
               <mat-option value="Aumentada">Aumentada</mat-option>
               <mat-option value="Diminuída">Diminuída</mat-option>
@@ -170,7 +170,7 @@
           &nbsp;
           <mat-form-field>
             <mat-label>Sangramento de contato</mat-label>
-            <mat-select required>
+            <mat-select [(ngModel)]="laudo.laudo.endometrio.sangramento_contato" required>
               <mat-option value="Ausente">Ausente</mat-option>
               <mat-option value="Exígua">Exígua</mat-option>
               <mat-option value="Moderado">Moderado</mat-option>
@@ -183,7 +183,7 @@
         <p>
           <mat-form-field>
             <mat-label>Direito</mat-label>
-            <mat-select required>
+            <mat-select [(ngModel)]="laudo.laudo.ostios_tubarios.direito" required>
               <mat-option value="Visíveis e reativos">Visíveis e reativos</mat-option>
               <mat-option value="Visíveis e estáticos">Visíveis e estáticos</mat-option>
               <mat-option value="Não visualizados">Não visualizados</mat-option>
@@ -193,7 +193,7 @@
           &nbsp;
           <mat-form-field>
             <mat-label>Esquerdo</mat-label>
-            <mat-select required>
+            <mat-select [(ngModel)]="laudo.laudo.ostios_tubarios.esquerdo" required>
               <mat-option value="Visíveis e reativos">Visíveis e reativos</mat-option>
               <mat-option value="Visíveis e estáticos">Visíveis e estáticos</mat-option>
               <mat-option value="Não visualizados">Não visualizados</mat-option>
@@ -203,27 +203,27 @@
         </p>
         <p>
           <mat-form-field class="full-width">
-            <textarea matInput placeholder="Lesões Focais"></textarea>
+            <textarea matInput [(ngModel)]="laudo.laudo.lesoes_focais" placeholder="Lesões Focais"></textarea>
           </mat-form-field>
         </p>
         <p>
           <mat-form-field class="full-width">
-            <textarea matInput placeholder="Biópsia"></textarea>
+            <textarea matInput [(ngModel)]="laudo.laudo.biopsia" placeholder="Biópsia"></textarea>
           </mat-form-field>
         </p>
         <p>
           <mat-form-field class="full-width">
-            <textarea matInput placeholder="Procedimento realizado"></textarea>
+            <textarea matInput [(ngModel)]="laudo.laudo.procedimento_realizado" placeholder="Procedimento realizado"></textarea>
           </mat-form-field>
         </p>
         <p>
           <mat-form-field class="full-width">
-            <textarea matInput placeholder="Observações"></textarea>
+            <textarea matInput [(ngModel)]="laudo.laudo.observacoes" placeholder="Observações"></textarea>
           </mat-form-field>
         </p>
         <p>
           <mat-form-field class="full-width">
-            <textarea matInput placeholder="Impressão diagnóstica"></textarea>
+            <textarea matInput [(ngModel)]="laudo.laudo.impressao_diagnostica" placeholder="Impressão diagnóstica"></textarea>
           </mat-form-field>
         </p>
       </mat-card-content>

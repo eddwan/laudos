@@ -1,17 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { map } from 'rxjs/operators';
 import * as fs from 'fs';
 import { LaudoDataTableItem, LaudoHisteroscopia } from '../models/laudo';
 import { of } from 'rxjs';
-
-const httpOptions ={
-    headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'x-api-key': environment.apiKey
-    })
-}
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +9,7 @@ const httpOptions ={
 export class LaudosLocalService {
     laudosLocaisTable: LaudoDataTableItem[] = [];
 
-    constructor(private http: HttpClient) { }
+    constructor() { }
     
     public getDataTable(){
         this.laudosLocaisTable = [];
@@ -39,12 +29,20 @@ export class LaudosLocalService {
         return of(this.laudosLocaisTable);
     }
     
-    public getData( filename: string) {
+    public getData(filename: string) {
         let rawData = fs.readFileSync('/Users/usuario/Desktop/laudos/laudos-json-teste/'+filename, "utf8");
+        // fs.readFile('/Users/usuario/Desktop/laudos/laudos-json-teste/'+filename+".json", "utf8", (err, data) => {
+        //     if (err) throw err;
+
+        // });
+        
         return JSON.parse(rawData);
     }
 
     public saveData( filename: string, laudo: LaudoHisteroscopia){
         console.log(filename, laudo);
+        fs.writeFile('/Users/usuario/Desktop/laudos/laudos-json-teste/'+filename, JSON.stringify(laudo), "utf8", (err) => {
+            console.log(err)
+        })
     }
 }

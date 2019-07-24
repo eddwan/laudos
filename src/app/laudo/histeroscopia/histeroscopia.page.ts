@@ -3,6 +3,7 @@ import { ReadFile, ReadMode } from 'ngx-file-helpers';
 import { LaudosLocalService } from '../../services/laudos-local.service';
 import * as uuid from 'uuid';
 import { LaudoHisteroscopia } from '../../models/laudo'
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-histeroscopia',
@@ -11,11 +12,13 @@ import { LaudoHisteroscopia } from '../../models/laudo'
   providers: [ LaudosLocalService]
 })
 export class HisteroscopiaPage implements OnInit {
-  public filename: string = uuid.v4()
+  public filename: string
   public readMode = ReadMode.dataURL;
   public isHover: boolean;
   public files: Array<ReadFile> = [];
-  
+  public laudo:LaudoHisteroscopia;
+  events: string[] = [];
+
   addFile(file: ReadFile) {
     this.files.push(file);
   }
@@ -23,11 +26,29 @@ export class HisteroscopiaPage implements OnInit {
   constructor(private laudosLocalService: LaudosLocalService) { }
   
   ngOnInit() {
+    this.filename = uuid.v4()
+    // this.laudo = this.laudosLocalService.getData(this.filename);
+    // if(!data){
+    //   this.laudo = data;
+    // }
+    this.laudo = this.laudosLocalService.getData("teste.json");   
   }
 
-  save(){
-    let teste: LaudoHisteroscopia
-    this.laudosLocalService.saveData(this.filename, teste)
+  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    // this.events.push(`${type}: ${event.value}`);
+    switch(type){
+      case "data_exame":
+        this.laudo.paciente.data_exame = event.value.toJSON();
+        break;
+      case "data_ultima_menstruacao":
+          this.laudo.paciente.data_ultima_menstruacao = event.value.toJSON();
+          break;
+    }
+  }
+
+  onSubmit(){
+    console.log(this.laudo)
+    this.laudosLocalService.saveData("teste.json", this.laudo);
   }
   
   toggleChange(event) {

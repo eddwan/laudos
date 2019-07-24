@@ -20,11 +20,22 @@ import { MessageService } from './services/message.service';
 import { MaterialModule } from './material.module'
 import { MainToolBarComponent} from './main-tool-bar/main-tool-bar.component'
 import { NgxFileHelpersModule } from 'ngx-file-helpers';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, MainToolBarComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, NgxElectronModule, BrowserAnimationsModule, MaterialModule, HttpClientModule, NgxFileHelpersModule],
+  imports: [
+    BrowserModule, 
+    IonicModule.forRoot(), 
+    AppRoutingModule, 
+    NgxElectronModule, 
+    BrowserAnimationsModule, 
+    MaterialModule, 
+    HttpClientModule, 
+    NgxFileHelpersModule,
+    FormsModule, 
+    ReactiveFormsModule],
   providers: [
     StatusBar,
     SplashScreen,

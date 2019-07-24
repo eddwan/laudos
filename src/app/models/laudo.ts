@@ -18,6 +18,7 @@ tipo: string
 }
 
 export interface LaudoHisteroscopia{
+  remote_id: string,
   titulo: string,
   status: string,
   medico: string,
@@ -34,6 +35,8 @@ export interface LaudoHisteroscopia{
 export interface Paciente {
   nome: string,
   idade: number,
+  data_exame: string,
+  data_ultima_menstruacao: string,
   dia_do_ciclo: number,
   menopausa: boolean,
   amenorreia: boolean,
