@@ -4,10 +4,7 @@
     <span class="empty-space"></span>
     <span>
       <button mat-raised-button matTooltip="Salvar" color="primary">
-        <i class="material-icons">save</i>
-      </button>
-      <button mat-raised-button matTooltip="Voltar">
-        <i class="material-icons">arrow_back</i>
+        <i class="material-icons">save</i> Salvar
       </button>
     </span>
   </mat-toolbar>
@@ -25,7 +22,7 @@
         </p>
         <p>
           <mat-form-field>
-            <input matInput placeholder="Idade">
+            <input type="number" matInput placeholder="Idade">
           </mat-form-field>
           &nbsp;
           <mat-form-field>
@@ -40,7 +37,10 @@
             <mat-datepicker #pickerDUM></mat-datepicker>
           </mat-form-field>
           &nbsp;
-          <mat-chip color="accent" selected>Dia do Ciclo</mat-chip>
+          <ion-chip color="danger">
+            <ion-badge color="danger">11</ion-badge>
+            <ion-label>&nbsp;Dia do Ciclo</ion-label>
+          </ion-chip>
           &nbsp;
           <mat-button-toggle-group multiple (change)="toggleChange($event)" name="fontStyle" aria-label="Font Style">
             <mat-button-toggle value="Menopausa">Menopausa</mat-button-toggle>
@@ -71,7 +71,14 @@
         <mat-card-subtitle>Arraste as imagens do exâme para cá.</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        
+          <ul class="hs full">
+              <li class="item">test</li>
+              <li class="item">test</li>
+              <li class="item">test</li>
+              <li class="item">test</li>
+              <li class="item">test</li>
+              <li class="item">test</li>
+            </ul>
       </mat-card-content>
     </mat-card>
     
@@ -82,6 +89,137 @@
       </mat-card-header>
       <mat-card-content>
         
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Dados técnicos"></textarea>
+          </mat-form-field>
+        </p>
+        
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Canal endocervical"></textarea>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Cavidade Uterina"></textarea>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Istmo"></textarea>
+          </mat-form-field>
+        </p>
+        <p>Endométrio</p>
+        <p>
+          <mat-form-field>
+            <mat-label>Cor</mat-label>
+            <mat-select required>
+              <mat-option value="Normal">Normal</mat-option>
+              <mat-option value="Avermelhado">Avermelhado</mat-option>
+              <mat-option value="Pálido">Pálido</mat-option>
+              <mat-option value="Não Avaliado">Não Avaliado</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field>
+            <mat-label>Espessura</mat-label>
+            <mat-select required>
+              <mat-option value="Normal">Normal</mat-option>
+              <mat-option value="Aumentada">Aumentada</mat-option>
+              <mat-option value="Diminuída">Diminuída</mat-option>
+              <mat-option value="Atrófica">Atrófica</mat-option>
+              <mat-option value="Não Avaliado">Não Avaliado</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field>
+            <mat-label>Vascularização</mat-label>
+            <mat-select required>
+              <mat-option value="Normal">Normal</mat-option>
+              <mat-option value="Aumentada">Aumentada</mat-option>
+              <mat-option value="Atípica">Atípica</mat-option>
+              <mat-option value="Não Avaliado">Não Avaliado</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field>
+            <mat-label>Superfície</mat-label>
+            <mat-select required>
+              <mat-option value="Regular">Regular</mat-option>
+              <mat-option value="Irregular">Irregular</mat-option>
+              <mat-option value="Não Avaliado">Não Avaliado</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field>
+            <mat-label>Friabilidade</mat-label>
+            <mat-select required>
+              <mat-option value="Normal">Normal</mat-option>
+              <mat-option value="Aumentada">Aumentada</mat-option>
+              <mat-option value="Diminuída">Diminuída</mat-option>
+              <mat-option value="Não Avaliado">Não Avaliado</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field>
+            <mat-label>Sangramento de contato</mat-label>
+            <mat-select required>
+              <mat-option value="Ausente">Ausente</mat-option>
+              <mat-option value="Exígua">Exígua</mat-option>
+              <mat-option value="Moderado">Moderado</mat-option>
+              <mat-option value="Intenso">Intenso</mat-option>
+              <mat-option value="Não Avaliado">Não Avaliado</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </p>
+        <p>Óstios tubários</p>
+        <p>
+          <mat-form-field>
+            <mat-label>Direito</mat-label>
+            <mat-select required>
+              <mat-option value="Visíveis e reativos">Visíveis e reativos</mat-option>
+              <mat-option value="Visíveis e estáticos">Visíveis e estáticos</mat-option>
+              <mat-option value="Não visualizados">Não visualizados</mat-option>
+              <mat-option value="Não Avaliado">Não Avaliado</mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field>
+            <mat-label>Esquerdo</mat-label>
+            <mat-select required>
+              <mat-option value="Visíveis e reativos">Visíveis e reativos</mat-option>
+              <mat-option value="Visíveis e estáticos">Visíveis e estáticos</mat-option>
+              <mat-option value="Não visualizados">Não visualizados</mat-option>
+              <mat-option value="Não Avaliado">Não Avaliado</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Lesões Focais"></textarea>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Biópsia"></textarea>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Procedimento realizado"></textarea>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Observações"></textarea>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Impressão diagnóstica"></textarea>
+          </mat-form-field>
+        </p>
       </mat-card-content>
     </mat-card>
   </div>
