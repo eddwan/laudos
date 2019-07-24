@@ -3,12 +3,12 @@
     <span>Sistema de Laudos Médicos</span>
     <span class="fill-remaining-space"></span>
     <span>
-      <button mat-icon-button matTooltip="Página principal" routerLink="/">
+      <button mat-icon-button matTooltip="Página principal" routerLink="/" routerDirection='root'>
         <i class="material-icons">home</i>
       </button>
       <button mat-button [matMenuTriggerFor]="menu">Novo Laudo</button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="/histeroscopia">Histeroscopia</button>
+        <button mat-menu-item routerLink="/histeroscopia" routerDirection='root'>Histeroscopia</button>
         <button mat-menu-item routerLink="/laparoscopia">Laparoscopia</button>
       </mat-menu>
       <button mat-button>Sair</button>

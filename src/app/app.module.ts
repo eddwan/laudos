@@ -19,18 +19,17 @@ import { HttpErrorHandler } from './services/http-error-handler.service';
 import { MessageService } from './services/message.service';
 import { MaterialModule } from './material.module'
 import { MainToolBarComponent} from './main-tool-bar/main-tool-bar.component'
-import { LaudosService } from './services/laudos.service';
+import { NgxFileHelpersModule } from 'ngx-file-helpers';
 
 @NgModule({
   declarations: [AppComponent, MainToolBarComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, NgxElectronModule, BrowserAnimationsModule, MaterialModule, HttpClientModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, NgxElectronModule, BrowserAnimationsModule, MaterialModule, HttpClientModule, NgxFileHelpersModule],
   providers: [
     StatusBar,
     SplashScreen,
     HttpErrorHandler,
     MessageService,
-    LaudosService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

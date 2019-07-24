@@ -4,6 +4,14 @@ export interface Laudo {
   data_exame: string
 }
 
+export interface LaudoDataTableItem {
+  filename: string,
+  nome: string,
+  tipo: string,
+  data_exame: string,
+  status: string
+}
+
 export interface LaudoRemote {
 nome: string,
 tipo: string

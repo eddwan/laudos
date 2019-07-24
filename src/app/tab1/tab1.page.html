@@ -23,15 +23,21 @@
     
     <!-- Nome Column -->
     <ng-container matColumnDef="nome">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Nome do Paciente</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.nome}}</mat-cell>
     </ng-container>
     
     <!-- Tipo Column -->
     <ng-container matColumnDef="tipo">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo do Exame</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.tipo}}</mat-cell>
     </ng-container>
+
+    <!-- Tipo Column -->
+    <ng-container matColumnDef="data_exame">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Data do Exame</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.data_exame}}</mat-cell>
+      </ng-container>
     
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>

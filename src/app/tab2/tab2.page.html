@@ -12,58 +12,59 @@
       </button>
     </span>
   </mat-toolbar>
-  <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+  <mat-table #table class="laudos-table mat-elevation-z8" [dataSource]="dataSource" matSort>
     
     <!-- Id Column -->
+    <ng-container matColumnDef="filename">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Arquivo</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.filename}}</mat-cell>
+      </ng-container>
+
+    <!-- Id Column -->
     <ng-container matColumnDef="nome">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Nome do Paciente</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.nome}}</mat-cell>
     </ng-container>
     
     <!-- Name Column -->
     <ng-container matColumnDef="tipo">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo do Exame</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.tipo}}</mat-cell>
     </ng-container>
     
     <!-- Amount Column -->
     <ng-container matColumnDef="data_exame">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Data</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Data do Exame</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.data_exame}}</mat-cell>
     </ng-container>
-
+    
     <ng-container matColumnDef="status">
-        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-        <mat-cell *matCellDef="let element">
-            <mat-icon class="mat-18">sync</mat-icon>
-          </mat-cell>
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-icon class="mat-18">sync</mat-icon>
+      </mat-cell>
     </ng-container>
     
     <ng-container matColumnDef="actions">
-        <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary">
-            <mat-icon class="mat-18">edit</mat-icon>
-          </button>
-          
-          <button mat-icon-button color="accent">
-            <mat-icon class="mat-18">cloud_upload</mat-icon>
-          </button>
-          
-          <button mat-icon-button color="warn">
-            <mat-icon class="mat-18">delete</mat-icon>
-          </button>
-        </mat-cell>
-      </ng-container>
-
+      <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary">
+          <mat-icon class="mat-18">edit</mat-icon>
+        </button>
+        
+        <button mat-icon-button color="accent">
+          <mat-icon class="mat-18">cloud_upload</mat-icon>
+        </button>
+        
+        <button mat-icon-button color="warn">
+          <mat-icon class="mat-18">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
   
-  <mat-paginator #paginator
-  [length]="dataSource.data.length"
-  [pageIndex]="0"
-  [pageSize]="20"
-  [pageSizeOptions]="[5, 10, 20, 50]">
-</mat-paginator>
+  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]"></mat-paginator>
 </div>

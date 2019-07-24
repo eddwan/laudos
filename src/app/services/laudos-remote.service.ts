@@ -17,7 +17,7 @@ export class LaudosRemoteService {
 
   constructor(private http: HttpClient) { }
 
-  public getData = (route: string) => {
+  public getDataTable = (route: string) => {
     return this.http.get(this.createCompleteRoute(route, environment.apiUrl), httpOptions).pipe(
       map( res => JSON.parse(res["body"]))
     );

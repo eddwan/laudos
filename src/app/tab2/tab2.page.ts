@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
-import { DataTableDataSource } from './data-table-datasource';
-import * as fs from 'fs';
-import { Laudo} from '../models/laudo';
-import { LaudosRemoteService} from '../laudos-remote.service';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { Laudo, LaudoDataTableItem} from '../models/laudo';
+import { LocalLaudosDatasource } from '../services/local-laudos.datasource';
+import { LaudosLocalService} from '../services/laudos-local.service';
 
 export interface listLaudo{
   [id: number]: Laudo
@@ -13,26 +12,48 @@ export interface listLaudo{
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
-  providers: [ LaudosRemoteService]
+  providers: [ LaudosLocalService]
 })
 export class Tab2Page  implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  dataSource: DataTableDataSource;
-  displayedColumns = ['nome', 'tipo', 'data_exame', 'status', 'actions'];
+  // dataSource: LocalLaudosDatasource;
+  dataSource = new MatTableDataSource<LaudoDataTableItem>();
+  displayedColumns = ['filename', 'nome', 'tipo', 'data_exame', 'status', 'actions'];
 
 
 
-  constructor(private remoteLaudos: LaudosRemoteService){
+  constructor(public laudosLocaisService:LaudosLocalService ){
 
-    fs.watch("/Users/usuario/Desktop/laudos/laudos-json-teste/", (event, filename) => {
-      console.log(event,filename)
-    })
+    // fs.watch("/Users/usuario/Desktop/laudos/laudos-json-teste/", (event, filename) => {
+    //   console.log(event,filename)
+    // })
 
   }
+
+  // ngOnInit() {
+  //   this.dataSource = new LocalLaudosDatasource(this.paginator, this.sort, this.laudosLocais);
+  // }
 
   ngOnInit() {
-    this.dataSource = new DataTableDataSource(this.paginator, this.sort);
+    this.getAllLaudos();
   }
+  
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+  
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  }
+  
+  public getAllLaudos = () => {
+    this.laudosLocaisService.getDataTable().subscribe(res => {
+      this.dataSource.data = res as LaudoDataTableItem[];
+    })
+  }
+
+
 
 }

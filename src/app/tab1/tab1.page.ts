@@ -12,7 +12,7 @@ import { LaudoRemote } from '../models/laudo-remote';
 })
 export class Tab1Page  implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<LaudoRemote>();
-  displayedColumns = ['_id','nome', 'tipo', 'actions'];
+  displayedColumns = ['_id','nome', 'tipo', 'data_exame', 'actions'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
@@ -32,7 +32,7 @@ export class Tab1Page  implements OnInit, AfterViewInit {
   }
   
   public getAllLaudos = () => {
-    this.laudosRemoteService.getData('laudos/table')
+    this.laudosRemoteService.getDataTable('laudos/table')
     .subscribe(res => {
       this.dataSource.data = res as LaudoRemote[];
     })

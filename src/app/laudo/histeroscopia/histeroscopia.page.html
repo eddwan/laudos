@@ -3,7 +3,7 @@
     <span>Laudo de Histeroscopia</span>
     <span class="empty-space"></span>
     <span>
-      <button mat-raised-button matTooltip="Salvar" color="primary">
+      <button mat-raised-button matTooltip="Salvar" color="primary" (click)="save()">
         <i class="material-icons">save</i> Salvar
       </button>
     </span>
@@ -65,73 +65,29 @@
       </mat-card-content>
     </mat-card>
     
+    <div ngxFileDropzone [readMode]="readMode" (fileDrop)="addFile($event)">
     <mat-card class="laudo-card">
       <mat-card-header>
         <mat-card-title>Imagens</mat-card-title>
         <mat-card-subtitle>Arraste as imagens do exâme para cá.</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
+        
         <mat-grid-list cols="4" rowHeight="2:1">
-          <mat-grid-tile>
-            <img src="http://radiologia.blog.br/images/ultrassom-como-funciona-radiologia-blog.jpg">
+          <mat-grid-tile *ngFor="let file of files">
+            <img src="{{ file.content }}">
             <mat-grid-tile-footer>
               <button mat-icon-button matTooltip="Editar" color="warn">
                 <i class="material-icons">edit</i>
               </button>
               <span class="empty-space"></span>
-              TesteTesteTesteTesteTesteTesteTesteTesteTesteTeste
-            </mat-grid-tile-footer>
-          </mat-grid-tile>
-          <mat-grid-tile>
-            <img src="http://radiologia.blog.br/images/ultrassom-como-funciona-radiologia-blog.jpg">
-            <mat-grid-tile-footer>
-              <button mat-icon-button matTooltip="Editar" color="warn">
-                <i class="material-icons">edit</i>
-              </button>
-              <span class="empty-space"></span>
-              TesteTesteTesteTesteTesteTesteTesteTesteTesteTeste
-            </mat-grid-tile-footer>
-          </mat-grid-tile>          <mat-grid-tile>
-            <img src="http://radiologia.blog.br/images/ultrassom-como-funciona-radiologia-blog.jpg">
-            <mat-grid-tile-footer>
-              <button mat-icon-button matTooltip="Editar" color="warn">
-                <i class="material-icons">edit</i>
-              </button>
-              <span class="empty-space"></span>
-              TesteTesteTesteTesteTesteTesteTesteTesteTesteTeste
-            </mat-grid-tile-footer>
-          </mat-grid-tile>          <mat-grid-tile>
-            <img src="http://radiologia.blog.br/images/ultrassom-como-funciona-radiologia-blog.jpg">
-            <mat-grid-tile-footer>
-              <button mat-icon-button matTooltip="Editar" color="warn">
-                <i class="material-icons">edit</i>
-              </button>
-              <span class="empty-space"></span>
-              TesteTesteTesteTesteTesteTesteTesteTesteTesteTeste
-            </mat-grid-tile-footer>
-          </mat-grid-tile>          <mat-grid-tile>
-            <img src="http://radiologia.blog.br/images/ultrassom-como-funciona-radiologia-blog.jpg">
-            <mat-grid-tile-footer>
-              <button mat-icon-button matTooltip="Editar" color="warn">
-                <i class="material-icons">edit</i>
-              </button>
-              <span class="empty-space"></span>
-              TesteTesteTesteTesteTesteTesteTesteTesteTesteTeste
-            </mat-grid-tile-footer>
-          </mat-grid-tile>          <mat-grid-tile>
-            <img src="http://radiologia.blog.br/images/ultrassom-como-funciona-radiologia-blog.jpg">
-            <mat-grid-tile-footer>
-              <button mat-icon-button matTooltip="Editar" color="warn">
-                <i class="material-icons">edit</i>
-              </button>
-              <span class="empty-space"></span>
-              TesteTesteTesteTesteTesteTesteTesteTesteTesteTeste
+              {{file.name}}
             </mat-grid-tile-footer>
           </mat-grid-tile>
         </mat-grid-list>
       </mat-card-content>
     </mat-card>
-    
+  </div>
     <mat-card class="laudo-card">
       <mat-card-header>
         <mat-card-title>Laudo</mat-card-title>
