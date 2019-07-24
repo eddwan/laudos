@@ -1,9 +1,88 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>histeroscopia</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-</ion-content>
+<div class="laudos">
+  <mat-toolbar>
+    <span>Laudo de Histeroscopia</span>
+    <span class="empty-space"></span>
+    <span>
+      <button mat-raised-button matTooltip="Salvar" color="primary">
+        <i class="material-icons">save</i>
+      </button>
+      <button mat-raised-button matTooltip="Voltar">
+        <i class="material-icons">arrow_back</i>
+      </button>
+    </span>
+  </mat-toolbar>
+  <div class="paper">
+    <mat-card class="laudo-card">
+      <mat-card-header>
+        <mat-card-title>Paciente</mat-card-title>
+        <mat-card-subtitle>Dados do Paciente</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Nome do paciente">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field>
+            <input matInput placeholder="Idade">
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field>
+            <input matInput [matDatepicker]="pickerDataExame" (click)="pickerDataExame.open()" placeholder="Data do Exame">
+            <mat-datepicker-toggle matSuffix [for]="pickerDataExame"></mat-datepicker-toggle>
+            <mat-datepicker #pickerDataExame></mat-datepicker>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field>
+            <input matInput [matDatepicker]="pickerDUM" (click)="pickerDUM.open()" placeholder="DUM (Data da Última Menstruação)">
+            <mat-datepicker-toggle matSuffix [for]="pickerDUM"></mat-datepicker-toggle>
+            <mat-datepicker #pickerDUM></mat-datepicker>
+          </mat-form-field>
+          &nbsp;
+          <mat-chip color="accent" selected>Dia do Ciclo</mat-chip>
+          &nbsp;
+          <mat-button-toggle-group multiple (change)="toggleChange($event)" name="fontStyle" aria-label="Font Style">
+            <mat-button-toggle value="Menopausa">Menopausa</mat-button-toggle>
+            <mat-button-toggle value="Amenorréia">Amenorréia</mat-button-toggle>
+          </mat-button-toggle-group>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Anticoncepcional / Hormônio">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Indicação">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Médico Assistente">
+          </mat-form-field>
+        </p>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="laudo-card">
+      <mat-card-header>
+        <mat-card-title>Imagens</mat-card-title>
+        <mat-card-subtitle>Arraste as imagens do exâme para cá.</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="laudo-card">
+      <mat-card-header>
+        <mat-card-title>Laudo</mat-card-title>
+        <mat-card-subtitle>Dados do laudo</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

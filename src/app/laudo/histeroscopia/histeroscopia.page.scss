@@ -1,0 +1,21 @@
+
+.paper{
+  margin: auto;
+  width: 75% ;
+  min-width: 850px;
+}
+.empty-space {
+  /* This fills the remaining space, by using flexbox. 
+  Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+.laudo-card {
+  margin: 15px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+

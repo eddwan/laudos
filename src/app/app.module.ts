@@ -15,8 +15,8 @@ import { NgxElectronModule } from 'ngx-electron'
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { HttpClientModule} from '@angular/common/http'
-import { HttpErrorHandler } from './http-error-handler.service';
-import { MessageService } from './message.service';
+import { HttpErrorHandler } from './services/http-error-handler.service';
+import { MessageService } from './services/message.service';
 import { MaterialModule } from './material.module'
 import { MainToolBarComponent} from './main-tool-bar/main-tool-bar.component'
 import { LaudosService } from './services/laudos.service';

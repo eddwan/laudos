@@ -12,15 +12,11 @@ import { LaudoRemote } from '../models/laudo-remote';
 })
 export class Tab1Page  implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<LaudoRemote>();
-  displayedColumns = ['_id','nome', 'tipo', 'details', 'download', 'delete'];
+  displayedColumns = ['_id','nome', 'tipo', 'actions'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  // @ViewChild('input') input: ElementRef;
   
-  
-  constructor(private laudosRemoteService:LaudosRemoteService){
-    
-  }
+  constructor(private laudosRemoteService:LaudosRemoteService){}
   
   ngOnInit() {
     this.getAllLaudos();

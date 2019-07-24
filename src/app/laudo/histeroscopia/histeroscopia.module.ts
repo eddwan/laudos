@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { HisteroscopiaPage } from './histeroscopia.page';
+import { MaterialModule} from '../../material.module';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    MaterialModule,
     RouterModule.forChild(routes)
   ],
   declarations: [HisteroscopiaPage]

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Platform, Events } from '@ionic/angular'
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 import { ElectronService } from 'ngx-electron'
 import * as PouchDB from 'pouchdb/dist/pouchdb'
 import SecurePouch from 'polyonic-secure-pouch'

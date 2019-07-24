@@ -1,31 +1,69 @@
+<div class="laudos">
+  <mat-toolbar>
+    <span>Laudos neste computador</span>
+    <span class="example-fill-remaining-space"></span>
+    <span>
+      <input type="search" class="googleSearch mat-elevation-z2" (keyup)="doFilter($event.target.value)" placeholder="Pesquise no seu computador">
+    </span>
+    <span class="example-fill-remaining-space"></span>
+    <span>
+      <button mat-stroked-button matTooltip="Atualizar a lista de laudos" (click)="getAllLaudos()">
+        <i class="material-icons">refresh</i>
+      </button>
+    </span>
+  </mat-toolbar>
+  <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+    
+    <!-- Id Column -->
+    <ng-container matColumnDef="nome">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.nome}}</mat-cell>
+    </ng-container>
+    
+    <!-- Name Column -->
+    <ng-container matColumnDef="tipo">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.tipo}}</mat-cell>
+    </ng-container>
+    
+    <!-- Amount Column -->
+    <ng-container matColumnDef="data_exame">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Data</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.data_exame}}</mat-cell>
+    </ng-container>
 
-<mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
-  
-  <!-- Id Column -->
-  <ng-container matColumnDef="nome">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>Nome</mat-header-cell>
-    <mat-cell *matCellDef="let row">{{row.nome}}</mat-cell>
-  </ng-container>
-  
-  <!-- Name Column -->
-  <ng-container matColumnDef="tipo">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</mat-header-cell>
-    <mat-cell *matCellDef="let row">{{row.tipo}}</mat-cell>
-  </ng-container>
-  
-  <!-- Amount Column -->
-  <ng-container matColumnDef="data_exame">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>Data</mat-header-cell>
-    <mat-cell *matCellDef="let row">{{row.data_exame}}</mat-cell>
-  </ng-container>
-  
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table>
+    <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <mat-icon class="mat-18">sync</mat-icon>
+          </mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary">
+            <mat-icon class="mat-18">edit</mat-icon>
+          </button>
+          
+          <button mat-icon-button color="accent">
+            <mat-icon class="mat-18">cloud_upload</mat-icon>
+          </button>
+          
+          <button mat-icon-button color="warn">
+            <mat-icon class="mat-18">delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
 
-<mat-paginator #paginator
-[length]="dataSource.data.length"
-[pageIndex]="0"
-[pageSize]="20"
-[pageSizeOptions]="[5, 10, 20, 50]">
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  
+  <mat-paginator #paginator
+  [length]="dataSource.data.length"
+  [pageIndex]="0"
+  [pageSize]="20"
+  [pageSizeOptions]="[5, 10, 20, 50]">
 </mat-paginator>
+</div>

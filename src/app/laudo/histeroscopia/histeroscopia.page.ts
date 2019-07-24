@@ -12,4 +12,13 @@ export class HisteroscopiaPage implements OnInit {
   ngOnInit() {
   }
 
+  toggleChange(event) {
+    let toggle = event.source;
+    if (toggle) {
+        let group = toggle.buttonToggleGroup;
+        if (event.value.some(item => item == toggle.value)) {
+            group.value = [toggle.value];
+        }
+    }
+}
 }

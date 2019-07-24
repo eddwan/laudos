@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { LaudoRemote, Laudo, listLaudo } from './laudo';
-import { HttpErrorHandler, HandleError } from './http-error-handler.service';
+import { LaudoRemote, Laudo, listLaudo } from './models/laudo';
+import { HttpErrorHandler, HandleError } from './services/http-error-handler.service';
 import { environment } from '../environments/environment';
 
 const httpOptions ={
