@@ -4,6 +4,8 @@ import { LaudosLocalService } from '../../services/laudos-local.service';
 import * as uuid from 'uuid';
 import { LaudoHisteroscopia } from '../../models/laudo'
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-histeroscopia',
@@ -23,15 +25,26 @@ export class HisteroscopiaPage implements OnInit {
     this.files.push(file);
   }
   
-  constructor(private laudosLocalService: LaudosLocalService) { }
+  constructor(private laudosLocalService: LaudosLocalService, private router: Router, private route: ActivatedRoute) {
+
+
+  }
   
   ngOnInit() {
-    this.filename = uuid.v4()
-    // this.laudo = this.laudosLocalService.getData(this.filename);
-    // if(!data){
-    //   this.laudo = data;
-    // }
-    this.laudo = this.laudosLocalService.getData("teste.json");   
+
+    this.route.paramMap.subscribe( params => {
+      console.log(params["params"])
+      if(params["params"]["filename"]){
+        this.filename = params["params"]["filename"]
+        this.laudo = this.laudosLocalService.getData(this.filename);
+      }else{
+        this.filename = uuid.v4()+".json"
+        this.laudo = this.laudosLocalService.getModelo("modeloHisteroscopia.json");
+      }
+    });
+    
+    console.log(this.filename)
+    
   }
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
@@ -48,7 +61,7 @@ export class HisteroscopiaPage implements OnInit {
 
   onSubmit(){
     console.log(this.laudo)
-    this.laudosLocalService.saveData("teste.json", this.laudo);
+    this.laudosLocalService.saveData(this.filename, this.laudo);
   }
   
   toggleChange(event) {

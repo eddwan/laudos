@@ -1,0 +1,42 @@
+{
+    "titulo": "Laudo da Histeroscopia Diagnóstica",
+    "status": "local-saved",
+    "medico": "Dr. Fulano",
+    "crm": "0123",
+    "paciente": {
+        "nome": "Eddwan Hallen da Silva",
+        "idade": "",
+        "dia_do_ciclo": 0,
+        "menopausa": false,
+        "amenorreia": false,
+        "hormonio": "",
+        "indicacao": "",
+        "medico_assistente": ""
+    },
+    "attachments": "",
+    "descricaoImagens": "",
+    "laudo": {
+        "tipo": "Histeroscopia",
+        "dados_tecnicos": "Paciente submetida à Vídeo-Histeroscopia Diagnóstica com Histeroscópio tipo Hamou II e distensão da cavidade endometrial com gás carbônico.",
+        "canal_endocervical": "Paciente submetida à Vídeo-Histeroscopia Diagnóstica com Histeroscópio tipo Hamou II e distensão da cavidade endometrial com gás carbônico.",
+        "cavidade_uterina": "Paciente submetida à Vídeo-Histeroscopia Diagnóstica com Histeroscópio tipo Hamou II e distensão da cavidade endometrial com gás carbônico.",
+        "istmo": "Paciente submetida à Vídeo-Histeroscopia Diagnóstica com Histeroscópio tipo Hamou II e distensão da cavidade endometrial com gás carbônico.",
+        "endometrio": {
+            "cor": "Normal",
+            "espessura": "Normal",
+            "vascularizacao": "Normal",
+            "superficie": "Regular",
+            "friabilidade": "Normal",
+            "sangramento_contato": "Ausente"
+        },
+        "ostios_tubarios": {
+            "direito": "Visíveis e reativos",
+            "esquerdo": "Visíveis e reativos"
+        },
+        "lesoes_focais": "Não identificadas.",
+        "biopsia": "Realizada biópsia para estudos clínicos.",
+        "procedimento_realizado": "",
+        "observacoes": "",
+        "impressao_diagnostica": "Canal cervical e cavidade endometrial normais."
+    }
+}

@@ -54,6 +54,10 @@ export class Tab2Page  implements OnInit {
     })
   }
 
+  public editLaudo(filename: string){
+    console.log(filename)
+  }
+
 
 
 }

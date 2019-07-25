@@ -31,11 +31,11 @@ export class LaudosLocalService {
     
     public getData(filename: string) {
         let rawData = fs.readFileSync('/Users/usuario/Desktop/laudos/laudos-json-teste/'+filename, "utf8");
-        // fs.readFile('/Users/usuario/Desktop/laudos/laudos-json-teste/'+filename+".json", "utf8", (err, data) => {
-        //     if (err) throw err;
+        return JSON.parse(rawData);
+    }
 
-        // });
-        
+    public getModelo(filename: string) {
+        let rawData = fs.readFileSync('./'+filename, "utf8");
         return JSON.parse(rawData);
     }
 
