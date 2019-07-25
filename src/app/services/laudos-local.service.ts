@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as fs from 'fs';
+import * as path from 'path';
 import { LaudoDataTableItem, LaudoHisteroscopia } from '../models/laudo';
 import { of } from 'rxjs';
 
@@ -15,16 +16,18 @@ export class LaudosLocalService {
         this.laudosLocaisTable = [];
         let files = fs.readdirSync('/Users/usuario/Desktop/laudos/laudos-json-teste');
         files.forEach(file => {
-            let rawData = fs.readFileSync('/Users/usuario/Desktop/laudos/laudos-json-teste/'+file, "utf8");
-            let obj = JSON.parse(rawData);
-            const laudo ={
-                "filename": file,
-                "nome": obj["paciente"]["nome"],
-                "tipo": obj["laudo"]["tipo"],
-                "data_exame": obj["data_exame"],
-                "status": obj["status"]
+            if(path.extname(file) == ".json"){
+                let rawData = fs.readFileSync('/Users/usuario/Desktop/laudos/laudos-json-teste/'+file, "utf8");
+                let obj = JSON.parse(rawData);
+                const laudo ={
+                    "filename": file,
+                    "nome": obj.paciente.nome,
+                    "tipo": obj.laudo.tipo,
+                    "data_exame": new Date(obj.paciente.data_exame).toLocaleDateString(),
+                    "status": obj.status
+                }
+                this.laudosLocaisTable.push(laudo)
             }
-            this.laudosLocaisTable.push(laudo)
         });
         return of(this.laudosLocaisTable);
     }
@@ -44,5 +47,13 @@ export class LaudosLocalService {
         fs.writeFile('/Users/usuario/Desktop/laudos/laudos-json-teste/'+filename, JSON.stringify(laudo), "utf8", (err) => {
             console.log(err)
         })
+    }
+
+    public deleteFile(filename: string){
+        try{
+            fs.unlinkSync('/Users/usuario/Desktop/laudos/laudos-json-teste/'+filename);
+        } catch (err){
+            console.log(err)
+        }
     }
 }

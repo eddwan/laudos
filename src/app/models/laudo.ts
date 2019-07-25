@@ -52,7 +52,7 @@ export interface Histeroscopia{
   cavidade_uterina: string,
   istmo: string,
   lesoes_focais: string,
-  biopsica: string,
+  biopsia: string,
   procedimento_realizado: string,
   observacoes: string,
   impressao_diagnostica: string,
@@ -71,7 +71,7 @@ export interface Endometrio{
 
 export interface OstiosTubarios{
   direito: string,
-  esquerto: string
+  esquerdo: string
 }
 
 export interface listLaudo{

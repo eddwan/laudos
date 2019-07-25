@@ -41,22 +41,23 @@
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-icon class="mat-18">sync</mat-icon>
+        <mat-icon class="mat-18" color="primary" matTooltip="Impresso">print</mat-icon>
+        <mat-icon class="mat-18" color="warn" matTooltip="Não sincronizado">cloud_off</mat-icon>
       </mat-cell>
     </ng-container>
     
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <button mat-icon-button color="primary" [routerLink]="['/histeroscopia', element.filename]">
+        <button mat-icon-button color="primary" matTooltip="Editar" [routerLink]="['/histeroscopia', element.filename]">
           <mat-icon class="mat-18">edit</mat-icon>
         </button>
         
-        <button mat-icon-button color="accent">
+        <button mat-icon-button matTooltip="Enviar manualmente" color="primary">
           <mat-icon class="mat-18">cloud_upload</mat-icon>
         </button>
         
-        <button mat-icon-button color="warn">
+        <button mat-icon-button matTooltip="Apagar deste computador" color="warn" (click)="deleteLaudo(element.filename)">
           <mat-icon class="mat-18">delete</mat-icon>
         </button>
       </mat-cell>

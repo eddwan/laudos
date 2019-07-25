@@ -58,6 +58,10 @@ export class Tab2Page  implements OnInit {
     console.log(filename)
   }
 
+  public deleteLaudo(filename: string){
+    this.laudosLocaisService.deleteFile(filename);
+    this.getAllLaudos();
+  }
 
 
 }

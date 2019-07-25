@@ -5,6 +5,8 @@ import * as uuid from 'uuid';
 import { LaudoHisteroscopia } from '../../models/laudo'
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDatepickerInputEvent, MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { ImprimirService } from '../../services/imprimir.service';
+import * as moment from 'moment'
 
 export interface DescricaoImagemDialogData {
   descricao: string;
@@ -24,21 +26,26 @@ export class HisteroscopiaPage implements OnInit {
   public laudo:LaudoHisteroscopia;
   events: string[] = [];
   toggleMenopausaAmenorreia:[string];
-  
-  addFile(file: ReadFile) {
-    this.files.push(file);
-    if(!this.laudo.descricaoImagens[file.name]){
-      this.laudo.descricaoImagens[file.name] = { descricao: ""}
-    }
-  }
-  
+    
   constructor(
     private laudosLocalService: LaudosLocalService, 
     private route: ActivatedRoute, 
     private _snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public imprimirService:ImprimirService
     ){ }
-    
+
+    print(){
+      this.imprimirService.gerarLaudo(this.laudo)
+    }
+  
+    addFile(file: ReadFile) {
+      this.files.push(file);
+      if(!this.laudo.descricaoImagens[file.name]){
+        this.laudo.descricaoImagens[file.name] = { descricao: ""}
+      }
+    }
+
     apagarImagem(filename: string) {
       this.files.forEach( file => {
         if(file.name == filename){
@@ -56,7 +63,7 @@ export class HisteroscopiaPage implements OnInit {
       });
       
       dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed', result);
+        // console.log('The dialog was closed', result);
         if(result || result == "") this.laudo.descricaoImagens[filename].descricao = result
       });
     }
@@ -64,7 +71,7 @@ export class HisteroscopiaPage implements OnInit {
     ngOnInit() {
       
       this.route.paramMap.subscribe( params => {
-        console.log(params["params"])
+        // console.log(params["params"])
         if(params["params"]["filename"]){
           this.filename = params["params"]["filename"]
           this.laudo = this.laudosLocalService.getData(this.filename);
@@ -82,11 +89,12 @@ export class HisteroscopiaPage implements OnInit {
           if(this.laudo.paciente.amenorreia){
             this.toggleMenopausaAmenorreia = ["Amenorréia"]
           }
-          console.log(this.laudo)
+          // console.log(this.laudo)
           
         }else{
           this.filename = uuid.v4()+".json"
           this.laudo = this.laudosLocalService.getModelo("modeloHisteroscopia.json");
+          this.laudo.paciente.data_exame = new Date().toJSON()
         }
       });
     }
@@ -95,11 +103,21 @@ export class HisteroscopiaPage implements OnInit {
       // this.events.push(`${type}: ${event.value}`);
       switch(type){
         case "data_exame":
-        this.laudo.paciente.data_exame = event.value.toJSON();
-        break;
+          this.laudo.paciente.data_exame = event.value.toJSON();
+          if(this.laudo.paciente.data_ultima_menstruacao){
+            this.laudo.paciente.dia_do_ciclo = moment(event.value).diff(moment(this.laudo.paciente.data_ultima_menstruacao), 'days')
+          }else{
+            this.laudo.paciente.dia_do_ciclo = moment(moment.now()).diff(event.value, 'days')
+          }
+          break;
         case "data_ultima_menstruacao":
-        this.laudo.paciente.data_ultima_menstruacao = event.value.toJSON();
-        break;
+          this.laudo.paciente.data_ultima_menstruacao = event.value.toJSON();
+          if(this.laudo.paciente.data_exame){
+            this.laudo.paciente.dia_do_ciclo = moment(this.laudo.paciente.data_exame).diff(event.value, 'days')
+          }else{
+            this.laudo.paciente.dia_do_ciclo = moment(moment.now()).diff(event.value, 'days')
+          }
+          break;
       }
     }
     
@@ -114,10 +132,10 @@ export class HisteroscopiaPage implements OnInit {
           readMode: file.readMode
         }
       })
-      console.log(this.laudo)
+      // console.log(this.laudo)
       this.laudosLocalService.saveData(this.filename, this.laudo);
       this._snackBar.open("Laudo salvo com sucesso!", "Fechar", {
-        duration: 2000,
+        duration: 3000,
       });
     }
     
