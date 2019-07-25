@@ -21,10 +21,11 @@ import { MaterialModule } from './material.module'
 import { MainToolBarComponent} from './main-tool-bar/main-tool-bar.component'
 import { NgxFileHelpersModule } from 'ngx-file-helpers';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
-  declarations: [AppComponent, MainToolBarComponent],
-  entryComponents: [],
+  declarations: [AppComponent, MainToolBarComponent, ConfirmationDialogComponent],
+  entryComponents: [ConfirmationDialogComponent],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 

@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 import { Laudo, LaudoDataTableItem} from '../models/laudo';
 import { LocalLaudosDatasource } from '../services/local-laudos.datasource';
 import { LaudosLocalService} from '../services/laudos-local.service';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 
 export interface listLaudo{
   [id: number]: Laudo
@@ -22,8 +23,7 @@ export class Tab2Page  implements OnInit {
   displayedColumns = ['filename', 'nome', 'tipo', 'data_exame', 'status', 'actions'];
 
 
-
-  constructor(public laudosLocaisService:LaudosLocalService ){
+  constructor(public laudosLocaisService:LaudosLocalService, public dialog: MatDialog){
 
     // fs.watch("/Users/usuario/Desktop/laudos/laudos-json-teste/", (event, filename) => {
     //   console.log(event,filename)
@@ -58,9 +58,19 @@ export class Tab2Page  implements OnInit {
     console.log(filename)
   }
 
-  public deleteLaudo(filename: string){
-    this.laudosLocaisService.deleteFile(filename);
-    this.getAllLaudos();
+  public deleteLaudo(filename: string): void{
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: "Tem certeza que deseja excluir o laudo?"
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.laudosLocaisService.deleteFile(filename);
+        this.getAllLaudos();
+      }
+    });
+
   }
 
 
