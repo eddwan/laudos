@@ -40,7 +40,7 @@ export class LaudosLocalService {
     }
 
     public saveData( filename: string, laudo: LaudoHisteroscopia){
-        console.log(filename, laudo);
+        laudo.status = "local-saved";
         fs.writeFile('/Users/usuario/Desktop/laudos/laudos-json-teste/'+filename, JSON.stringify(laudo), "utf8", (err) => {
             console.log(err)
         })

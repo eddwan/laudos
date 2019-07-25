@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HisteroscopiaPage } from './histeroscopia.page';
+import { HisteroscopiaPage, DialogEditarDescricaoImagem } from './histeroscopia.page';
 import { MaterialModule} from '../../material.module';
 import { NgxFileHelpersModule } from 'ngx-file-helpers';
 import { MomentDateAdapter} from '@angular/material-moment-adapter';
@@ -42,7 +42,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [HisteroscopiaPage],
+  declarations: [HisteroscopiaPage, DialogEditarDescricaoImagem],
+  entryComponents: [DialogEditarDescricaoImagem],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },

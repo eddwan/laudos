@@ -12,7 +12,6 @@ const args = process.argv.slice(1)
 serve = args.some(val => val === '--serve')
 
 ipcMain.on('online-status-changed', (event, status) => {
-  console.log(status);
   event.returnValue = status
   win.webContents.send('online-status-changed', status)
 })

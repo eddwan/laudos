@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ipcRenderer } from 'electron';
 
 @Component({
   selector: 'app-main-tool-bar',
@@ -6,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-tool-bar.component.scss'],
 })
 export class MainToolBarComponent implements OnInit {
+  online: boolean;
+  constructor() { 
 
-  constructor() { }
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    ipcRenderer.on('online-status-changed', (event, arg) => {
+      this.online = arg;
+    })
+  }
 
 }

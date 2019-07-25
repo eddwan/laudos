@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ipcRenderer } from 'electron';
 
 @Component({
@@ -6,14 +6,15 @@ import { ipcRenderer } from 'electron';
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss']
 })
-export class TabsPage {
-  online: boolean = true;
+export class TabsPage implements OnInit {
+  online: boolean;
 
   constructor(){
+  }
+
+  ngOnInit(){
     ipcRenderer.on('online-status-changed', (event, arg) => {
-      
       this.online = arg;
-      console.log(arg)
     })
   }
 }

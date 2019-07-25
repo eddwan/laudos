@@ -7,6 +7,11 @@
         <i class="material-icons">save</i> Salvar
       </button>
     </span>
+    <span>
+      <button [hidden]="this.laudo.status == 'new'" mat-raised-button matTooltip="Imprimir" color="default" (click)="print()">
+        <i class="material-icons">print</i> Imprimir
+      </button>
+    </span>
   </mat-toolbar>
   <div class="paper">
     <mat-card class="laudo-card">
@@ -31,18 +36,18 @@
             <mat-datepicker #data_exame></mat-datepicker>
           </mat-form-field>
           &nbsp;
-          <mat-form-field>
-            <input matInput [(ngModel)]="laudo.paciente.data_ultima_menstruacao" (dateInput)="addEvent('data_ultima_menstruacao', $event)" (dateChange)="addEvent('data_ultima_menstruacao', $event)" [matDatepicker]="data_ultima_menstruacao" (click)="data_ultima_menstruacao.open()" placeholder="DUM (Data da Última Menstruação)">
+          <mat-form-field [hidden]="(this.laudo.paciente.amenorreia || this.laudo.paciente.menopausa)" >
+            <input matInput [disabled]="(this.laudo.paciente.amenorreia || this.laudo.paciente.menopausa)" [(ngModel)]="laudo.paciente.data_ultima_menstruacao" (dateInput)="addEvent('data_ultima_menstruacao', $event)" (dateChange)="addEvent('data_ultima_menstruacao', $event)" [matDatepicker]="data_ultima_menstruacao" (click)="data_ultima_menstruacao.open()" placeholder="DUM (Data da Última Menstruação)">
             <mat-datepicker-toggle matSuffix [for]="data_ultima_menstruacao"></mat-datepicker-toggle>
             <mat-datepicker #data_ultima_menstruacao></mat-datepicker>
           </mat-form-field>
           &nbsp;
-          <ion-chip color="danger">
-            <ion-badge color="danger">11</ion-badge>
+          <ion-chip [hidden]="(this.laudo.paciente.amenorreia || this.laudo.paciente.menopausa)" color="danger">
+            <ion-badge color="danger">{{ this.laudo.paciente.dia_ciclo }}</ion-badge>
             <ion-label>&nbsp;Dia do Ciclo</ion-label>
           </ion-chip>
           &nbsp;
-          <mat-button-toggle-group multiple (change)="toggleChange($event)" name="fontStyle" aria-label="Font Style">
+          <mat-button-toggle-group multiple (change)="toggleChange($event)" name="fontStyle" aria-label="Font Style" [ngModel]="toggleMenopausaAmenorreia">
             <mat-button-toggle value="Menopausa">Menopausa</mat-button-toggle>
             <mat-button-toggle value="Amenorréia">Amenorréia</mat-button-toggle>
           </mat-button-toggle-group>
@@ -66,28 +71,31 @@
     </mat-card>
     
     <div ngxFileDropzone [readMode]="readMode" (fileDrop)="addFile($event)">
-    <mat-card class="laudo-card">
-      <mat-card-header>
-        <mat-card-title>Imagens</mat-card-title>
-        <mat-card-subtitle>Arraste as imagens do exâme para cá.</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        
-        <mat-grid-list cols="4" rowHeight="2:1">
-          <mat-grid-tile *ngFor="let file of files">
-            <img src="{{ file.content }}">
-            <mat-grid-tile-footer>
-              <button mat-icon-button matTooltip="Editar" color="warn">
-                <i class="material-icons">edit</i>
-              </button>
-              <span class="empty-space"></span>
-              {{file.name}}
-            </mat-grid-tile-footer>
-          </mat-grid-tile>
-        </mat-grid-list>
-      </mat-card-content>
-    </mat-card>
-  </div>
+      <mat-card class="laudo-card">
+        <mat-card-header>
+          <mat-card-title>Imagens</mat-card-title>
+          <mat-card-subtitle>Arraste as imagens do exâme para cá.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          
+          <mat-grid-list cols="4" rowHeight="2:1">
+            <mat-grid-tile *ngFor="let file of files">
+              <img src="{{ file.content }}">
+              <mat-grid-tile-footer [ngStyle]="{backgroundColor: '#FFF', color: '#000', opacity: 0.9 }">
+                <button mat-icon-button matTooltip="Apagar" color="warn" (click)="apagarImagem(file.name)">
+                  <i class="material-icons">delete</i>
+                </button>
+                <button mat-icon-button matTooltip="Editar" color="warn" (click)="editarDescricao(file.name)">
+                  <i class="material-icons">edit</i>
+                </button>
+                <span class="empty-space"></span>
+                {{this.laudo.descricaoImagens[file.name].descricao}}
+              </mat-grid-tile-footer>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
     <mat-card class="laudo-card">
       <mat-card-header>
         <mat-card-title>Laudo</mat-card-title>

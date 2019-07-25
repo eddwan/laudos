@@ -28,8 +28,8 @@ export interface LaudoHisteroscopia{
   data_exame: string,
   paciente: Paciente,
   laudo: Histeroscopia,
-  attachments: [],
-  descricaoImagens: []
+  attachments: {},
+  descricaoImagens: {}
 }
 
 export interface Paciente {
