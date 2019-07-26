@@ -49,7 +49,7 @@
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <button mat-icon-button color="primary" matTooltip="Editar" [routerLink]="['/histeroscopia', element.filename]">
+        <button mat-icon-button color="primary" matTooltip="Editar" (click)="editLaudo(element.filename, element.tipo)">
           <mat-icon class="mat-18">edit</mat-icon>
         </button>
         

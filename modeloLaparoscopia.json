@@ -1,0 +1,20 @@
+{
+    "titulo": "Laudo da Histeroscopia Diagnóstica",
+    "status": "new",
+    "medico": "Dr. Fulano",
+    "crm": "0123",
+    "paciente": {
+        "nome": "",
+        "idade": "",
+        "indicacao": "",
+        "sexo": ""
+    },
+    "attachments": {},
+    "descricaoImagens": {},
+    "laudo": {
+        "tipo": "Laparoscopia",
+        "cirurgia": "Paciente submetida à Vídeo-Histeroscopia Diagnóstica com Histeroscópio tipo Hamou II e distensão da cavidade endometrial com gás carbônico.",
+        "descricao": "Paciente submetida à Vídeo-Histeroscopia Diagnóstica com Histeroscópio tipo Hamou II e distensão da cavidade endometrial com gás carbônico.",
+        "diagnostico": "Paciente submetida à Vídeo-Histeroscopia Diagnóstica com Histeroscópio tipo Hamou II e distensão da cavidade endometrial com gás carbônico."
+    }
+}

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as fs from 'fs';
 import * as path from 'path';
-import { LaudoDataTableItem, LaudoHisteroscopia } from '../models/laudo';
+import { LaudoDataTableItem } from '../models/laudo';
 import { of } from 'rxjs';
 
 @Injectable({
@@ -42,7 +42,7 @@ export class LaudosLocalService {
         return JSON.parse(rawData);
     }
 
-    public saveData( filename: string, laudo: LaudoHisteroscopia){
+    public saveData( filename: string, laudo: any){
         laudo.status = "local-saved";
         fs.writeFile('/Users/usuario/Desktop/laudos/laudos-json-teste/'+filename, JSON.stringify(laudo), "utf8", (err) => {
             console.log(err)

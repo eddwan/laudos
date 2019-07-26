@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LaudoHisteroscopia } from '../models/laudo';
+import { LaudoHisteroscopia, LaudoLaparoscopia } from '../models/laudo';
 import jspdf from 'jspdf';
 import resizeBase64 from 'resize-base64';
 
@@ -15,6 +15,9 @@ export class ImprimirService {
       modelos:{ 
         histeroscopia:{
           titulo: "aa"
+        },
+        laparoscopia:{
+          titulo: "aa"
         }
       }
     }
@@ -23,7 +26,6 @@ export class ImprimirService {
   constructor() { }
   
   gerarLaudo(laudo: LaudoHisteroscopia){
-    console.log(laudo)
     var doc = new jspdf({
       orientation: 'portrait',
       unit: 'mm'
@@ -189,5 +191,157 @@ export class ImprimirService {
   getBase64ToImgSrc(file){
     // return resizeBase64("data:"+file.type+";base64, "+file.content, 720, 480);
     return resizeBase64(file.content, 720, 480);
+  }
+  
+  
+  gerarLaudoLaparoscopia(laudo: LaudoLaparoscopia){
+    console.log(laudo)
+    var doc = new jspdf({
+      orientation: 'portrait',
+      unit: 'mm'
+    })
+    var empresa = this.props.config.empresa;
+    doc.page = 1;
+    // CABEÇALHO 3 CM
+    doc.setFontSize(28).setFontStyle("bold").text(105,15,empresa.nome, 'center');
+    doc.setFontSize(14).setFontStyle("bold").text(105,22,this.props.config.modelos.laparoscopia.titulo, 'center');
+    // FIM CABEÇALHO
+    
+    // DADOS PACIENTE 3 CM
+    doc.setFontSize(11);
+    doc.setFontStyle("bold").text(10,30,"Nome do paciente:").setFontStyle("normal").text(46,30,laudo.paciente.nome);
+    doc.setFontStyle("bold").text(10,35,"Sexo:").setFontStyle("normal").text(22,35,laudo.paciente.sexo);
+    doc.setFontStyle("bold").text(45,35,"Idade:").setFontStyle("normal").text(57,35,laudo.paciente.idade.toString());
+    doc.setFontStyle("bold").text(67,35,"Data da cirurgia:").setFontStyle("normal").text(99,35,new Date(laudo.paciente.data_exame).toLocaleDateString());
+    doc.setFontStyle("bold").text(10,40,"Indicação:").setFontStyle("normal").text(30,40,doc.splitTextToSize(laudo.paciente.indicacao, 170));
+    doc.line(0, 50, 210, 50);
+    // FIM DADOS PACIENTE
+    
+    // DADOS MEDICO EXAMINANTE
+    doc.setFontSize(11);
+    doc.text(105,265,laudo.medico, 'center');
+    doc.text(105,270,laudo.crm , 'center');
+    doc.setFontSize(8).text(105,276,'Página ' + doc.page,'center');
+    // FIM DADOS MEDICO EXAMINANTE
+    
+    // // RODAPÉ 3 CM
+    // doc.line(0, 277, 210, 277);
+    // doc.setFontStyle("normal").setFontSize(8)
+    // .text(105,280,empresa.endereco.logradouro + ", " + empresa.endereco.numero + " - " + empresa.endereco.complemento, 'center')
+    // .text(105,283,empresa.endereco.bairro + " - " + empresa.endereco.cidade + " / " + empresa.endereco.uf + " - CEP: " + empresa.endereco.cep, 'center');
+    // if(empresa.telefones.length >0){
+    //   doc.text(105,286,"Telefones:"+empresa.telefones.join(" / ")+" - Email: "+empresa.email+" - Website: "+empresa.website, 'center');
+    // }else{
+    //   doc.text(105,286,"Email: "+empresa.email+" - Website: "+empresa.website, 'center');
+    // }
+    // // FIM RODAPÉ
+    
+    // LAUDO COMPLETO
+    var pos_y_laudo = 58;
+    doc.setFontSize(11).setFontStyle("bold").text(10,pos_y_laudo,"Cirurgia");
+    pos_y_laudo += 5;
+    doc.setFontSize(10).setFontStyle("normal").text(10,pos_y_laudo,doc.splitTextToSize(laudo.laudo.cirurgia, 190));
+    pos_y_laudo += 25;
+    doc.setFontSize(11).setFontStyle("bold").text(10,pos_y_laudo,"Descrição");
+    pos_y_laudo += 5;
+    doc.setFontSize(10).setFontStyle("normal").text(10,pos_y_laudo,doc.splitTextToSize(laudo.laudo.descricao, 190));
+    pos_y_laudo += 120;
+    doc.setFontSize(11).setFontStyle("bold").text(10,pos_y_laudo,"Diagnóstico");
+    pos_y_laudo += 5;
+    doc.setFontSize(10).setFontStyle("normal").text(10,pos_y_laudo,doc.splitTextToSize(laudo.laudo.diagnostico, 190));
+    // FIM LAUDO COMPLETO
+    
+    if(typeof laudo.attachments !== 'undefined'){
+      doc.addPage();
+      doc.page++;
+      // CABEÇALHO 3 CM
+      doc.setFontSize(28).setFontStyle("bold").text(105,15,empresa.nome, 'center');
+      doc.setFontSize(14).setFontStyle("bold").text(105,22,this.props.config.modelos.laparoscopia.titulo, 'center');
+      // FIM CABEÇALHO
+      
+      // DADOS PACIENTE 3 CM
+      doc.setFontSize(11);
+      doc.setFontStyle("bold").text(10,30,"Nome do paciente:").setFontStyle("normal").text(46,30,laudo.paciente.nome);
+      doc.setFontStyle("bold").text(10,35,"Sexo:").setFontStyle("normal").text(22,35,laudo.paciente.sexo);
+      doc.setFontStyle("bold").text(45,35,"Data da cirurgia:").setFontStyle("normal").text(77,35,laudo.paciente.data_exame);
+      doc.setFontStyle("bold").text(10,40,"Indicação:").setFontStyle("normal").text(30,40,doc.splitTextToSize(laudo.paciente.indicacao, 170));
+      doc.line(0, 50, 210, 50);
+      // FIM DADOS PACIENTE
+      
+      // DADOS MEDICO EXAMINANTE
+      doc.setFontSize(11);
+      doc.text(105,265,laudo.medico, 'center');
+      doc.text(105,270,laudo.crm , 'center');
+      doc.setFontSize(8).text(105,276,'Página ' + doc.page,'center');
+      // FIM DADOS MEDICO EXAMINANTE
+      
+      // // RODAPÉ 3 CM
+      // doc.line(0, 277, 210, 277);
+      // doc.setFontStyle("normal").setFontSize(8)
+      // .text(105,280,empresa.endereco.logradouro + ", " + empresa.endereco.numero + " - " + empresa.endereco.complemento, 'center')
+      // .text(105,283,empresa.endereco.bairro + " - " + empresa.endereco.cidade + " / " + empresa.endereco.uf + " - CEP: " + empresa.endereco.cep, 'center');
+      // if(empresa.telefones.length >0){
+      //     doc.text(105,286,"Telefones:"+empresa.telefones.join(" / ")+" - Email: "+empresa.email+" - Website: "+empresa.website, 'center');
+      // }else{
+      //     doc.text(105,286,"Email: "+empresa.email+" - Website: "+empresa.website, 'center');
+      // }
+      // FIM RODAPÉ
+      
+      var imgCount = 1;
+      var linha=55;
+      Object.keys(laudo.attachments).forEach((filename) => {
+        if(imgCount <= 6){
+          if(imgCount%2!=0){
+            doc.addImage(this.getBase64ToImgSrc(laudo.attachments[filename]), laudo.attachments[filename].type, 10, linha, 90, 50, '', 'FAST').setFontSize(8).text(55,(linha+55),laudo.descricaoImagens[filename].descricao,"center");
+          }else{
+            doc.addImage(this.getBase64ToImgSrc(laudo.attachments[filename]), laudo.attachments[filename].type, 110, linha, 90, 50, '', 'FAST').setFontSize(8).text(155,(linha+55),laudo.descricaoImagens[filename].descricao,"center");
+            linha += 65;
+          }
+        }else{
+          doc.addPage();
+          doc.page++;
+          // CABEÇALHO 3 CM
+          doc.setFontSize(28).setFontStyle("bold").text(105,15,empresa.nome, 'center');
+          doc.setFontSize(14).setFontStyle("bold").text(105,22,this.props.config.modelos.laparoscopia.titulo, 'center');
+          // FIM CABEÇALHO
+          
+          // DADOS PACIENTE 3 CM
+          doc.setFontSize(11);
+          doc.setFontStyle("bold").text(10,30,"Nome do paciente:").setFontStyle("normal").text(46,30,laudo.paciente.nome);
+          doc.setFontStyle("bold").text(10,35,"Sexo:").setFontStyle("normal").text(22,35,laudo.paciente.sexo);
+          doc.setFontStyle("bold").text(45,35,"Data da cirurgia:").setFontStyle("normal").text(77,35,laudo.paciente.data_exame);
+          doc.setFontStyle("bold").text(10,40,"Indicação:").setFontStyle("normal").text(30,40,doc.splitTextToSize(laudo.paciente.indicacao, 170));
+          doc.line(0, 50, 210, 50);
+          // FIM DADOS PACIENTE
+          
+          // DADOS MEDICO EXAMINANTE
+          doc.setFontSize(11);
+          doc.text(105,265,laudo.medico, 'center');
+          doc.text(105,270,laudo.crm , 'center');
+          doc.setFontSize(8).text(105,276,'Página ' + doc.page,'center');
+          // FIM DADOS MEDICO EXAMINANTE
+          
+          // // RODAPÉ 3 CM
+          // doc.line(0, 277, 210, 277);
+          // doc.setFontStyle("normal").setFontSize(8)
+          // .text(105,280,empresa.endereco.logradouro + ", " + empresa.endereco.numero + " - " + empresa.endereco.complemento, 'center')
+          // .text(105,283,empresa.endereco.bairro + " - " + empresa.endereco.cidade + " / " + empresa.endereco.uf + " - CEP: " + empresa.endereco.cep, 'center');
+          // if(empresa.telefones.length >0){
+          //   doc.text(105,286,"Telefones:"+empresa.telefones.join(" / ")+" - Email: "+empresa.email+" - Website: "+empresa.website, 'center');
+          // }else{
+          //   doc.text(105,286,"Email: "+empresa.email+" - Website: "+empresa.website, 'center');
+          // }
+          // // FIM RODAPÉ
+          
+          imgCount = 1;
+          linha=55;
+          doc.addImage(this.getBase64ToImgSrc(laudo.attachments[filename]), laudo.attachments[filename].type, 10, linha, 90, 50, '', 'FAST').setFontSize(8).text(55,(linha+55),laudo.descricaoImagens[filename].descricao,"center");
+        }
+        imgCount++;
+      });
+    }
+    
+    doc.save(new Date(laudo.paciente.data_exame).toLocaleDateString()+' - '+laudo.paciente.nome+'.pdf');
+    
   }
 }

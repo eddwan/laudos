@@ -5,7 +5,8 @@ const routes: Routes = [
   { path: '', loadChildren: './tabs/tabs.module#TabsPageModule' },
   { path: 'histeroscopia', loadChildren: './laudo/histeroscopia/histeroscopia.module#HisteroscopiaPageModule' },
   { path: 'histeroscopia/:filename', loadChildren: './laudo/histeroscopia/histeroscopia.module#HisteroscopiaPageModule' },
-  { path: 'laparoscopia', loadChildren: './laudo/laparoscopia/laparoscopia.module#LaparoscopiaPageModule' }
+  { path: 'laparoscopia', loadChildren: './laudo/laparoscopia/laparoscopia.module#LaparoscopiaPageModule' },
+  { path: 'laparoscopia/:filename', loadChildren: './laudo/laparoscopia/laparoscopia.module#LaparoscopiaPageModule' }
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

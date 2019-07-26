@@ -1,9 +1,107 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>laparoscopia</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-</ion-content>
+<div class="laudos">
+  <mat-toolbar>
+    <span>Laudo de Laparoscopia</span>
+    <span class="empty-space"></span>
+    <span>
+      <button mat-raised-button matTooltip="Salvar" color="primary" (click)="onSubmit()">
+        <i class="material-icons">save</i> Salvar
+      </button>
+    </span>
+    <span>
+      <button [hidden]="this.laudo.status == 'new'" mat-raised-button matTooltip="Imprimir" color="default" (click)="print()">
+        <i class="material-icons">print</i> Imprimir
+      </button>
+    </span>
+  </mat-toolbar>
+  <div class="paper">
+    <mat-card class="laudo-card">
+      <mat-card-header>
+        <mat-card-title>Paciente</mat-card-title>
+        <mat-card-subtitle>Dados do Paciente</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput [(ngModel)]="laudo.paciente.nome" placeholder="Nome do paciente">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field>
+            <input type="number" matInput [(ngModel)]="laudo.paciente.idade" placeholder="Idade">
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field>
+            <input matInput [(ngModel)]="laudo.paciente.data_exame" (dateInput)="addEvent('data_exame', $event)" (dateChange)="addEvent('data_exame', $event)" [matDatepicker]="data_exame" (click)="data_exame.open()" placeholder="Data do Exame">
+            <mat-datepicker-toggle matSuffix [for]="data_exame"></mat-datepicker-toggle>
+            <mat-datepicker #data_exame></mat-datepicker>
+          </mat-form-field>
+          &nbsp;
+          <mat-form-field>
+            <mat-label>Sexo</mat-label>
+            <mat-select [(ngModel)]="laudo.paciente.sexo">
+              <mat-option value="Masculino">Masculino</mat-option>
+              <mat-option value="Feminio">Feminino</mat-option>
+              <mat-option value="Não especificado">Não especificado</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput [(ngModel)]="laudo.paciente.indicacao" placeholder="Indicação">
+          </mat-form-field>
+        </p>
+      </mat-card-content>
+    </mat-card>
+    
+    <div ngxFileDropzone [readMode]="readMode" (fileDrop)="addFile($event)">
+      <mat-card class="laudo-card">
+        <mat-card-header>
+          <mat-card-title>Imagens</mat-card-title>
+          <mat-card-subtitle>Arraste as imagens do exâme para cá.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          
+          <mat-grid-list cols="4" rowHeight="2:1">
+            <mat-grid-tile *ngFor="let file of files">
+              <img src="{{ file.content }}">
+              <mat-grid-tile-footer [ngStyle]="{backgroundColor: '#FFF', color: '#000', opacity: 0.9 }">
+                <button mat-icon-button matTooltip="Apagar" color="warn" (click)="apagarImagem(file.name)">
+                  <i class="material-icons">delete</i>
+                </button>
+                <button mat-icon-button matTooltip="Editar" color="warn" (click)="editarDescricao(file.name)">
+                  <i class="material-icons">edit</i>
+                </button>
+                <span class="empty-space"></span>
+                {{this.laudo.descricaoImagens[file.name].descricao}}
+              </mat-grid-tile-footer>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <mat-card class="laudo-card">
+      <mat-card-header>
+        <mat-card-title>Laudo</mat-card-title>
+        <mat-card-subtitle>Dados do laudo</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput [(ngModel)]="laudo.laudo.cirurgia" placeholder="Cirurgia"></textarea>
+          </mat-form-field>
+        </p>
+        
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput [(ngModel)]="laudo.laudo.descricao" placeholder="Descrição"></textarea>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput [(ngModel)]="laudo.laudo.diagnostico" placeholder="Diagnóstico"></textarea>
+          </mat-form-field>
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

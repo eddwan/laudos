@@ -1,6 +1,10 @@
 mat-toolbar{
   background-color: #dedede;
 }
+:host{
+  background-color: #eeeeee;
+}
+
 .laudos{
   overflow-y: auto;
   background-color: #eeeeee;
