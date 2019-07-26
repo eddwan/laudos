@@ -30,5 +30,8 @@ export interface Sistema{
         autoSync: boolean,
         apiUrl: string,
         apiKey: string
+    },
+    autocompletar:{
+        descricaoImagens: []
     }
 }

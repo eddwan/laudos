@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>{{data.titulo}}</h1>
+<mat-dialog-content>
+  <mat-form-field [ngStyle]="{width: '100%'}">
+    <input matInput [(ngModel)]="data.descricao" placeholder="{{data.placeholder}}">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="data.descricao" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

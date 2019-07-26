@@ -18,6 +18,10 @@ export class ConfigService{
         return this.store.get(key) || {}
     }
 
+    getAll(){
+        return this.store.store || {};
+    }
+
 }
 
 export class ModelosService{

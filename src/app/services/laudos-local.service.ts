@@ -18,6 +18,7 @@ export class LaudosLocalService {
     }
     
     public getDataTable(){
+        this.sistema = this.configService.getData("sistema") || {}
         this.laudosLocaisTable = [];
         let files = fs.readdirSync(this.sistema.datastore.path);
         files.forEach(file => {
@@ -38,6 +39,7 @@ export class LaudosLocalService {
     }
     
     public getData(filename: string) {
+        this.sistema = this.configService.getData("sistema") || {}
         let rawData = fs.readFileSync(this.sistema.datastore.path+filename, "utf8");
         return JSON.parse(rawData);
     }
@@ -49,15 +51,16 @@ export class LaudosLocalService {
     }
 
     public saveData( filename: string, laudo: any){
+        this.sistema = this.configService.getData("sistema") || {}
         laudo.status = "local-saved";
-        fs.writeFile('/Users/usuario/Desktop/laudos/laudos-json-teste/'+filename, JSON.stringify(laudo), "utf8", (err) => {
+        fs.writeFile(this.sistema.datastore.path+filename, JSON.stringify(laudo), "utf8", (err) => {
             console.log(err)
         })
     }
 
     public deleteFile(filename: string){
         try{
-            fs.unlinkSync('/Users/usuario/Desktop/laudos/laudos-json-teste/'+filename);
+            fs.unlinkSync(this.sistema.datastore.path+filename);
         } catch (err){
             console.log(err)
         }

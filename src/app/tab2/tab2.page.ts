@@ -29,7 +29,7 @@ export class Tab2Page  implements OnInit {
     public dialog: MatDialog, 
     private router: Router,
     private config: ConfigService){ 
-      this.sistema = this.config.getData("sistema")
+      
     }
     
     ngOnInit() {
@@ -46,6 +46,7 @@ export class Tab2Page  implements OnInit {
     }
     
     public getAllLaudos = () => {
+      this.sistema = this.config.getData("sistema")
       this.laudosLocaisService.getDataTable().subscribe(res => {
         this.dataSource.data = res as LaudoDataTableItem[];
       })

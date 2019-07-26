@@ -7,9 +7,45 @@ const ipcMain = electron.ipcMain
 
 const Store = require('electron-store');
 const store = new Store();
- 
-store.set('unicorn', '🦄');
-console.log(store.get('unicorn'));
+
+if(!store.get("empresa", false)){
+  store.set({ empresa: {
+    nome: "Consultório Médico",
+    endereco: {
+      logradouro: "",
+      numero: "",
+      complemento: "",
+      bairro: "",
+      cidade: "",
+      uf: "",
+      cep: ""
+    },
+    telefones: [],
+    email: "",
+    website: "",
+    logo: {
+      url: "",
+      data: "",
+      content_type: ""
+    } 
+  }})
+}
+
+if(!store.get("sistema", false)){
+  store.set({ sistema: {
+    datastore:{
+      path: "~/laudos",
+      format: "json"
+    },
+    cloud: {
+      enabled: false,
+      autoSync: false,
+      apiUrl: "",
+      apiKey: ""
+    }
+  }})
+}
+sistema = store.get("sistema")
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
 
@@ -17,10 +53,12 @@ let win, serve
 const args = process.argv.slice(1)
 serve = args.some(val => val === '--serve')
 
-ipcMain.on('online-status-changed', (event, status) => {
-  event.returnValue = status
-  win.webContents.send('online-status-changed', status)
-})
+if(sistema.cloud.enabled){
+  ipcMain.on('online-status-changed', (event, status) => {
+    event.returnValue = status
+    win.webContents.send('online-status-changed', status)
+  })
+}
 
 function createWindow () {
   win = new BrowserWindow({
@@ -29,7 +67,7 @@ function createWindow () {
     center: true,
     icon: path.join(__dirname, './resources/electron/icons/64x64.png')
   })
-
+  
   if (serve) {
     require('electron-reload')(__dirname, {
       electron: require(`${__dirname}/node_modules/electron`)
@@ -42,9 +80,9 @@ function createWindow () {
       slashes: true
     }))
   }
-
+  
   win.webContents.openDevTools()
-
+  
   // Emitted when the window is closed.
   win.on('closed', () => {
     // Dereference the window object, usually you would store window
@@ -58,7 +96,7 @@ try {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   app.on('ready', createWindow)
-
+  
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {
     // On OS X it is common for applications and their menu bar
@@ -67,7 +105,7 @@ try {
       app.quit()
     }
   })
-
+  
   app.on('activate', () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.

@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDatepickerInputEvent, MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { ImprimirService } from '../../services/imprimir.service';
 import * as moment from 'moment'
+import { ConfigService } from '../../services/config.service';
+import { Sistema } from '../../models/config';
 
 export interface DescricaoImagemDialogData {
   descricao: string;
@@ -173,11 +175,15 @@ export class HisteroscopiaPage implements OnInit {
     styleUrls: ['./histeroscopia.page.scss'],
   })
   export class DialogEditarDescricaoImagem {
-    options: string[] = ['One', 'Two', 'Three'];
+    options;
 
     constructor(
+      private configService: ConfigService,
       public dialogRef: MatDialogRef<DialogEditarDescricaoImagem>,
-      @Inject(MAT_DIALOG_DATA) public data: DescricaoImagemDialogData) {}
+      @Inject(MAT_DIALOG_DATA) public data: DescricaoImagemDialogData) {
+        let sistema: Sistema = this.configService.getData("sistema");
+        this.options = sistema.autocompletar.descricaoImagens;
+      }
       
       onNoClick(): void {
         this.dialogRef.close();

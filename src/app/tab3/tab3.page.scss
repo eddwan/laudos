@@ -1,46 +1,48 @@
-table {
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    min-width: 500px;
-  }
-  
-  th.mat-header-cell {
-    text-align: left;
-    max-width: 300px;
-  }
-  
-  .mat-column-details {
-    flex: 0 0 60px;
-  }
-  
-  .mat-column-download {
-    flex: 0 0 60px;
-  }
-  
-  .mat-column-delete {
-    flex: 0 0 60px;
-  }
-  
-  .example-fill-remaining-space {
-    /* This fills the remaining space, by using flexbox. 
-       Every toolbar row uses a flexbox row layout. */
-    flex: 1 1 auto;
-  }
-  
-  .googleSearch {
-    border: solid 1px rgba(0, 0, 0, 0.1);
-    border-radius: 2px;
-    outline: none;
-    padding: 6px 16px;
-  
-    min-width: 450px;
-    max-width: 800px;
-  
-    font-size: 16px;
-    line-height: 34px;
-  }
-  
-  mat-toolbar{
-    background-color: #dedede;
-  }
+mat-toolbar{
+  background-color: #dedede;
+}
+
+:host{
+  background-color: #eeeeee;
+}
+
+.laudos{
+  overflow-y: auto;
+  background-color: #eeeeee;
+}
+.paper{
+  margin: auto;
+  width: 75% ;
+  min-width: 850px;
+}
+.empty-space {
+  /* This fills the remaining space, by using flexbox. 
+  Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+.laudo-card {
+  margin: 15px;
+}
+
+.full-width {
+  width: 100% auto;
+}
+
+/** No CSS for this example */
+
+.mat-form-field--inline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.mat-form-field--inline .mat-form-field {
+  display: inline-block;
+  width: 100%;
+  vertical-align: middle;
+}
+
+.mat-form-field--inline .mat-form-field:nth-child(1n) {
+  margin-right: 10px;
+}
