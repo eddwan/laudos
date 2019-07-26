@@ -42,7 +42,7 @@
       <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <mat-icon class="mat-18" color="primary" matTooltip="Impresso">print</mat-icon>
-        <mat-icon class="mat-18" color="warn" matTooltip="Não sincronizado">cloud_off</mat-icon>
+        <mat-icon class="mat-18" color="warn" matTooltip="Não sincronizado" [hidden]="!this.sistema.cloud.enabled">cloud_off</mat-icon>
       </mat-cell>
     </ng-container>
     
@@ -53,7 +53,7 @@
           <mat-icon class="mat-18">edit</mat-icon>
         </button>
         
-        <button mat-icon-button matTooltip="Enviar manualmente" color="primary">
+        <button mat-icon-button matTooltip="Enviar manualmente" color="primary" [hidden]="!this.sistema.cloud.enabled">
           <mat-icon class="mat-18">cloud_upload</mat-icon>
         </button>
         

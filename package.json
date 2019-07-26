@@ -72,6 +72,7 @@
     "cordova-plugin-whitelist": "1.3.3",
     "cordova-sqlcipher-adapter": "0.4.0",
     "core-js": "2.6.3",
+    "electron-store": "^4.0.0",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
     "is-online": "^8.2.0",
@@ -87,6 +88,7 @@
     "resize-base64": "^1.0.12",
     "run-electron": "1.0.0",
     "rxjs": "6.3.3",
+    "write-file-atomic": "^3.0.0",
     "zone.js": "0.9.1"
   },
   "devDependencies": {

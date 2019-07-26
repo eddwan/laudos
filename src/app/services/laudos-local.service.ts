@@ -3,21 +3,26 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { LaudoDataTableItem } from '../models/laudo';
 import { of } from 'rxjs';
+import { ConfigService, ModelosService } from './config.service';
+import { Sistema } from '../models/config';
 
 @Injectable({
     providedIn: 'root'
 })
 export class LaudosLocalService {
     laudosLocaisTable: LaudoDataTableItem[] = [];
+    sistema: Sistema
 
-    constructor() { }
+    constructor(private configService: ConfigService, private modelosService:ModelosService) { 
+        this.sistema = this.configService.getData("sistema") || {}
+    }
     
     public getDataTable(){
         this.laudosLocaisTable = [];
-        let files = fs.readdirSync('/Users/usuario/Desktop/laudos/laudos-json-teste');
+        let files = fs.readdirSync(this.sistema.datastore.path);
         files.forEach(file => {
             if(path.extname(file) == ".json"){
-                let rawData = fs.readFileSync('/Users/usuario/Desktop/laudos/laudos-json-teste/'+file, "utf8");
+                let rawData = fs.readFileSync(this.sistema.datastore.path+file, "utf8");
                 let obj = JSON.parse(rawData);
                 const laudo ={
                     "filename": file,
@@ -33,13 +38,14 @@ export class LaudosLocalService {
     }
     
     public getData(filename: string) {
-        let rawData = fs.readFileSync('/Users/usuario/Desktop/laudos/laudos-json-teste/'+filename, "utf8");
+        let rawData = fs.readFileSync(this.sistema.datastore.path+filename, "utf8");
         return JSON.parse(rawData);
     }
 
-    public getModelo(filename: string) {
-        let rawData = fs.readFileSync('./'+filename, "utf8");
-        return JSON.parse(rawData);
+    public getModelo(modelo: string) {
+        // let rawData = fs.readFileSync('./'+filename, "utf8");
+        // return JSON.parse(rawData);
+        return this.modelosService.getModelo(modelo)
     }
 
     public saveData( filename: string, laudo: any){

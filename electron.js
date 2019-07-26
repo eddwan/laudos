@@ -5,6 +5,12 @@ const path = require('path')
 const url = require('url')
 const ipcMain = electron.ipcMain
 
+const Store = require('electron-store');
+const store = new Store();
+ 
+store.set('unicorn', '🦄');
+console.log(store.get('unicorn'));
+
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
 
 let win, serve

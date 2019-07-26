@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ipcRenderer } from 'electron';
+import { ConfigService } from '../services/config.service';
+import { Sistema } from '../models/config';
 
 @Component({
   selector: 'app-main-tool-bar',
@@ -8,8 +10,10 @@ import { ipcRenderer } from 'electron';
 })
 export class MainToolBarComponent implements OnInit {
   online: boolean;
-  constructor() { 
+  sistema: Sistema;
 
+  constructor(private config:ConfigService){
+    this.sistema = this.config.getData("sistema")
   }
 
   ngOnInit() {

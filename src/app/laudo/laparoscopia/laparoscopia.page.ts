@@ -84,7 +84,7 @@ export class LaparoscopiaPage implements OnInit {
         
       }else{
         this.filename = uuid.v4()+".json"
-        this.laudo = this.laudosLocalService.getModelo("modeloLaparoscopia.json");
+        this.laudo = this.laudosLocalService.getModelo("Laparoscopia");
         this.laudo.paciente.data_exame = new Date().toJSON()
       }
     });

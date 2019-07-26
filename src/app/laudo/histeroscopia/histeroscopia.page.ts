@@ -36,7 +36,7 @@ export class HisteroscopiaPage implements OnInit {
     ){ }
 
     print(){
-      this.imprimirService.gerarLaudo(this.laudo)
+      this.imprimirService.gerarLaudoHisteroscopia(this.laudo)
     }
   
     addFile(file: ReadFile) {
@@ -93,7 +93,7 @@ export class HisteroscopiaPage implements OnInit {
           
         }else{
           this.filename = uuid.v4()+".json"
-          this.laudo = this.laudosLocalService.getModelo("modeloHisteroscopia.json");
+          this.laudo = this.laudosLocalService.getModelo("Histeroscopia");
           this.laudo.paciente.data_exame = new Date().toJSON()
         }
       });

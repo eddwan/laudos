@@ -4,6 +4,8 @@ import { Laudo, LaudoDataTableItem} from '../models/laudo';
 import { LaudosLocalService} from '../services/laudos-local.service';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { Router } from '@angular/router';
+import { Sistema } from '../models/config';
+import { ConfigService } from '../services/config.service';
 
 export interface listLaudo{
   [id: number]: Laudo
@@ -20,12 +22,15 @@ export class Tab2Page  implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   dataSource = new MatTableDataSource<LaudoDataTableItem>();
   displayedColumns = ['filename', 'nome', 'tipo', 'data_exame', 'status', 'actions'];
-  
+  sistema: Sistema;
   
   constructor(
     public laudosLocaisService:LaudosLocalService, 
     public dialog: MatDialog, 
-    private router: Router){ }
+    private router: Router,
+    private config: ConfigService){ 
+      this.sistema = this.config.getData("sistema")
+    }
     
     ngOnInit() {
       this.getAllLaudos();
