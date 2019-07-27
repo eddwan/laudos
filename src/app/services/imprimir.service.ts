@@ -32,7 +32,7 @@ export class ImprimirService {
     doc.setFontStyle("bold").text(10,30,"Nome do paciente:").setFontStyle("normal").text(46,30,laudo.paciente.nome);
     // LINHA 2 - DATA DO EXAME | IDADE | (DUM | DIA DO CICLO) ou MENOPAUSA ou AMENORREIA
     doc.setFontStyle("bold").text(10,35,"Data do exame:").setFontStyle("normal").text(40,35,new Date(laudo.paciente.data_exame).toLocaleDateString());
-    doc.setFontStyle("bold").text(70,35,"Idade:").setFontStyle("normal").text(82,35,laudo.paciente.idade);
+    doc.setFontStyle("bold").text(70,35,"Idade:").setFontStyle("normal").text(82,35,laudo.paciente.idade.toString());
     if(laudo.paciente.amenorreia){
       doc.setFontStyle("bold").text(92,35,"Amenorréia: ").setFontStyle("normal").text(117,35,"Sim");
     }else{

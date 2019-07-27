@@ -8,7 +8,9 @@ const ipcMain = electron.ipcMain
 const Store = require('electron-store');
 const store = new Store();
 
+console.log("Verificando empresa")
 if(!store.get("empresa", false)){
+  console.log("Não existem dados da empresa. Criando novos dados em branco.")
   store.set({ empresa: {
     nome: "Consultório Médico",
     endereco: {
@@ -31,7 +33,9 @@ if(!store.get("empresa", false)){
   }})
 }
 
+console.log("Verificando sistema")
 if(!store.get("sistema", false)){
+  console.log("Não existem configurações do sistema. Inicializando confiugração padrão.")
   store.set({ sistema: {
     datastore:{
       path: "~/laudos",
@@ -42,10 +46,91 @@ if(!store.get("sistema", false)){
       autoSync: false,
       apiUrl: "",
       apiKey: ""
+    },
+    autocompletar:{
+      descricaoImagens: []
     }
   }})
 }
 sistema = store.get("sistema")
+
+// check modelos de laudos
+console.log("Verificando modelo de laudo de Laparoscopia")
+const laparoscopia = new Store({name: "modeloLaparoscopia"});
+if(!laparoscopia.get("modelo", false)){
+  console.log("Não existe um modelo de laudo de Laparoscopia. Criando modelo vazio.")
+  laparoscopia.set({ modelo: {
+    remote_id: "",
+    titulo: "Laudo de Videohisteroscopia",
+    status: "new",
+    medico: "",
+    crm: "",
+    paciente: {
+      nome: "",
+      idade: "",
+      sexo: "",
+      indicacao: ""
+    },
+    laudo: {
+      tipo: "Laparoscopia",
+      cirurgia: "",
+      descricao: "",
+      diagnostico: ""
+    },
+    attachments: {},
+    descricaoImagens: {}
+  }})
+}
+
+console.log("Verificando modelo de laudo de Histeroscopia")
+const histeroscopia = new Store({name: "modeloHisteroscopia"});
+if(!histeroscopia.get("modelo", false)){
+  console.log("Não existe um modelo de laudo de Histeroscopia. Criando modelo vazio.")
+  histeroscopia.set({ modelo: {
+    remote_id: "",
+    titulo: "Laudo de Videohisteroscopia",
+    status: "new",
+    medico: "",
+    crm: "",
+    paciente: {
+      nome: "",
+      idade: "",
+      dia_do_ciclo: 0,
+      menopausa: false,
+      amenorreia: false,
+      hormonio: "",
+      indicacao: "",
+      medico_assistente: ""
+    },
+    laudo: {
+      tipo: "Histeroscopia",
+      dados_tecnicos: "",
+      canal_endocervical: "",
+      cavidade_uterina: "",
+      istmo: "",
+      lesoes_focais: "",
+      biopsia: "",
+      procedimento_realizado: "",
+      observacoes: "",
+      impressao_diagnostica: "",
+      endometrio: {
+        cor: "",
+        espessura: "",
+        vascularizacao: "",
+        superficie:"",
+        friabilidade: "",
+        sangramento_contato: ""
+      },
+      ostios_tubarios: {
+        direito: "",
+        esquerdo: ""
+      }
+    },
+    attachments: {},
+    descricaoImagens: {}
+  }})
+}
+
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
 

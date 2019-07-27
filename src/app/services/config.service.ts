@@ -11,6 +11,7 @@ export class ConfigService{
     }
 
     saveObject(obj){
+        console.log(obj)
         this.store.set(obj)
     }
 

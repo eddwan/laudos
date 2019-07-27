@@ -1,0 +1,75 @@
+<div class="laudos">
+  <mat-toolbar>
+    <span>Modelo de Laudo de Videolaparoscopia</span>
+    <span class="empty-space"></span>
+    <span>
+      <button mat-raised-button matTooltip="Salvar" color="primary" (click)="onSubmit()">
+        <i class="material-icons">save</i> Salvar
+      </button>
+    </span>
+  </mat-toolbar>
+  <div class="paper">
+    <mat-card class="laudo-card">
+      <mat-card-header>
+        <mat-card-title>Cabeçalho</mat-card-title>
+        <mat-card-subtitle>Cabeçalho do laudo</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput [(ngModel)]="laudo.titulo" placeholder="Título do Laudo">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput [(ngModel)]="laudo.medico" placeholder="Nome do Médico">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput [(ngModel)]="laudo.crm" placeholder="CRM do Médico">
+          </mat-form-field>
+        </p>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="laudo-card">
+      <mat-card-header>
+        <mat-card-title>Paciente</mat-card-title>
+        <mat-card-subtitle>Dados do Paciente</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput [(ngModel)]="laudo.paciente.indicacao" placeholder="Indicação">
+          </mat-form-field>
+        </p>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="laudo-card">
+      <mat-card-header>
+        <mat-card-title>Laudo</mat-card-title>
+        <mat-card-subtitle>Dados do laudo</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput [(ngModel)]="laudo.laudo.cirurgia" placeholder="Cirurgia"></textarea>
+          </mat-form-field>
+        </p>
+        
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput [(ngModel)]="laudo.laudo.descricao" placeholder="Descrição"></textarea>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput [(ngModel)]="laudo.laudo.diagnostico" placeholder="Diagnóstico"></textarea>
+          </mat-form-field>
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
