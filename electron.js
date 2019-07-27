@@ -1,9 +1,46 @@
-const electron = require('electron')
-const app = electron.app
-const BrowserWindow = electron.BrowserWindow
+const {app, BrowserWindow, Menu, ipcMain} = require('electron')
 const path = require('path')
 const url = require('url')
-const ipcMain = electron.ipcMain
+const isMac = process.platform === 'darwin'
+
+const template = [
+  ...(isMac ? [{
+    label: app.name,
+    submenu: [
+      { role: 'about' },
+      { type: 'separator' },
+      { label: 'Configurações' },
+      { type: 'separator' },
+      { role: 'hide' },
+      { role: 'hideothers' },
+      { role: 'unhide' },
+      { type: 'separator' },
+      { role: 'quit' }
+    ]
+  }] : []),
+  {
+    label: 'Arquivo',
+    submenu: [
+      {
+        label: 'Novo Laudo',
+        submenu: [
+          { 
+            label: 'Histeroscopia',
+            accelerator: 'Shift+CmdOrCtrl+H'
+          },
+          { 
+            label: 'Laparoscopia',
+            accelerator: 'Shift+CmdOrCtrl+L'
+          }
+        ]
+      },
+      // isMac ? { role: 'close' } : { role: 'quit' }
+    ]
+  }
+]
+
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
 
 const Store = require('electron-store');
 const store = new Store();
@@ -150,9 +187,24 @@ function createWindow () {
     width: 1800,
     height: 1200,
     center: true,
+    titleBarStyle: 'hiddenInset',
     icon: path.join(__dirname, './resources/electron/icons/64x64.png')
   })
-  
+
+  win.maximize();
+
+  // [1]->sub->[0]->sub->[0]
+  // file -> novo -> histeroscopia
+  menu.items[0].submenu.items[2].click = () => {
+    win.webContents.send("navigate-to", "/tabs/configuracoes")
+  }
+  menu.items[1].submenu.items[0].submenu.items[0].click = () => {
+    win.webContents.send("navigate-to", "/histeroscopia")
+  }
+  menu.items[1].submenu.items[0].submenu.items[1].click = () => {
+    win.webContents.send("navigate-to", "/laparoscopia")
+  }
+
   if (serve) {
     require('electron-reload')(__dirname, {
       electron: require(`${__dirname}/node_modules/electron`)
@@ -166,7 +218,7 @@ function createWindow () {
     }))
   }
   
-  // win.webContents.openDevTools()
+  win.webContents.openDevTools()
   
   // Emitted when the window is closed.
   win.on('closed', () => {

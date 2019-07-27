@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>Sistema de Laudos Médicos</span>
+    <span [ngStyle]="{marginTop: isFullScreen ? 0 : '20px' }">Sistema de Laudos Médicos</span>
     <span class="fill-remaining-space"></span>
     <span [hidden]="!this.sistema.cloud.enabled">
         <mat-chip-list>

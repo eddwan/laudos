@@ -1,3 +1,7 @@
+body {
+  user-select: none;
+}
+
 // http://ionicframework.com/docs/theming/
 @import "~@ionic/angular/css/core.css";
 @import "~@ionic/angular/css/normalize.css";
