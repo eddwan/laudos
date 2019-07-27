@@ -1,15 +1,15 @@
 {
-  "name": "polyonic",
-  "productName": "Polyonic App",
-  "description": "An Ionic project",
+  "name": "laudos",
+  "productName": "Sistema de Laudos Médicos",
+  "description": "Sistema de Laudos Médicos",
   "version": "2.1.0",
   "author": {
-    "name": "Your Name",
-    "email": "email@your-email.com",
-    "url": "http://yourwebsite.com"
+    "name": "Eddwan Hallen",
+    "email": "eddwan@gmail.com",
+    "url": "https://github.com/eddwan"
   },
-  "repository": "https://github.com/paulsutherland/polyonic",
-  "copyright": "© 2018, Your Name",
+  "repository": "https://github.com/eddwan/laudos-test-v2",
+  "copyright": "© 2019, Eddwan Hallen",
   "private": true,
   "main": "electron.js",
   "scripts": {

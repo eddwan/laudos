@@ -1,5 +1,5 @@
 {
-  "productName": "Polyonic",
+  "productName": "Laudos",
   "directories": {
     "buildResources": "./resources/electron",
     "output": "release/"
@@ -43,7 +43,7 @@
     "allowToChangeInstallationDirectory": true
   },
   "appx": {
-    "publisherDisplayName":"Polyonic"
+    "publisherDisplayName":"Laudos"
   },
   "mac": {
     "icon": "resources/electron/osx/icon.icns",
