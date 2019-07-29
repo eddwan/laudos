@@ -7,21 +7,21 @@ Sistema de laudos desenvolvido para a clínica de Ginecologia da Dra. Marcela An
 
 ## Suporte as plataformas
 
-* Windows 10
-* Windows 7
-* MacOS X Sierra
+* [x] Windows 10
+* [x] Windows 7
+* [x] MacOS X Sierra
 
 ## Suporte aos bancos de dados
 
-* Local (JSON files)
-* Remoto (REST-API)
+* [x] Local (JSON files)
+* [ ] Remoto (REST-API)
 
 ## Funcionalidades
 
-* Inclusão de laudos
-* Customização de informações de empresa, médico e laudo
-* Exportação no formato PDF
-* Suporte a imagens
+* [x] Inclusão de laudos
+* [x] Customização de informações de empresa, médico e laudo
+* [x] Exportação no formato PDF
+* [x] Suporte a imagens
 
 ## Melhorias planejadas
 * [ ] Sincronização manual/automática com REST API
