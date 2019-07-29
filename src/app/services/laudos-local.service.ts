@@ -50,9 +50,9 @@ export class LaudosLocalService {
         return this.modelosService.getModelo(modelo)
     }
 
-    public saveData( filename: string, laudo: any){
+    public saveData( filename: string, laudo: any, status: string = "local-saved"){
         this.sistema = this.configService.getData("sistema") || {}
-        laudo.status = "local-saved";
+        laudo.status = status;
         fs.writeFile(this.sistema.datastore.path+filename, JSON.stringify(laudo), "utf8", (err) => {
             console.log(err)
         })

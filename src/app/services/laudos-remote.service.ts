@@ -24,7 +24,7 @@ export class LaudosRemoteService {
   }
  
   public create = (route: string, body) => {
-    return this.http.post(this.createCompleteRoute(route, environment.apiUrl), body, this.generateHeaders());
+    return this.http.post(this.createCompleteRoute(route, environment.apiUrl), body, httpOptions);
   }
  
   public update = (route: string, body) => {

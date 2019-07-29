@@ -6,6 +6,7 @@ import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confi
 import { Router } from '@angular/router';
 import { Sistema } from '../models/config';
 import { ConfigService } from '../services/config.service';
+import { LaudosRemoteService } from '../services/laudos-remote.service';
 
 export interface listLaudo{
   [id: number]: Laudo
@@ -25,6 +26,7 @@ export class Tab2Page  implements OnInit {
   sistema: Sistema;
   
   constructor(
+    public laudosRemoteService:LaudosRemoteService,
     public laudosLocaisService:LaudosLocalService, 
     public dialog: MatDialog, 
     private router: Router,
@@ -77,6 +79,78 @@ export class Tab2Page  implements OnInit {
       });
     }
     
+    public getLocalStatusIcon(status:string){
+      switch(status){
+        case 'remote-printed':
+        case 'local-printed':
+        return { tip: "Salvo e Impresso", icon: "print", color: "primary"};
+        break;
+        case 'remote-saved':  
+        case 'local-saved':
+        case 'remote-error':
+        return { tip: "Salvo", icon: "save", color: "primary"};
+        break;
+        default:
+        return { tip: "Editando", icon: "edit", color: "warn"};
+        break;
+      }
+    }
     
+    public getRemoteStatusIcon(status:string){
+      switch(status){
+        case 'remote-printed':
+        case 'remote-saved':
+        return { tip: "Sincronizado", icon: "cloud_done", color: "primary"}
+        break; 
+        case 'remote-error':
+        return { tip: "Erro do servidor", icon: "error_outline", color: "warn"}
+        break; 
+        case 'syncing':
+        return { tip: "Sincronizando", icon: "cloud_queue", color: "accent"}
+        break;
+        default:
+        return { tip: "Não sincronizado", icon: "cloud_off", color: "accent"}
+        break;
+      }
+    }
+    
+    public sendLaudo(filename:string){
+      let laudo = this.laudosLocaisService.getData(filename)
+      if(laudo["remote_id"]==""){
+        this.laudosRemoteService.create("laudo", JSON.stringify(laudo)).subscribe(res => {
+          console.log(res["_id"])
+          if(res["_id"]){
+            laudo["remote_id"] = res["_id"];
+            this.laudosLocaisService.saveData(filename, laudo, (laudo["status"]=="local-saved" ? "remote-saved" : "remote-printed") );
+            // this.getAllLaudos();
+          }
+        });
+      }else{
+        console.log("Já existe um laudo remoto! Tentando atualizar dados.")
+        laudo["_id"]=laudo["remote_id"]
+        this.laudosRemoteService.update("laudo", JSON.stringify(laudo)).subscribe(res => {
+          if(res){
+            console.log(res["_id"])
+            this.laudosLocaisService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]) );
+          }else{
+            console.log("Não encontrado remoto");
+            this.laudosLocaisService.saveData(filename, laudo, "remote-error" );
+          }
+        })
+      }
+      
+      
+    }
+    
+    private translateLocalToRemoteStatus(status:string){
+      switch(status){
+        case "local-saved":
+        return "remote-saved"
+        break;
+        case "local-printed":
+        return "remoted-printed"
+        break;
+      }
+    }
     
   }
