@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ipcRenderer, remote } from 'electron';
 import { ConfigService } from '../services/config.service';
-import { Sistema } from '../models/config';
-
-
+import { Sistema, Empresa } from '../models/config';
 
 @Component({
   selector: 'app-main-tool-bar',
@@ -13,21 +11,21 @@ import { Sistema } from '../models/config';
 export class MainToolBarComponent implements OnInit {
   online: boolean;
   sistema: Sistema;
-  isFullScreen: boolean = false;
+  empresa: Empresa;
   
   constructor(private config:ConfigService){
     this.sistema = this.config.getData("sistema")
-    remote.getCurrentWindow().removeAllListeners().on("resize",  function(e){
-      e.preventDefault();
-      this.isFullScreen =  remote.getCurrentWindow().isFullScreen()
-      console.log("resize", this.isFullScreen)
-    })
+    this.empresa = this.config.getData("empresa")
   }
 
   ngOnInit() {
     ipcRenderer.on('online-status-changed', (event, arg) => {
       this.online = arg;
     })
+  }
+
+  btnExit(){
+    remote.getCurrentWindow().close();
   }
 
 }

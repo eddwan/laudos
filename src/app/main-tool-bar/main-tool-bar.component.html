@@ -1,12 +1,15 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span [ngStyle]="{marginTop: isFullScreen ? 0 : '20px' }">Sistema de Laudos Médicos</span>
+    <span>
+      <div class="toolbar-title">Sistema de Laudos Médicos</div>
+      <div class="toolbar-subtitle">{{ this.empresa.nome }}</div>
+    </span>
     <span class="fill-remaining-space"></span>
     <span [hidden]="!this.sistema.cloud.enabled">
-        <mat-chip-list>
-          <mat-chip [ngStyle]="{ backgroundColor: online ? '#b9f6ca' : '#ff8a80' }">{{ online ? 'OnLine' : 'OffLine' }}</mat-chip>
-        </mat-chip-list>
-      </span>
+      <mat-chip-list>
+        <mat-chip [ngStyle]="{ backgroundColor: online ? '#b9f6ca' : '#ff8a80' }">{{ online ? 'OnLine' : 'OffLine' }}</mat-chip>
+      </mat-chip-list>
+    </span>
     <span class="fill-remaining-space"></span>
     <span>
       <button mat-icon-button matTooltip="Página principal" routerLink="/" routerDirection='root'>
@@ -17,7 +20,7 @@
         <button mat-menu-item routerLink="/histeroscopia" routerDirection='root'>Histeroscopia</button>
         <button mat-menu-item routerLink="/laparoscopia" routerDirection='root'>Laparoscopia</button>
       </mat-menu>
-      <button mat-button>Sair</button>
+      <button mat-button (click)="btnExit()">Sair</button>
     </span>
   </mat-toolbar-row>
 </mat-toolbar>

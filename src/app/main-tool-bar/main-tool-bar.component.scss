@@ -5,6 +5,13 @@
     flex: 1 1 auto;
 }
 
-mat-toolbar-row{
-    vertical-align: bottom
+.toolbar-title{
+    margin-left: 60px;
+    margin-top: 0px;
+}
+
+.toolbar-subtitle{
+    font-size: 15px;
+    margin-left: 60px;
+    margin-top: -10px;
 }
