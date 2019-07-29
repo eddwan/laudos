@@ -1,3 +1,34 @@
+# Sistema de Laudos
+
+Sistema de laudos desenvolvido para a clínica de Ginecologia da Dra. Marcela Andrade (https://www.doutoramarcelaandrade.com.br) para atender a demanda de laudos dos seguintes exames:
+* Histeroscopia Clínica
+* Histeroscopia Cirúgica
+* Cirurgia Video-laparoscópica
+
+## Suporte as plataformas
+
+* Windows 10
+* Windows 7
+* MacOS X Sierra
+
+## Suporte aos bancos de dados
+
+* Local (JSON files)
+* Remoto (REST-API)
+
+## Funcionalidades
+
+* Inclusão de laudos
+* Customização de informações de empresa, médico e laudo
+* Exportação no formato PDF
+* Suporte a imagens
+
+## Melhorias planejadas
+* [ ] Sincronização manual/automática com REST API
+* [ ] Criação de outros templates de laudos
+
+---
+
 # Polyonic
 ## The ultimate "Universal Web App" 
 
