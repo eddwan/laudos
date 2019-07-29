@@ -174,16 +174,9 @@ if(!histeroscopia.get("modelo", false)){
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
 
-let win, serve
+let win, serve, isOnline
 const args = process.argv.slice(1)
 serve = args.some(val => val === '--serve')
-
-if(sistema.cloud.enabled){
-  ipcMain.on('online-status-changed', (event, status) => {
-    event.returnValue = status
-    win.webContents.send('online-status-changed', status)
-  })
-}
 
 function createWindow () {
   win = new BrowserWindow({
@@ -193,9 +186,9 @@ function createWindow () {
     titleBarStyle: 'hiddenInset',
     icon: path.join(__dirname, './resources/electron/icons/64x64.png')
   })
-
+  
   win.maximize();
-
+  
   // [1]->sub->[0]->sub->[0]
   // file -> novo -> histeroscopia
   menu.items[0].submenu.items[2].click = () => {
@@ -207,7 +200,7 @@ function createWindow () {
   menu.items[1].submenu.items[0].submenu.items[1].click = () => {
     win.webContents.send("navigate-to", "/laparoscopia")
   }
-
+  
   if (serve) {
     require('electron-reload')(__dirname, {
       electron: require(`${__dirname}/node_modules/electron`)
@@ -220,8 +213,15 @@ function createWindow () {
       slashes: true
     }))
   }
-  
-  // win.webContents.openDevTools()
+    
+  ipcMain.on('online-status', (event, status) => {
+    setTimeout( () => {
+      console.log("Set online-status to", status);
+      win.webContents.send('online-status', status);
+    }, 3000)
+  })  
+
+  win.webContents.openDevTools()
   
   // Emitted when the window is closed.
   win.on('closed', () => {

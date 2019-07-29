@@ -9,7 +9,7 @@ import { Sistema, Empresa } from '../models/config';
   styleUrls: ['./main-tool-bar.component.scss'],
 })
 export class MainToolBarComponent implements OnInit {
-  online: boolean;
+  online: boolean = false;
   sistema: Sistema;
   empresa: Empresa;
   
@@ -19,8 +19,8 @@ export class MainToolBarComponent implements OnInit {
   }
 
   ngOnInit() {
-    ipcRenderer.on('online-status-changed', (event, arg) => {
-      this.online = arg;
+    ipcRenderer.on('online-status', (event,arg)=>{
+      this.online = <boolean>arg
     })
   }
 

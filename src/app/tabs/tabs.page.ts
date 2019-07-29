@@ -17,8 +17,8 @@ export class TabsPage implements OnInit {
   }
 
   ngOnInit(){
-    ipcRenderer.on('online-status-changed', (event, arg) => {
-      this.online = arg;
+    ipcRenderer.on('online-status', (event, arg) => {
+      this.online = <boolean>arg
     })
   }
 }
