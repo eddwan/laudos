@@ -36,6 +36,7 @@ export class LaparoscopiaPage implements OnInit {
   print(){
     this.imprimirService.gerarLaudoLaparoscopia(this.laudo)
   }
+  
   addFile(file: ReadFile) {
     this.files.push(file);
     if(!this.laudo.descricaoImagens[file.name]){

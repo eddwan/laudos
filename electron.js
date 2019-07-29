@@ -105,6 +105,7 @@ if(!laparoscopia.get("modelo", false)){
     paciente: {
       nome: "",
       idade: "",
+      data_exame: "",
       sexo: "",
       indicacao: ""
     },
@@ -132,6 +133,8 @@ if(!histeroscopia.get("modelo", false)){
     paciente: {
       nome: "",
       idade: "",
+      data_exame: "",
+      data_ultima_menstruacao: "",
       dia_do_ciclo: 0,
       menopausa: false,
       amenorreia: false,
@@ -218,7 +221,7 @@ function createWindow () {
     }))
   }
   
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
   
   // Emitted when the window is closed.
   win.on('closed', () => {
