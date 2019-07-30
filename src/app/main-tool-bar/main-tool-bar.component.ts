@@ -19,6 +19,7 @@ export class MainToolBarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.online = remote.getGlobal("isOnline")
     ipcRenderer.on('online-status', (event,arg)=>{
       this.online = <boolean>arg
     })

@@ -1,38 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
+import { ConfigService } from './config.service';
+import { Sistema } from '../models/config';
 
-const httpOptions ={
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'x-api-key': environment.apiKey
-  })
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class LaudosRemoteService {
+  sistema:Sistema
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private configService:ConfigService) { 
+    this.sistema = this.configService.getData("sistema")
+  }
 
   public getDataTable = (route: string) => {
-    return this.http.get(this.createCompleteRoute(route, environment.apiUrl), httpOptions).pipe(
+    return this.http.get(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), this.generateHeaders()).pipe(
       map( res => JSON.parse(res["body"]))
     );
   }
  
   public create = (route: string, body) => {
-    return this.http.post(this.createCompleteRoute(route, environment.apiUrl), body, httpOptions);
+    return this.http.post(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), body, this.generateHeaders());
   }
  
   public update = (route: string, body) => {
-    return this.http.put(this.createCompleteRoute(route, environment.apiUrl), body, this.generateHeaders());
+    return this.http.put(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), body, this.generateHeaders());
   }
  
   public delete = (route: string) => {
-    return this.http.delete(this.createCompleteRoute(route, environment.apiUrl), this.generateHeaders());
+    return this.http.delete(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), this.generateHeaders());
   }
  
   private createCompleteRoute = (route: string, envAddress: string) => {
@@ -41,7 +39,7 @@ export class LaudosRemoteService {
  
   private generateHeaders = () => {
     return {
-      headers: new HttpHeaders({'Content-Type': 'application/json', 'x-api-key': environment.apiKey})
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'x-api-key': this.sistema.cloud.apiKey})
     }
   }
 }

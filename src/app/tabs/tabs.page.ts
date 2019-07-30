@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, remote } from 'electron';
 import { ConfigService } from '../services/config.service';
 import { Sistema } from '../models/config';
 
@@ -17,6 +17,7 @@ export class TabsPage implements OnInit {
   }
 
   ngOnInit(){
+    this.online = remote.getGlobal("isOnline")
     ipcRenderer.on('online-status', (event, arg) => {
       this.online = <boolean>arg
     })
