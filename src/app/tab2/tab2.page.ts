@@ -118,20 +118,23 @@ export class Tab2Page  implements OnInit {
       let laudo = this.laudosLocaisService.getData(filename)
       if(laudo["remote_id"]==""){
         this.laudosRemoteService.create("laudo", JSON.stringify(laudo)).subscribe(res => {
-          console.log(res["_id"])
-          if(res["_id"]){
-            laudo["remote_id"] = res["_id"];
-            this.laudosLocaisService.saveData(filename, laudo, (laudo["status"]=="local-saved" ? "remote-saved" : "remote-printed") );
-            // this.getAllLaudos();
+          if(res){
+            if(res["_id"]){
+              laudo["remote_id"] = res["_id"];
+              this.laudosLocaisService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]));
+              // this.getAllLaudos();
+            }
+          }else{
+            console.error("Ocorreu um erro ao gravar o laudo", res)
           }
         });
       }else{
         console.log("Já existe um laudo remoto! Tentando atualizar dados.")
         laudo["_id"]=laudo["remote_id"]
+        console.log(JSON.stringify(laudo))
         this.laudosRemoteService.update("laudo", JSON.stringify(laudo)).subscribe(res => {
           if(res){
-            console.log(res["_id"])
-            this.laudosLocaisService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]) );
+            this.laudosLocaisService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]));
           }else{
             console.log("Não encontrado remoto");
             this.laudosLocaisService.saveData(filename, laudo, "remote-error" );
@@ -148,7 +151,7 @@ export class Tab2Page  implements OnInit {
         return "remote-saved"
         break;
         case "local-printed":
-        return "remoted-printed"
+        return "remote-printed"
         break;
       }
     }

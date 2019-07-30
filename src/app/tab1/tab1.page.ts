@@ -34,16 +34,24 @@ export class Tab1Page  implements OnInit, AfterViewInit {
   public getAllLaudos = () => {
     this.laudosRemoteService.getDataTable('laudos/table')
     .subscribe(res => {
-      this.dataSource.data = res as LaudoRemote[];
+      let teste: LaudoRemote[] = []
+      res.forEach(item =>{
+        teste.push(<LaudoRemote>{
+          _id: item._id,
+          nome: item.nome,
+          tipo: item.tipo,
+          data_exame: new Date(item.data_exame).toLocaleDateString()
+        })
+      })
+      // this.dataSource.data = res as LaudoRemote[];
+      this.dataSource.data = teste
     })
   }
   
-  public redirectToDetails = (id: string) => {
-    
-  }
-  
-  public redirectToUpdate = (id: string) => {
-    
+  public downloadLaudo(id:string){
+    this.laudosRemoteService.read('laudo', {_id: id}).subscribe(
+      res => console.log(res)
+    )
   }
   
   public redirectToDelete = (id: string) => {

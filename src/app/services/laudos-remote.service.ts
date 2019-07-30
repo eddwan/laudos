@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { Sistema } from '../models/config';
@@ -21,6 +21,10 @@ export class LaudosRemoteService {
     );
   }
  
+  public read = (route: string, params: any) => {
+    return this.http.get(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), {headers: this.generateHeaders().headers, params: params, observe: 'body'});
+  }
+
   public create = (route: string, body) => {
     return this.http.post(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), body, this.generateHeaders());
   }

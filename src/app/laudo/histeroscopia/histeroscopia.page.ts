@@ -9,6 +9,7 @@ import { ImprimirService } from '../../services/imprimir.service';
 import * as moment from 'moment'
 import { ConfigService } from '../../services/config.service';
 import { Sistema } from '../../models/config';
+import * as isUUID from 'is-uuid';
 
 export interface DescricaoImagemDialogData {
   descricao: string;
@@ -39,12 +40,22 @@ export class HisteroscopiaPage implements OnInit {
 
     print(){
       this.imprimirService.gerarLaudoHisteroscopia(this.laudo)
+      let status = this.laudo.status.split("-")[0]
+      this.laudosLocalService.saveData(this.filename, this.laudo, status+'-printed')
     }
   
     addFile(file: ReadFile) {
-      this.files.push(file);
-      if(!this.laudo.descricaoImagens[file.name]){
-        this.laudo.descricaoImagens[file.name] = { descricao: ""}
+      let tmpFile =  {
+        content: file.content,
+        size: file.size,
+        name: isUUID.v4(file.name) ? file.name : uuid.v4(),
+        type: file.type,
+        readMode: file.readMode,
+        underlyingFile: file.underlyingFile
+      }
+      this.files.push(tmpFile);
+      if(!this.laudo.descricaoImagens[tmpFile.name]){
+        this.laudo.descricaoImagens[tmpFile.name] = { descricao: ""}
       }
     }
 

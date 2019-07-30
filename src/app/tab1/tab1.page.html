@@ -42,15 +42,12 @@
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <button mat-icon-button color="primary" (click)="redirectToDetails(element.id)">
-          <mat-icon class="mat-18">reorder</mat-icon>
-        </button>
         
-        <button mat-icon-button color="primary" (click)="redirectToUpdate(element.id)">
+        <button mat-icon-button color="primary" (click)="downloadLaudo(element._id)">
           <mat-icon class="mat-18">cloud_download</mat-icon>
         </button>
         
-        <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+        <button mat-icon-button color="warn" (click)="redirectToDelete(element._id)">
           <mat-icon class="mat-18">delete</mat-icon>
         </button>
       </mat-cell>

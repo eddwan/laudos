@@ -26,7 +26,7 @@ export class MainToolBarComponent implements OnInit {
   }
 
   btnExit(){
-    remote.getCurrentWindow().close();
+    remote.app.quit();
   }
 
 }
