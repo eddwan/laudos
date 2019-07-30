@@ -22,10 +22,12 @@ Sistema de laudos desenvolvido para a clínica de Ginecologia da Dra. Marcela An
 * [x] Customização de informações de empresa, médico e laudo
 * [x] Exportação no formato PDF
 * [x] Suporte a imagens
+* [X] Envio manual dos laudos para REST API
 
 ## Melhorias planejadas
-* [ ] Sincronização manual/automática com REST API
+* [ ] Sincronização automática com REST API
 * [ ] Criação de outros templates de laudos
+* [ ] Versionamento dos documents no banco de dados e no S3 Bucket
 
 ---
 
