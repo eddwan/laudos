@@ -83,6 +83,26 @@
         </ol>
       </mat-card-content>
     </mat-card>
+
+    <mat-card class="laudo-card">
+      <mat-card-header>
+        <mat-card-title>Usuário</mat-card-title>
+        <mat-card-subtitle>Identificação do usuário ao gravar os laudos.</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <ol>
+          <li class="mat-form-field--inline">
+            <mat-form-field [ngStyle]="{width: '35%'} ">
+              <input [(ngModel)]="this.config.sistema.user.username" matInput placeholder="Usuário deste computador" disabled="true" readonly="readonly">
+            </mat-form-field>
+            <mat-form-field [ngStyle]="{width: '65%'} ">
+              <input [(ngModel)]="this.config.sistema.user.email" matInput placeholder="E-mail do usuário">
+            </mat-form-field>
+
+          </li>
+        </ol>
+      </mat-card-content>
+    </mat-card>
     
     <mat-card class="laudo-card">
       <mat-card-header>

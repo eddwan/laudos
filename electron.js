@@ -2,6 +2,7 @@ const {app, BrowserWindow, Menu, ipcMain} = require('electron')
 const path = require('path')
 const url = require('url')
 const isMac = process.platform === 'darwin'
+const os = require("os");
 
 const template = [
   ...(isMac ? [{
@@ -81,12 +82,19 @@ const template = [
     }})
   }
   
+  userinfo = os.userInfo();
+  hostname = os.hostname();
+
   console.log("Verificando sistema")
   if(!store.get("sistema", false)){
     console.log("Não existem configurações do sistema. Inicializando confiugração padrão.")
     store.set({ sistema: {
+      user: {
+        username: userinfo.username,
+        email: userinfo.username+"@"+hostname
+      },
       datastore:{
-        path: "~/laudos",
+        path: userinfo.homedir+"/laudos/",
         format: "json"
       },
       cloud: {
@@ -108,9 +116,14 @@ const template = [
   if(!laparoscopia.get("modelo", false)){
     console.log("Não existe um modelo de laudo de Laparoscopia. Criando modelo vazio.")
     laparoscopia.set({ modelo: {
-      remote_id: "",
+      _id: "",
       titulo: "Laudo de Videohisteroscopia",
       status: "new",
+      version: "",
+      created_at: "",
+      created_by: "",
+      updated_at: "",
+      updated_by: "",
       medico: "",
       crm: "",
       paciente: {
@@ -136,9 +149,14 @@ const template = [
   if(!histeroscopia.get("modelo", false)){
     console.log("Não existe um modelo de laudo de Histeroscopia. Criando modelo vazio.")
     histeroscopia.set({ modelo: {
-      remote_id: "",
+      _id: "",
       titulo: "Laudo de Videohisteroscopia",
       status: "new",
+      version: "",
+      created_at: "",
+      created_by: "",
+      updated_at: "",
+      updated_by: "",
       medico: "",
       crm: "",
       paciente: {
@@ -193,6 +211,7 @@ const template = [
     win = new BrowserWindow({
       width: 1800,
       height: 1200,
+      webPreferences: {webSecurity: false},
       center: true,
       titleBarStyle: 'hiddenInset',
       icon: path.join(__dirname, './resources/electron/icons/64x64.png')

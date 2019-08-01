@@ -146,8 +146,8 @@ export class HisteroscopiaPage implements OnInit {
         }
       })
       // console.log(this.laudo)
-      this.laudosLocalService.saveData(this.filename, this.laudo);
-      this._snackBar.open("Laudo salvo com sucesso!", "Fechar", {
+      let result = this.laudosLocalService.saveData(this.filename, this.laudo);
+      this._snackBar.open(result, "Fechar", {
         duration: 3000,
       });
     }

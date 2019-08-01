@@ -22,7 +22,7 @@ export class LaudosRemoteService {
   }
  
   public read = (route: string, params: any) => {
-    return this.http.get(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), {headers: this.generateHeaders().headers, params: params, observe: 'body'});
+    return this.http.get<any>(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), {headers: this.generateHeaders().headers, params: params});
   }
 
   public create = (route: string, body) => {

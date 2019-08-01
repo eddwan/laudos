@@ -1,16 +1,12 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
-import { Laudo, LaudoDataTableItem} from '../models/laudo';
+import { LaudoDataTableItem} from '../models/laudo';
 import { LaudosLocalService} from '../services/laudos-local.service';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { Router } from '@angular/router';
 import { Sistema } from '../models/config';
 import { ConfigService } from '../services/config.service';
 import { LaudosRemoteService } from '../services/laudos-remote.service';
-
-export interface listLaudo{
-  [id: number]: Laudo
-}
 
 @Component({
   selector: 'app-tab2',
@@ -116,13 +112,13 @@ export class Tab2Page  implements OnInit {
     
     public sendLaudo(filename:string){
       let laudo = this.laudosLocaisService.getData(filename)
-      if(laudo["remote_id"]==""){
+      if(laudo["_id"]==""){
+        delete laudo["_id"]
         this.laudosRemoteService.create("laudo", JSON.stringify(laudo)).subscribe(res => {
           if(res){
             if(res["_id"]){
-              laudo["remote_id"] = res["_id"];
+              laudo["_id"] = res["_id"];
               this.laudosLocaisService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]));
-              // this.getAllLaudos();
             }
           }else{
             console.error("Ocorreu um erro ao gravar o laudo", res)
@@ -130,8 +126,7 @@ export class Tab2Page  implements OnInit {
         });
       }else{
         console.log("Já existe um laudo remoto! Tentando atualizar dados.")
-        laudo["_id"]=laudo["remote_id"]
-        console.log(JSON.stringify(laudo))
+        laudo["_id"]=laudo["_id"]
         this.laudosRemoteService.update("laudo", JSON.stringify(laudo)).subscribe(res => {
           if(res){
             this.laudosLocaisService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]));
@@ -141,7 +136,7 @@ export class Tab2Page  implements OnInit {
           }
         })
       }
-      
+      this.getAllLaudos();
       
     }
     
@@ -152,6 +147,9 @@ export class Tab2Page  implements OnInit {
         break;
         case "local-printed":
         return "remote-printed"
+        break;
+        default:
+        return status;
         break;
       }
     }

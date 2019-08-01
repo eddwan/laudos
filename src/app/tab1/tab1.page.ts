@@ -1,8 +1,11 @@
 import { LaudosRemoteService } from '../services/laudos-remote.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatSnackBar } from '@angular/material';
 import { LaudoRemote } from '../models/laudo-remote';
-
+import { LaudosLocalService } from '../services/laudos-local.service';
+import * as uuid from 'uuid';
+import { SyncServices } from '../services/sync.services';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-tab1',
@@ -16,7 +19,11 @@ export class Tab1Page  implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
-  constructor(private laudosRemoteService:LaudosRemoteService){}
+  constructor(
+    private syncService:SyncServices,
+    private _snackBar: MatSnackBar,
+    private laudosRemoteService:LaudosRemoteService, 
+    private laudosLocalService:LaudosLocalService){}
   
   ngOnInit() {
     this.getAllLaudos();
@@ -46,11 +53,27 @@ export class Tab1Page  implements OnInit, AfterViewInit {
       // this.dataSource.data = res as LaudoRemote[];
       this.dataSource.data = teste
     })
+    
   }
   
   public downloadLaudo(id:string){
     this.laudosRemoteService.read('laudo', {_id: id}).subscribe(
-      res => console.log(res)
+      res => {
+        res["_id"] = res["_id"];
+        let isNew = true
+        this.laudosLocalService.getDataTable().subscribe(laudos => {
+          laudos.forEach( laudo => {
+            if(laudo["_id"] = res["_id"]){
+              isNew = false
+              this.laudosLocalService.saveData(laudo["filename"], res, 'remote-saved')
+            }
+          });
+        });
+        if(isNew) this.laudosLocalService.saveData(uuid.v4()+".json", res, 'remote-saved')
+        this._snackBar.open("Laudo baixado com sucesso!", "Fechar", {
+          duration: 3000,
+        });
+      }
     )
   }
   

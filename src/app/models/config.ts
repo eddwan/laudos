@@ -21,6 +21,10 @@ export interface Empresa{
 
 export interface Sistema{
     titulo: string,
+    user: {
+        username: string,
+        email: string
+    }
     datastore: {
         path: string,
         format: string

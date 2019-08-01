@@ -1,30 +1,26 @@
-export interface Laudo {
-  nome: string,
-  tipo: string,
-  data_exame: string
-}
-
-export interface listLaudo{
-  [id: number]: Laudo
-}
-
 export interface LaudoDataTableItem {
   filename: string,
+  _id: string,
   nome: string,
   tipo: string,
   data_exame: string,
-  status: string
-}
-
-export interface LaudoRemote {
-  nome: string,
-  tipo: string
+  status: string,
+  version: string,
+  created_at: string,
+  created_by: string,
+  updated_at: string,
+  updated_by: string
 }
 
 export interface LaudoHisteroscopia{
-  remote_id: string,
+  _id: string,
   titulo: string,
   status: string,
+  version: string,
+  created_at: string,
+  created_by: string,
+  updated_at: string,
+  updated_by: string,
   medico: string,
   crm: string,
   paciente: {
@@ -68,9 +64,14 @@ export interface LaudoHisteroscopia{
 }
 
 export interface LaudoLaparoscopia{
-  remote_id: string,
+  _id: string,
   titulo: string,
   status: string,
+  version: string,
+  created_at: string,
+  created_by: string,
+  updated_at: string,
+  updated_by: string,
   medico: string,
   crm: string,
   paciente: {
