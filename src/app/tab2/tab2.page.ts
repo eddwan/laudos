@@ -118,7 +118,12 @@ export class Tab2Page  implements OnInit {
           if(res){
             if(res["_id"]){
               laudo["_id"] = res["_id"];
-              this.laudosLocaisService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]));
+              let result = this.laudosLocaisService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]));
+              if(result){
+                this.laudosRemoteService.update("laudo", JSON.stringify(laudo)).subscribe( res => {
+                  console.log(res, result)
+                })
+              }
             }
           }else{
             console.error("Ocorreu um erro ao gravar o laudo", res)

@@ -7,6 +7,9 @@
     </span>
     <span class="example-fill-remaining-space"></span>
     <span>
+      <button mat-stroked-button matTooltip="Sincronizar agora" (click)="syncAllNow()">
+        <i class="material-icons">sync</i>
+      </button>
       <button mat-stroked-button matTooltip="Atualizar a lista de laudos" (click)="getAllLaudos()">
         <i class="material-icons">refresh</i>
       </button>
@@ -32,12 +35,12 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo do Exame</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.tipo}}</mat-cell>
     </ng-container>
-
+    
     <!-- Tipo Column -->
     <ng-container matColumnDef="data_exame">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Data do Exame</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{row.data_exame}}</mat-cell>
-      </ng-container>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Data do Exame</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.data_exame}}</mat-cell>
+    </ng-container>
     
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
@@ -47,7 +50,7 @@
           <mat-icon class="mat-18">cloud_download</mat-icon>
         </button>
         
-        <button mat-icon-button color="warn" (click)="redirectToDelete(element._id)">
+        <button mat-icon-button color="warn" (click)="deleteLaudo(element._id)">
           <mat-icon class="mat-18">delete</mat-icon>
         </button>
       </mat-cell>

@@ -33,8 +33,8 @@ export class LaudosRemoteService {
     return this.http.put(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), body, this.generateHeaders());
   }
  
-  public delete = (route: string) => {
-    return this.http.delete(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), this.generateHeaders());
+  public delete = (route: string, params: any) => {
+    return this.http.delete<any>(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), {headers: this.generateHeaders().headers, params: params});
   }
  
   private createCompleteRoute = (route: string, envAddress: string) => {

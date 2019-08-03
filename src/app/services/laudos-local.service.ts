@@ -50,7 +50,6 @@ export class LaudosLocalService {
     public getData(filename: string) {
         this.sistema = this.configService.getData("sistema") || {}
         let rawData = fs.readFileSync(this.sistema.datastore.path+filename, "utf8");
-        console.log(JSON.parse(rawData))
         return JSON.parse(rawData);
     }
 
@@ -60,31 +59,74 @@ export class LaudosLocalService {
         return this.modelosService.getModelo(modelo)
     }
 
+    public forceSaveData( filename: string, laudo: any){
+        this.sistema = this.configService.getData("sistema") || {}
+        fs.writeFile(this.sistema.datastore.path+filename, JSON.stringify(laudo), "utf8", (err) => {
+            if(err) console.error(err)
+        })
+        return "Laudo salvo com sucesso!"
+    }
+
+    public setStatus( filename: string, status:string){
+        this.sistema = this.configService.getData("sistema") || {}
+        let laudo = this.getData(filename)
+        laudo["status"] = status
+        fs.writeFile(this.sistema.datastore.path+filename, JSON.stringify(laudo), "utf8", (err) => {
+            if(err) console.error(err)
+        })
+        return "Laudo salvo com sucesso!"
+    }
+
     public saveData( filename: string, laudo: any, status: string = "local-saved"){
         this.sistema = this.configService.getData("sistema") || {}
-        laudo.status = status;
         let currentVersion = laudo.version || ""
+        delete laudo["status"]
         delete laudo["version"]
         delete laudo["updated_at"]
         delete laudo["updated_by"]
+        laudo["created_at"] = laudo.created_at ? laudo.created_at : new Date().toJSON()
+        laudo["created_by"] = laudo.created_by ? laudo.created_by : this.sistema.user.email
         let newVersion = crypto.createHash('md5').update(JSON.stringify(laudo)).digest("hex");
         if ( newVersion != currentVersion){
-            console.log("new", newVersion, "current", currentVersion)
+            // make a version copy of the current laudo.
+            this.saveVersion(filename, this.getData(filename))
+            
+            // console.log("new", newVersion, "current", currentVersion)
+            laudo.status = status;
             laudo["version"] = newVersion
-            laudo["created_at"] = laudo.created_at ? laudo.created_at : new Date().toJSON()
-            laudo["created_by"] = laudo.created_by ? laudo.created_by : this.sistema.user.email
             laudo["updated_at"] = new Date().toJSON()
             laudo["updated_by"] = this.sistema.user.email
             fs.writeFile(this.sistema.datastore.path+filename, JSON.stringify(laudo), "utf8", (err) => {
                 if(err) console.error(err)
             })
+            // this.configService.saveMetadata(filename.split(".json")[0], { status: { saved : true}})
             return "Laudo salvo com sucesso!"
         }else{
-            console.log("new", newVersion, "current", currentVersion)
-            console.log("nothing changed!")
+            // console.log("new", newVersion, "current", currentVersion)
+            // console.log("nothing changed!")
             return "Não há alterações a serem salvas."
         }
 
+    }
+
+    public saveVersion( filename: string, laudo: any){
+        this.sistema = this.configService.getData("sistema") || {}
+        let versionsPath = this.sistema.datastore.path+"versions/";
+        if(!fs.existsSync(versionsPath)){
+            fs.mkdir(versionsPath, (err) =>{
+                console.log(err)
+                return false
+            })
+        }
+        let backupFile = versionsPath+filename.split(".")[0]+"."+laudo.version+".json"
+
+        fs.writeFile(backupFile, JSON.stringify(laudo), "utf8", (err) => {
+                if(err){ 
+                    console.error(err)
+                    return false
+                }
+            })
+            return "Laudo salvo com sucesso!"
     }
 
     public deleteFile(filename: string){

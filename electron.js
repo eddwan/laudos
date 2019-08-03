@@ -48,7 +48,38 @@ const template = [
       { label: "Copiar", accelerator: "CmdOrCtrl+C", selector: "copy:" },
       { label: "Colar", accelerator: "CmdOrCtrl+V", selector: "paste:" },
       { label: "Selecionar Tudo", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-    ]}
+    ]},
+      // { role: 'viewMenu' }
+  {
+    label: 'Visualizar',
+    submenu: [
+      { role: 'reload' },
+      { role: 'forcereload' },
+      { role: 'toggledevtools' },
+      { type: 'separator' },
+      { role: 'resetzoom' },
+      { role: 'zoomin' },
+      { role: 'zoomout' },
+      { type: 'separator' },
+      { role: 'togglefullscreen' }
+    ]
+  },
+  // { role: 'windowMenu' }
+  {
+    label: 'Window',
+    submenu: [
+      { role: 'minimize' },
+      { role: 'zoom' },
+      ...(isMac ? [
+        { type: 'separator' },
+        { role: 'front' },
+        { type: 'separator' },
+        { role: 'window' }
+      ] : [
+        { role: 'close' }
+      ])
+    ]
+  },
   ]
   
   const menu = Menu.buildFromTemplate(template)
