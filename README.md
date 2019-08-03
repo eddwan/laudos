@@ -14,7 +14,7 @@ Sistema de laudos desenvolvido para a clínica de Ginecologia da Dra. Marcela An
 ## Suporte aos bancos de dados
 
 * [x] Local (JSON files)
-* [ ] Remoto (REST-API)
+* [X] Remoto (REST-API running on AWS API Gateway, Lambda and Mongo)
 
 ## Funcionalidades
 
@@ -23,11 +23,11 @@ Sistema de laudos desenvolvido para a clínica de Ginecologia da Dra. Marcela An
 * [x] Exportação no formato PDF
 * [x] Suporte a imagens
 * [X] Envio manual dos laudos para REST API
+* [X] Sincronização automática com REST API
+* [X] Versionamento dos documents no banco de dados e no S3 Bucket
 
 ## Melhorias planejadas
-* [ ] Sincronização automática com REST API
 * [ ] Criação de outros templates de laudos
-* [ ] Versionamento dos documents no banco de dados e no S3 Bucket
 
 ---
 

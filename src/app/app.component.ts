@@ -38,11 +38,11 @@ export class AppComponent implements OnInit {
       }
     })
 
-    // if(this.sistema.cloud.autoSync){
-    //   interval(10000).subscribe( res =>
-    //     this.syncService.synchronize()
-    //   )
-    // }
+    if(this.sistema.cloud.autoSync){
+      interval(15000).subscribe( res =>
+        this.syncService.synchronize()
+      )
+    }
   }
 
   ngOnInit() {

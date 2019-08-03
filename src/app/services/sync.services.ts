@@ -119,9 +119,8 @@ export class SyncServices {
               console.log(moment(local.updated_at).diff(remote.updated_at, 'seconds', true))
               // if local.updated_ad is newer than remote.updated_at
               if( moment(local.updated_at).diff(remote.updated_at, 'seconds', true) > 0){
-                // copy remote to /laudo/version
-                // put local to /laudo
                 let localFull = this.laudosLocalService.getData(local.filename)
+                // put local to /laudo which handles the timestamp and versions differences
                 this.laudosRemoteService.update("laudo", localFull).subscribe(res =>{
                   console.log(res)
                   this.laudosLocalService.setStatus(local.filename, this.translateLocalToRemoteStatus(localFull.status))
