@@ -80,6 +80,7 @@ export class LaudosLocalService {
     public saveData( filename: string, laudo: any, status: string = "local-saved"){
         this.sistema = this.configService.getData("sistema") || {}
         let currentVersion = laudo.version || ""
+        let currStatus = laudo["status"]
         delete laudo["status"]
         delete laudo["version"]
         delete laudo["updated_at"]
@@ -89,7 +90,7 @@ export class LaudosLocalService {
         let newVersion = crypto.createHash('md5').update(JSON.stringify(laudo)).digest("hex");
         if ( newVersion != currentVersion){
             // make a version copy of the current laudo.
-            this.saveVersion(filename, this.getData(filename))
+            if(currStatus != "new")this.saveVersion(filename, this.getData(filename))
             
             // console.log("new", newVersion, "current", currentVersion)
             laudo.status = status;
