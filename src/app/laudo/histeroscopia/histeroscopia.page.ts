@@ -10,6 +10,9 @@ import * as moment from 'moment'
 import { ConfigService } from '../../services/config.service';
 import { Sistema } from '../../models/config';
 import * as isUUID from 'is-uuid';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 export interface DescricaoImagemDialogData {
   descricao: string;
@@ -185,15 +188,31 @@ export class HisteroscopiaPage implements OnInit {
     templateUrl: './dialog-editar-descricao.page.html',
     styleUrls: ['./histeroscopia.page.scss'],
   })
-  export class DialogEditarDescricaoImagem {
+  export class DialogEditarDescricaoImagem implements OnInit{
     options;
-
+    myControl = new FormControl();
+    filteredOptions: Observable<string[]>;
+  
     constructor(
       private configService: ConfigService,
       public dialogRef: MatDialogRef<DialogEditarDescricaoImagem>,
       @Inject(MAT_DIALOG_DATA) public data: DescricaoImagemDialogData) {
         let sistema: Sistema = this.configService.getData("sistema");
         this.options = sistema.autocompletar.descricaoImagens;
+      }
+  
+      ngOnInit() {
+        this.filteredOptions = this.myControl.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filter(value))
+          );
+      }
+    
+      private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+    
+        return this.options.filter(option => option.toLowerCase().includes(filterValue));
       }
       
       onNoClick(): void {

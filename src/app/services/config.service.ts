@@ -31,7 +31,12 @@ export class ModelosService{
 
     getModelo(modelo:string){
         this.store = new Store({ name: "modelo"+modelo});
-        return this.store.get("modelo") || {}
+        return this.store.get("modelo")
+    }
+
+    getAll(modelo:string){
+        this.store = new Store({ name: "modelo"+modelo});
+        return this.store.store
     }
 
     saveModelo(modelo:string, data){

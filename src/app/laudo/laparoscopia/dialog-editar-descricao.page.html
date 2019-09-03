@@ -1,13 +1,15 @@
 <h1 mat-dialog-title>Editar Descrição da Imagem</h1>
 <mat-dialog-content>
-  <mat-form-field class="full-width">
-    <input matInput [(ngModel)]="data.descricao" [matAutocomplete]="auto" placeholder="Digite a descrição ou selecione nas sugestões">
-    <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of options" [value]="option">
+  <form class="example-form">
+    <mat-form-field class="full-width">
+      <input matInput [(ngModel)]="data.descricao" [matAutocomplete]="auto" [formControl]="myControl" placeholder="Digite a descrição ou selecione nas sugestões">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
           {{option}}
         </mat-option>
       </mat-autocomplete>
-  </mat-form-field>
+    </mat-form-field>
+  </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-raised-button (click)="onNoClick()">Cancelar</button>

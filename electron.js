@@ -49,37 +49,37 @@ const template = [
       { label: "Colar", accelerator: "CmdOrCtrl+V", selector: "paste:" },
       { label: "Selecionar Tudo", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
     ]},
-      // { role: 'viewMenu' }
-  {
-    label: 'Visualizar',
-    submenu: [
-      { role: 'reload' },
-      { role: 'forcereload' },
-      { role: 'toggledevtools' },
-      { type: 'separator' },
-      { role: 'resetzoom' },
-      { role: 'zoomin' },
-      { role: 'zoomout' },
-      { type: 'separator' },
-      { role: 'togglefullscreen' }
-    ]
-  },
-  // { role: 'windowMenu' }
-  {
-    label: 'Window',
-    submenu: [
-      { role: 'minimize' },
-      { role: 'zoom' },
-      ...(isMac ? [
+    // { role: 'viewMenu' }
+    {
+      label: 'Visualizar',
+      submenu: [
+        { role: 'reload' },
+        { role: 'forcereload' },
+        { role: 'toggledevtools' },
         { type: 'separator' },
-        { role: 'front' },
+        { role: 'resetzoom' },
+        { role: 'zoomin' },
+        { role: 'zoomout' },
         { type: 'separator' },
-        { role: 'window' }
-      ] : [
-        { role: 'close' }
-      ])
-    ]
-  },
+        { role: 'togglefullscreen' }
+      ]
+    },
+    // { role: 'windowMenu' }
+    {
+      label: 'Window',
+      submenu: [
+        { role: 'minimize' },
+        { role: 'zoom' },
+        ...(isMac ? [
+          { type: 'separator' },
+          { role: 'front' },
+          { type: 'separator' },
+          { role: 'window' }
+        ] : [
+          { role: 'close' }
+        ])
+      ]
+    },
   ]
   
   const menu = Menu.buildFromTemplate(template)
@@ -115,7 +115,7 @@ const template = [
   
   userinfo = os.userInfo();
   hostname = os.hostname();
-
+  
   console.log("Verificando sistema")
   if(!store.get("sistema", false)){
     console.log("Não existem configurações do sistema. Inicializando confiugração padrão.")
@@ -228,6 +228,71 @@ const template = [
       },
       attachments: {},
       descricaoImagens: {}
+    }})
+  }
+  
+  console.log("Verificando modelo de Pedidos de exames")
+  const pedidos = new Store({name: "modeloPedidos"});
+  if(!pedidos.get("modelo", false)){
+    console.log("Não existe um modelo de Pedidos. Criando modelo vazio.")
+    pedidos.set({ modelo: {
+      'Rotina Ginecológica' : {
+        masterSelected: false,
+        items: [
+          {value: 'Citologia Oncótica', isSelected: false},
+          {value: 'Ultrassonografia transvaginal', isSelected: false},
+          {value: 'Mamografia', isSelected: false},
+          {value: 'Ultrassonografia de mamas', isSelected: false},
+          {value: 'Ultrassonografia de abdome total', isSelected: false},
+          {value: 'EAS + urinocultura + antibiograma', isSelected: false},
+          {value: 'Laboratório:  hemograma, coagulograma, glicemia de jejum, lipidograma, função hepática, função renal, vitamina D', isSelected: false},
+          {value: 'Hormonal: TSH, T4L, FSH, estradiol, progesterona, estradiol, prolactina, testosterona total e frações, SHGB, insulina', isSelected: false},
+          {value: 'Marcadores tumorais: CA124, CEA, alfa feto proteína, beta hcg, CA 19.9', isSelected: false},
+        ]
+      },
+      'Endometriose':{
+        masterSelected: false,
+        items: [
+          {value: 'Ressonância de pelve com preparo', isSelected: false},
+          {value: 'Retossigmóideoscopia', isSelected: false},
+          {value: 'Ultrassom de rins e vais urinárias', isSelected: false},
+          {value: 'CA125', isSelected: false},
+          {value: 'Histeroscopia com biópsia sob sedação', isSelected: false},
+          {value: 'EAS + urinocultura + antibiograma', isSelected: false},
+          {value: 'Laboratório:  hemograma, coagulograma, glicemia de jejum, lipidograma, função hepática, função renal, vitamina D', isSelected: false},
+          {value: 'Hormonal: TSH, T4L, FSH, estradiol, progesterona, estradiol, prolactina, testosterona total e frações, SHGB, insulina', isSelected: false}
+        ]
+      },
+      'Infertilidade':{
+        masterSelected: false,
+        items: [
+          {value: 'Histeroscopia', isSelected: false},
+          {value: 'Histerossalpingografia', isSelected: false},
+          {value: 'Laboratório:  hemograma, coagulograma, glicemia de jejum, lipidograma, função hepática, função renal, vitamina D', isSelected: false},
+          {value: 'Hormonal: TSH, T4L, FSH, estradiol, progesterona, estradiol, prolactina, testosterona total e frações, SHGB, insulina', isSelected: false},
+          {value: 'Sorologias: anti-hiv, vdrl, anti-hcv, anti-HbSAg, HbSAg, anti-hav', isSelected: false},
+          {value: 'Espermograma com capacitação', isSelected: false},
+          {value: 'Hormonio anti mulleriano (AMH)', isSelected: false},
+          {value: 'USG para contagem de folículos', isSelected: false}
+        ]
+      },
+      'Trato Urinátio': {
+        masterSelected: false,
+        items: [
+          {value: 'EAS + urinocultura + antibiograma', isSelected: false},
+          {value: 'Cistoscopia', isSelected: false},
+          {value: 'Estudo Urodinâmico', isSelected: false},
+          {value: 'Urografia Excretora', isSelected: false}
+        ]
+      },
+      'Outros':{
+        masterSelected: false,
+        items: [
+          {value: 'Tomografia de abdome e pelve com contraste', isSelected: false},
+          {value: 'Uroressonância', isSelected: false},
+          {value: 'Urotomografia', isSelected: false}
+        ]
+      }  
     }})
   }
   
