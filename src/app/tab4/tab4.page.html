@@ -1,0 +1,41 @@
+<div class="laudos">
+  <mat-toolbar>
+    <span>Pedido de Exames</span>
+    <span class="empty-space"></span>
+    <span>
+      <button  mat-raised-button matTooltip="Imprimir" color="default" (click)="print()">
+        <i class="material-icons">print</i> Imprimir
+      </button>
+    </span>
+  </mat-toolbar>
+  <div class="paper">
+    <mat-card class="laudo-card">
+      <mat-card-header>
+        <mat-card-title>Paciente</mat-card-title>
+        <mat-card-subtitle>Dados do Paciente</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput [(ngModel)]="pedido.nome" placeholder="Nome do paciente">
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput [(ngModel)]="pedido.indicacao" placeholder="Indicação">
+          </mat-form-field>
+        </p>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="laudo-card" *ngFor="let key of objectKeys(model)">
+      <mat-card-header>
+        <mat-card-title><mat-checkbox [(ngModel)]="model[key].masterSelected" (change)="checkUncheckAll(key)">{{key}}</mat-checkbox></mat-card-title>
+      </mat-card-header>
+      <mat-card-content *ngFor="let m of model[key].items">
+        <p><mat-checkbox (change)="toggleCheckBox(key)" [(ngModel)]="m.isSelected">{{m.value}}</mat-checkbox></p>
+      </mat-card-content>
+    </mat-card>
+    
+  </div>
+</div>

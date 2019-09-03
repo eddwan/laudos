@@ -12,7 +12,7 @@ export class ImprimirService {
   empresa: Empresa
   
   constructor(private configService:ConfigService) { 
-   this.empresa = this.configService.getData("empresa")
+    this.empresa = this.configService.getData("empresa")
   }
   
   gerarLaudoHisteroscopia(laudo: LaudoHisteroscopia){
@@ -67,9 +67,9 @@ export class ImprimirService {
     .text(105,280,this.empresa.endereco.logradouro + ", " + this.empresa.endereco.numero + " - " + this.empresa.endereco.complemento, 'center')
     .text(105,283,this.empresa.endereco.bairro + " - " + this.empresa.endereco.cidade + " / " + this.empresa.endereco.uf + " - CEP: " + this.empresa.endereco.cep, 'center');
     if(this.empresa.telefones.length >0){
-        doc.text(105,286,"Telefones:"+this.empresa.telefones.join(" / ")+" - Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
+      doc.text(105,286,"Telefones:"+this.empresa.telefones.join(" / ")+" - Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
     }else{
-        doc.text(105,286,"Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
+      doc.text(105,286,"Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
     }
     // FIM RODAPÉ
     
@@ -269,9 +269,9 @@ export class ImprimirService {
       .text(105,280,this.empresa.endereco.logradouro + ", " + this.empresa.endereco.numero + " - " + this.empresa.endereco.complemento, 'center')
       .text(105,283,this.empresa.endereco.bairro + " - " + this.empresa.endereco.cidade + " / " + this.empresa.endereco.uf + " - CEP: " + this.empresa.endereco.cep, 'center');
       if(this.empresa.telefones.length >0){
-          doc.text(105,286,"Telefones:"+this.empresa.telefones.join(" / ")+" - Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
+        doc.text(105,286,"Telefones:"+this.empresa.telefones.join(" / ")+" - Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
       }else{
-          doc.text(105,286,"Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
+        doc.text(105,286,"Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
       }
       // FIM RODAPÉ
       
@@ -330,6 +330,63 @@ export class ImprimirService {
     }
     
     doc.save(new Date(laudo.paciente.data_exame).toLocaleDateString()+' - '+laudo.paciente.nome+'.pdf');
+    
+  }
+  
+  
+  gerarPedido(pedido: any){
+    var doc = new jspdf({
+      orientation: 'portrait',
+      unit: 'mm'
+    })
+    
+    doc.page = 1;
+    
+    pedido.pedidos.forEach( (element, index) => {
+      // CABEÇALHO 3 CM
+      doc.setFontSize(28).setFontStyle("bold").text(105,15,this.empresa.nome, 'center');
+      doc.setFontSize(14).setFontStyle("bold").text(105,22,'Solicitação de exames', 'center');
+      // FIM CABEÇALHO
+      
+      // DADOS PACIENTE 3 CM
+      doc.setFontSize(11);
+      doc.setFontStyle("bold").text(10,30,"Nome do paciente:").setFontStyle("normal").text(46,30,pedido.nome);
+      doc.setFontStyle("bold").text(10,35,"Indicação:").setFontStyle("normal").text(30,40,doc.splitTextToSize(pedido.indicacao, 170));
+      doc.line(0, 50, 210, 50);
+      // FIM DADOS PACIENTE
+      
+      // DADOS MEDICO EXAMINANTE
+      doc.setFontSize(11);
+      doc.text(105,265,pedido.medico, 'center');
+      doc.text(105,270,pedido.crm , 'center');
+      doc.setFontSize(8).text(105,276,'Página ' + doc.page,'center');
+      // FIM DADOS MEDICO EXAMINANTE
+      
+      // RODAPÉ 3 CM
+      doc.line(0, 277, 210, 277);
+      doc.setFontStyle("normal").setFontSize(8)
+      .text(105,280,this.empresa.endereco.logradouro + ", " + this.empresa.endereco.numero + " - " + this.empresa.endereco.complemento, 'center')
+      .text(105,283,this.empresa.endereco.bairro + " - " + this.empresa.endereco.cidade + " / " + this.empresa.endereco.uf + " - CEP: " + this.empresa.endereco.cep, 'center');
+      if(this.empresa.telefones.length >0){
+        doc.text(105,286,"Telefones:"+this.empresa.telefones.join(" / ")+" - Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
+      }else{
+        doc.text(105,286,"Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
+      }
+      // FIM RODAPÉ
+      
+      
+      // LAUDO COMPLETO
+      var pos_y_laudo = 58;
+      doc.setFontSize(11).setFontStyle("bold").text(10,pos_y_laudo,"Solicito");
+      pos_y_laudo += 5;
+      doc.setFontSize(10).setFontStyle("normal").text(10,pos_y_laudo,doc.splitTextToSize(element, 190));
+      
+      if (!pedido.pedidos[index + 1]) return;
+      doc.addPage();
+      doc.page++;
+    })
+    
+    doc.save('pedido.pdf');
     
   }
 }
