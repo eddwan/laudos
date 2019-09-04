@@ -166,7 +166,7 @@ export class ImprimirService {
       
       Object.keys(laudo.attachments).forEach((filename) => {
         if(imgCount < 6){
-          doc.addImage(this.getBase64ToImgSrc(laudo.attachments[filename]), laudo.attachments[filename].type, 150, linha, 50, 29, filename, 'FAST').setFontSize(8).text(175,(linha+32),laudo.descricaoImagens[filename].descricao,"center");
+          doc.addImage(this.getBase64ToImgSrc(laudo.attachments[filename]), laudo.attachments[filename].type, 150, linha, 50, 29, filename, 'FAST').setFontSize(8).text(175,(linha+32),laudo.attachments[filename].descricao,"center");
           linha += 35;
         }else{
           console.log("Não foi possivel adicionar a imagem: "+filename);
@@ -280,9 +280,9 @@ export class ImprimirService {
       Object.keys(laudo.attachments).forEach((filename) => {
         if(imgCount <= 6){
           if(imgCount%2!=0){
-            doc.addImage(this.getBase64ToImgSrc(laudo.attachments[filename]), laudo.attachments[filename].type, 10, linha, 90, 50, '', 'FAST').setFontSize(8).text(55,(linha+55),laudo.descricaoImagens[filename].descricao,"center");
+            doc.addImage(this.getBase64ToImgSrc(laudo.attachments[filename]), laudo.attachments[filename].type, 10, linha, 90, 50, '', 'FAST').setFontSize(8).text(55,(linha+55),laudo.attachments[filename].descricao,"center");
           }else{
-            doc.addImage(this.getBase64ToImgSrc(laudo.attachments[filename]), laudo.attachments[filename].type, 110, linha, 90, 50, '', 'FAST').setFontSize(8).text(155,(linha+55),laudo.descricaoImagens[filename].descricao,"center");
+            doc.addImage(this.getBase64ToImgSrc(laudo.attachments[filename]), laudo.attachments[filename].type, 110, linha, 90, 50, '', 'FAST').setFontSize(8).text(155,(linha+55),laudo.attachments[filename].descricao,"center");
             linha += 65;
           }
         }else{
@@ -323,7 +323,7 @@ export class ImprimirService {
           
           imgCount = 1;
           linha=55;
-          doc.addImage(this.getBase64ToImgSrc(laudo.attachments[filename]), laudo.attachments[filename].type, 10, linha, 90, 50, '', 'FAST').setFontSize(8).text(55,(linha+55),laudo.descricaoImagens[filename].descricao,"center");
+          doc.addImage(this.getBase64ToImgSrc(laudo.attachments[filename]), laudo.attachments[filename].type, 10, linha, 90, 50, '', 'FAST').setFontSize(8).text(55,(linha+55),laudo.attachments[filename].descricao,"center");
         }
         imgCount++;
       });

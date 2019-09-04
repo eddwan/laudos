@@ -59,8 +59,7 @@ export interface LaudoHisteroscopia{
       esquerdo: string
     }
   },
-  attachments: {},
-  descricaoImagens: {}
+  attachments: {}
 }
 
 export interface LaudoLaparoscopia{
@@ -87,6 +86,5 @@ export interface LaudoLaparoscopia{
     descricao: string,
     diagnostico: string
   },
-  attachments: {},
-  descricaoImagens: {}
+  attachments: {}
 }

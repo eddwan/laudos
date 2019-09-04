@@ -148,7 +148,7 @@ const template = [
     console.log("Não existe um modelo de laudo de Laparoscopia. Criando modelo vazio.")
     laparoscopia.set({ modelo: {
       _id: "",
-      titulo: "Laudo de Videohisteroscopia",
+      titulo: "Laudo de Cirurgia Videolaparoscópica",
       status: "new",
       version: "",
       created_at: "",
@@ -170,8 +170,7 @@ const template = [
         descricao: "",
         diagnostico: ""
       },
-      attachments: {},
-      descricaoImagens: {}
+      attachments: {}
     }})
   }
   
@@ -181,7 +180,7 @@ const template = [
     console.log("Não existe um modelo de laudo de Histeroscopia. Criando modelo vazio.")
     histeroscopia.set({ modelo: {
       _id: "",
-      titulo: "Laudo de Videohisteroscopia",
+      titulo: "Laudo de Video-Histeroscopia Diagnóstica",
       status: "new",
       version: "",
       created_at: "",
@@ -226,8 +225,7 @@ const template = [
           esquerdo: ""
         }
       },
-      attachments: {},
-      descricaoImagens: {}
+      attachments: {}
     }})
   }
   

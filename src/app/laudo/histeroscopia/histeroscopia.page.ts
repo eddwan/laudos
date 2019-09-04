@@ -3,7 +3,7 @@ import { ReadFile, ReadMode } from 'ngx-file-helpers';
 import { LaudosLocalService } from '../../services/laudos-local.service';
 import * as uuid from 'uuid';
 import { LaudoHisteroscopia } from '../../models/laudo'
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatDatepickerInputEvent, MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { ImprimirService } from '../../services/imprimir.service';
 import * as moment from 'moment'
@@ -18,6 +18,10 @@ export interface DescricaoImagemDialogData {
   descricao: string;
 }
 
+export interface ReadFileImproved extends ReadFile{
+  descricao: string
+}
+
 @Component({
   selector: 'app-histeroscopia',
   templateUrl: './histeroscopia.page.html',
@@ -28,7 +32,7 @@ export class HisteroscopiaPage implements OnInit {
   public filename: string
   public readMode = ReadMode.dataURL;
   public isHover: boolean;
-  public files: Array<ReadFile> = [];
+  public files: Array<ReadFileImproved> = [];
   public laudo:LaudoHisteroscopia;
   events: string[] = [];
   toggleMenopausaAmenorreia:[string];
@@ -47,40 +51,40 @@ export class HisteroscopiaPage implements OnInit {
       this.laudosLocalService.saveData(this.filename, this.laudo, status+'-printed')
     }
   
-    addFile(file: ReadFile) {
+    addFile(file: ReadFileImproved) {
       let tmpFile =  {
         content: file.content,
         size: file.size,
         name: isUUID.v4(file.name) ? file.name : uuid.v4(),
         type: file.type,
         readMode: file.readMode,
+        descricao: file.descricao || '',
         underlyingFile: file.underlyingFile
       }
       this.files.push(tmpFile);
-      if(!this.laudo.descricaoImagens[tmpFile.name]){
-        this.laudo.descricaoImagens[tmpFile.name] = { descricao: ""}
-      }
     }
 
     apagarImagem(filename: string) {
       this.files.forEach( file => {
         if(file.name == filename){
           this.files.splice(this.files.indexOf(file), 1);
-          delete this.laudo.attachments[filename];
-          delete this.laudo.descricaoImagens[filename];
         }
       })
     }
     
     editarDescricao(filename:string): void {
+      let index = this.files.findIndex( (obj) => {
+        return obj.name === filename
+      })
+
       const dialogRef = this.dialog.open(DialogEditarDescricaoImagem, {
         width: '450px',
-        data: {descricao: this.laudo.descricaoImagens[filename].descricao}
+        data: {descricao: this.files[index].descricao}
       });
       
       dialogRef.afterClosed().subscribe(result => {
         // console.log('The dialog was closed', result);
-        if(result || result == "") this.laudo.descricaoImagens[filename].descricao = result
+        if(result || result == "") this.files[index].descricao = result
       });
     }
     
@@ -145,7 +149,8 @@ export class HisteroscopiaPage implements OnInit {
           size: file.size,
           name: file.name,
           type: file.type,
-          readMode: file.readMode
+          readMode: file.readMode,
+          descricao: file.descricao
         }
       })
       // console.log(this.laudo)

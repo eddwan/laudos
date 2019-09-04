@@ -11,9 +11,14 @@ import { Sistema } from '../../models/config';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
+import * as isUUID from 'is-uuid';
 
 export interface DescricaoImagemDialogData {
   descricao: string;
+}
+
+export interface ReadFileImproved extends ReadFile{
+  descricao: string
 }
 
 @Component({
@@ -26,7 +31,7 @@ export class LaparoscopiaPage implements OnInit {
   public filename: string
   public readMode = ReadMode.dataURL;
   public isHover: boolean;
-  public files: Array<ReadFile> = [];
+  public files: Array<ReadFileImproved> = [];
   public laudo:LaudoLaparoscopia;
   events: string[] = [];
 
@@ -42,32 +47,40 @@ export class LaparoscopiaPage implements OnInit {
     this.imprimirService.gerarLaudoLaparoscopia(this.laudo)
   }
   
-  addFile(file: ReadFile) {
-    this.files.push(file);
-    if(!this.laudo.descricaoImagens[file.name]){
-      this.laudo.descricaoImagens[file.name] = { descricao: ""}
+  addFile(file: ReadFileImproved) {
+    let tmpFile =  {
+      content: file.content,
+      size: file.size,
+      name: isUUID.v4(file.name) ? file.name : uuid.v4(),
+      type: file.type,
+      readMode: file.readMode,
+      descricao: file.descricao || '',
+      underlyingFile: file.underlyingFile
     }
+    this.files.push(tmpFile);
   }
 
   apagarImagem(filename: string) {
     this.files.forEach( file => {
       if(file.name == filename){
         this.files.splice(this.files.indexOf(file), 1);
-        delete this.laudo.attachments[filename];
-        delete this.laudo.descricaoImagens[filename];
       }
     })
   }
   
   editarDescricao(filename:string): void {
+    let index = this.files.findIndex( (obj) => {
+      return obj.name === filename
+    })
+
     const dialogRef = this.dialog.open(DialogEditarDescricaoImagem, {
       width: '450px',
-      data: {descricao: this.laudo.descricaoImagens[filename].descricao}
+      data: {descricao: this.files[index].descricao}
     });
     
     dialogRef.afterClosed().subscribe(result => {
       // console.log('The dialog was closed', result);
-      if(result || result == "") this.laudo.descricaoImagens[filename].descricao = result
+      if(result || result == "") this.files[index].descricao = result
     });
   }
   
@@ -112,7 +125,8 @@ export class LaparoscopiaPage implements OnInit {
         size: file.size,
         name: file.name,
         type: file.type,
-        readMode: file.readMode
+        readMode: file.readMode,
+        descricao: file.descricao
       }
     })
     // console.log(this.laudo)
