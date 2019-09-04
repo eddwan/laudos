@@ -85,17 +85,25 @@ export class Tab1Page  implements OnInit, AfterViewInit {
       public downloadLaudo(id:string){
         this.laudosRemoteService.read('laudo', {_id: id}).subscribe(
           res => {
-            res["_id"] = res["_id"];
             let isNew = true
+
             this.laudosLocalService.getDataTable().subscribe(laudos => {
               laudos.forEach( laudo => {
-                if(laudo["_id"] = res["_id"]){
+                if(laudo["_id"] === res["_id"]){
                   isNew = false
+                  console.log("Not new. Updating local " + laudo["filename"])
                   this.laudosLocalService.saveData(laudo["filename"], res, 'remote-saved')
                 }
               });
             });
-            if(isNew) this.laudosLocalService.saveData(uuid.v4()+".json", res, 'remote-saved')
+
+            
+            if(isNew){
+              console.log("New file. Creating local")
+              res["status"] = "new"
+              this.laudosLocalService.saveData(uuid.v4()+".json", res, 'remote-saved')
+            }
+
             this._snackBar.open("Laudo baixado com sucesso!", "Fechar", {
               duration: 3000,
             });
