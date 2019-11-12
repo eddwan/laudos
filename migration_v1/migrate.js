@@ -63,7 +63,7 @@ db.allDocs({include_docs: true, attachments: true}).then(function(res){
         
         var version = cryto.createHash('md5').update(JSON.stringify(doc)).digest("hex");
         doc['version']=version
-        doc['updated_by']='marcelaugf@gmail.com'
+        doc['updated_by']='dra.marcela.andrade@institutoalmeidaandrade.com.br'
         doc['updated_at']=row.doc.atualizado_em
         doc['status']='local-saved'
         
