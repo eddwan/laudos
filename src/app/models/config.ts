@@ -44,6 +44,5 @@ export interface Pedido {
     nome: string,
     indicacao: string,
     pedidos: string[],
-    medico: string,
-    crm: string
+    medico: {}
 }

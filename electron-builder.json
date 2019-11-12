@@ -1,5 +1,5 @@
 {
-  "productName": "Laudos",
+  "productName": "Sistema de Laudos Médicos",
   "directories": {
     "buildResources": "./resources/electron",
     "output": "release/"
@@ -49,6 +49,23 @@
     "icon": "resources/electron/osx/icon.icns",
     "target": [
       "dmg"
+    ]
+  },
+  "dmg": {
+    "background": "resources/electron/osx/dmg-background.png",
+    "contents": [
+      {
+        "type": "file",
+        "name": "Sistema de Laudos Médicos.app",
+        "x": 135,
+        "y": 215
+      },
+      {
+        "x": 405,
+        "y": 215,
+        "type": "link",
+        "path": "/Applications"
+      }
     ]
   },
   "linux": {

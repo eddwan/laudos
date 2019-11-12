@@ -83,6 +83,7 @@
     "moment": "^2.24.0",
     "ngx-electron": "2.1.1",
     "ngx-file-helpers": "^2.0.0",
+    "pdfjs": "^2.3.2",
     "polyonic-secure-pouch": "1.0.3",
     "popper.js": "^1.16.0",
     "pouchdb": "7.0.0",

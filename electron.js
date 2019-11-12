@@ -1,4 +1,4 @@
-const {app, BrowserWindow, Menu, ipcMain} = require('electron')
+const {app, BrowserWindow, Menu, ipcMain, shell} = require('electron')
 const path = require('path')
 const url = require('url')
 const isMac = process.platform === 'darwin'
@@ -234,6 +234,11 @@ const template = [
   if(!pedidos.get("modelo", false)){
     console.log("Não existe um modelo de Pedidos. Criando modelo vazio.")
     pedidos.set({ modelo: {
+      medico:{
+        notListed: true,
+        nome: '',
+        crm: ''
+      },
       'Rotina Ginecológica' : {
         masterSelected: false,
         items: [
@@ -345,6 +350,25 @@ const template = [
         win.webContents.send('online-status', status);
       }, 3000)
     })  
+
+    ipcMain.on('pdfPreview', (event, data)=>{
+    
+      
+      const filename = path.join(app.getPath('temp'),'temp.pdf')
+      try{
+        const fs = require('fs')
+        let ws = fs.createWriteStream(filename)
+        ws.write(data, 'base64')
+        ws.on('finish', ()=>{
+          console.log("finishe write " + filename)
+        })
+        
+      }catch(error){
+        console.log(error)
+      }
+
+      shell.openItem(filename)
+    })
     
     // win.webContents.openDevTools()
     

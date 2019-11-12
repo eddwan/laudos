@@ -5,6 +5,9 @@ import jspdf from 'jspdf';
 import resizeBase64 from 'resize-base64';
 import { ConfigService } from '../services/config.service';
 
+const { BrowserWindow } = require('electron').remote
+const ipc = require('electron').ipcRenderer
+
 @Injectable({
   providedIn: 'root'
 })
@@ -349,17 +352,17 @@ export class ImprimirService {
       // FIM CABEÇALHO
       
       // DADOS PACIENTE 3 CM
-      doc.setFontSize(11);
-      doc.setFontStyle("bold").text(10,30,"Nome do paciente:").setFontStyle("normal").text(46,30,pedido.nome);
-      doc.setFontStyle("bold").text(10,35,"Indicação:").setFontStyle("normal").text(30,40,doc.splitTextToSize(pedido.indicacao, 170));
-      doc.line(0, 50, 210, 50);
+      doc.setFontSize(12);
+      doc.setFontStyle("bold").text(10,35,"Ao paciente:").setFontStyle("normal").text(40,35,pedido.nome);
+      // doc.setFontStyle("bold").text(10,35,"Indicação:").setFontStyle("normal").text(30,40,doc.splitTextToSize(pedido.indicacao, 170));
+      doc.line(0, 45, 210, 45);
       // FIM DADOS PACIENTE
       
       // DADOS MEDICO EXAMINANTE
-      doc.setFontSize(11);
-      doc.text(105,265,pedido.medico, 'center');
-      doc.text(105,270,pedido.crm , 'center');
-      doc.setFontSize(8).text(105,276,'Página ' + doc.page,'center');
+      doc.setFontSize(12);
+      doc.text(105,265,pedido.medico.nome, 'center');
+      doc.text(105,270,pedido.medico.crm , 'center');
+      //doc.setFontSize(8).text(105,276,'Página ' + doc.page,'center');
       // FIM DADOS MEDICO EXAMINANTE
       
       // RODAPÉ 3 CM
@@ -375,18 +378,31 @@ export class ImprimirService {
       // FIM RODAPÉ
       
       
-      // LAUDO COMPLETO
+      // PEDIDO COMPLETO
       var pos_y_laudo = 58;
-      doc.setFontSize(11).setFontStyle("bold").text(10,pos_y_laudo,"Solicito");
-      pos_y_laudo += 5;
-      doc.setFontSize(10).setFontStyle("normal").text(10,pos_y_laudo,doc.splitTextToSize(element, 190));
+      doc.setFontSize(12).setFontStyle("bold").text(10,pos_y_laudo,"Solicito");
+      pos_y_laudo += 8;
+      doc.setFontSize(12).setFontStyle("normal").text(10,pos_y_laudo,doc.splitTextToSize(element, 180));
+      pos_y_laudo += 100;
+      doc.setFontSize(12).setFontStyle("bold").text(10,pos_y_laudo,"Indicação");
+      pos_y_laudo += 8;
+      doc.setFontSize(12).setFontStyle("normal").text(10,pos_y_laudo,doc.splitTextToSize(pedido.indicacao, 180));
       
       if (!pedido.pedidos[index + 1]) return;
       doc.addPage();
       doc.page++;
     })
     
-    doc.save('pedido.pdf');
+    // doc.save('pedido.pdf');
+    // let data = "data: text/html;charset=UTF-8,<webview src='"+doc.output('dataurl')+"' type='application/pdf'></webview>"
+    let data=doc.output('dataurlstring')
+    // data = data.replace("filename=generated.pdf;","")
+    data = data.split("base64,")
+    // console.log(data)
+    // let win = new BrowserWindow({webPreferences:{plugins: true}})
+    // win.loadURL(data)
+    ipc.send('pdfPreview', data[1])
+  
     
   }
 }

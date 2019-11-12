@@ -15,6 +15,7 @@
     </span>
   </mat-toolbar>
   <div class="paper">
+    
     <mat-card class="laudo-card">
       <mat-card-header>
         <mat-card-title>Paciente</mat-card-title>
@@ -28,32 +29,50 @@
         </p>
         <p>
           <mat-form-field class="full-width">
-            <input matInput [(ngModel)]="pedido.indicacao" placeholder="Indicação">
+            <textarea matInput [(ngModel)]="pedido.indicacao" placeholder="Indicação" maxlength="1300"></textarea>
           </mat-form-field>
         </p>
       </mat-card-content>
     </mat-card>
     
-    <mat-card class="laudo-card" *ngFor="let key of objectKeys(model)">
+    <mat-card class="laudo-card">
       <mat-card-header>
-        <mat-card-title>
-          <mat-checkbox *ngIf="!editForm" [(ngModel)]="model[key].masterSelected" (change)="checkUncheckAll(key)">{{key}}</mat-checkbox>
-          <span *ngIf="editForm">{{key}}</span>
-        </mat-card-title>
+        <mat-card-title>Médico</mat-card-title>
+        <mat-card-subtitle>Dados do médico</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p  *ngFor="let m of model[key].items">
-          <mat-checkbox *ngIf="!editForm" (change)="toggleCheckBox(key)" [(ngModel)]="m.isSelected">{{m.value}}</mat-checkbox>
-          <mat-form-field *ngIf="editForm" class="full-width">
-            <button mat-icon-button matPrefix (click)="removeItem(key, m.value)" matTooltip="Remover modelo de pedido" color="warn"><i class="material-icons">delete_forever</i></button>
-            <input matInput [(ngModel)]="m.value" value="{{m.value}}">
+          <mat-form-field style="width: 45%;">
+            <input matInput [(ngModel)]="model.medico.nome" placeholder="Nome do médico">
           </mat-form-field>
-        </p>
+          &nbsp;
+          <mat-form-field style="width: 45%;">
+            <input matInput [(ngModel)]="model.medico.crm" placeholder="CRM">
+          </mat-form-field>
       </mat-card-content>
-      <mat-card-actions *ngIf="editForm">
-        <button mat-mini-fab color="primary" matTooltip="Adicionar novo pedido ao modelo" (click)="addNewItem(key)"><i class="material-icons">post_add</i></button>
-      </mat-card-actions>
     </mat-card>
+
+    <div *ngFor="let key of objectKeys(model)" >
+      <mat-card class="laudo-card" *ngIf="!model[key].notListed">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-checkbox *ngIf="!editForm" [(ngModel)]="model[key].masterSelected" (change)="checkUncheckAll(key)">{{key}}</mat-checkbox>
+            <span *ngIf="editForm">{{key}}</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p  *ngFor="let m of model[key].items">
+            <mat-checkbox *ngIf="!editForm" (change)="toggleCheckBox(key)" [(ngModel)]="m.isSelected">{{m.value}}</mat-checkbox>
+            <mat-form-field *ngIf="editForm" class="full-width">
+              <button mat-icon-button matPrefix (click)="removeItem(key, m.value)" matTooltip="Remover modelo de pedido" color="warn"><i class="material-icons">delete_forever</i></button>
+              <input matInput [(ngModel)]="m.value" value="{{m.value}}">
+            </mat-form-field>
+          </p>
+        </mat-card-content>
+        <mat-card-actions *ngIf="editForm">
+          <button mat-mini-fab color="primary" matTooltip="Adicionar novo pedido ao modelo" (click)="addNewItem(key)"><i class="material-icons">post_add</i></button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
     
   </div>
 </div>

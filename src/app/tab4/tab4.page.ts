@@ -48,11 +48,17 @@ export class Tab4Page implements OnInit {
   print(){
     this.pedido.pedidos = []
     for( let elem in this.model){
-      this.model[elem].items.forEach( item => {
-        if(item.isSelected){
-          this.pedido.pedidos.push(item.value)
-        }
-      })
+      if(!this.model[elem].notListed){
+        this.model[elem].items.forEach( item => {
+          if(item.isSelected){
+            this.pedido.pedidos.push(item.value)
+          }
+        })
+      }
+    }
+    this.pedido.medico = {
+      nome: this.model.medico.nome,
+      crm: this.model.medico.crm
     }
     if(this.pedido.pedidos.length > 0) this.imprimirService.gerarPedido(this.pedido);
   }
@@ -68,8 +74,7 @@ export class Tab4Page implements OnInit {
       nome: "",
       indicacao: "",
       pedidos: [],
-      medico: "",
-      crm: ""
+      medico: {}
     }
   }
 }
