@@ -61,8 +61,8 @@ export class HisteroscopiaPage implements OnInit {
 
     print(type:string = "singlePage"){
       this.imprimirService.gerarLaudoHisteroscopia(this.laudo, type)
-      let status = this.laudo.status.split("-")[0]
-      this.laudosLocalService.saveData(this.filename, this.laudo, status+'-printed')
+      // let status = this.laudo.status.split("-")[0]
+      // this.laudosLocalService.saveData(this.filename, this.laudo, status+'-printed')
     }
   
     addFile(file: ReadFileImproved) {
@@ -156,6 +156,8 @@ export class HisteroscopiaPage implements OnInit {
     }
     
     onSubmit(){
+      delete this.laudo.attachments
+      this.laudo['attachments'] = {}
       this.files.forEach( file => {
         // Store the image content to the laudo object
         this.laudo.attachments[file.name] = {

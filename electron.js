@@ -351,10 +351,10 @@ const template = [
       }, 3000)
     })  
 
-    ipcMain.on('pdfPreview', (event, data)=>{
+    ipcMain.on('pdfPreview', (event, data, fname='temp.pdf')=>{
     
       
-      const filename = path.join(app.getPath('temp'),'temp.pdf')
+      const filename = path.join(app.getPath('temp'),fname)
       try{
         const fs = require('fs')
         let ws = fs.createWriteStream(filename)

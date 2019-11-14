@@ -118,6 +118,8 @@ export class LaparoscopiaPage implements OnInit {
   }
   
   onSubmit(){
+    delete this.laudo.attachments;
+    this.laudo['attachments'] ={}
     this.files.forEach( file => {
       // Store the image content to the laudo object
       this.laudo.attachments[file.name] = {

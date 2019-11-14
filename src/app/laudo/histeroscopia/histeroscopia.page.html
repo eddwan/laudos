@@ -13,8 +13,8 @@
           <i class="material-icons">print</i> Imprimir
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item  [hidden]="this.laudo.status == 'new'" style="height: 80px;" matTooltip="Texto e imagens pequenas" color="default" (click)="print('singlePage')"><mat-icon svgIcon="txt-and-img" style="transform: scale(3); width: 64px;"></mat-icon></button>
-        <button mat-menu-item [hidden]="this.laudo.status == 'new'" style="height: 80px;" matTooltip="Texto separado e imagens grandes" color="default" (click)="print('multiplePages')"><mat-icon svgIcon="img-only" style="transform: scale(3); width: 64px;"></mat-icon>&nbsp;</button>
+        <button mat-menu-item  [hidden]="this.laudo.status == 'new'" style="height: 80px;" matTooltip="Texto e 6 imagens pequenas em uma única página" color="default" (click)="print('singlePage')"><mat-icon svgIcon="txt-and-img" style="transform: scale(3); width: 64px;"></mat-icon></button>
+        <button mat-menu-item [hidden]="this.laudo.status == 'new'" style="height: 80px;" matTooltip="Texto separado e todas as imagens grandes em várias páginas" color="default" (click)="print('multiplePages')"><mat-icon svgIcon="img-only" style="transform: scale(3); width: 64px;"></mat-icon>&nbsp;</button>
       </mat-menu>
     </span>
   </mat-toolbar>
