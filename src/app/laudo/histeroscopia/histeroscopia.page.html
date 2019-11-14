@@ -7,10 +7,15 @@
         <i class="material-icons">save</i> Salvar
       </button>
     </span>
+    &nbsp;
     <span>
-      <button [hidden]="this.laudo.status == 'new'" mat-raised-button matTooltip="Imprimir" color="default" (click)="print()">
-        <i class="material-icons">print</i> Imprimir
+      <button mat-raised-button [matMenuTriggerFor]="menu">
+          <i class="material-icons">print</i> Imprimir
       </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item  [hidden]="this.laudo.status == 'new'" style="height: 80px;" matTooltip="Texto e imagens pequenas" color="default" (click)="print('singlePage')"><mat-icon svgIcon="txt-and-img" style="transform: scale(3); width: 64px;"></mat-icon></button>
+        <button mat-menu-item [hidden]="this.laudo.status == 'new'" style="height: 80px;" matTooltip="Texto separado e imagens grandes" color="default" (click)="print('multiplePages')"><mat-icon svgIcon="img-only" style="transform: scale(3); width: 64px;"></mat-icon>&nbsp;</button>
+      </mat-menu>
     </span>
   </mat-toolbar>
   <div class="paper">

@@ -13,6 +13,8 @@ import * as isUUID from 'is-uuid';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { MatIconRegistry } from "@angular/material/icon";
+import { DomSanitizer } from "@angular/platform-browser";
 
 export interface DescricaoImagemDialogData {
   descricao: string;
@@ -42,11 +44,23 @@ export class HisteroscopiaPage implements OnInit {
     private route: ActivatedRoute, 
     private _snackBar: MatSnackBar,
     public dialog: MatDialog,
-    public imprimirService:ImprimirService
-    ){ }
+    public imprimirService:ImprimirService,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+    ){ 
+      this.matIconRegistry.addSvgIcon(
+        "txt-and-img",
+        this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/txt-and-img.svg")
+      );
 
-    print(){
-      this.imprimirService.gerarLaudoHisteroscopia(this.laudo)
+      this.matIconRegistry.addSvgIcon(
+        "img-only",
+        this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/img-only.svg")
+      );
+    }
+
+    print(type:string = "singlePage"){
+      this.imprimirService.gerarLaudoHisteroscopia(this.laudo, type)
       let status = this.laudo.status.split("-")[0]
       this.laudosLocalService.saveData(this.filename, this.laudo, status+'-printed')
     }

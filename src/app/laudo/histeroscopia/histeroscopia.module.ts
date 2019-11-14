@@ -9,8 +9,9 @@ import { HisteroscopiaPage, DialogEditarDescricaoImagem } from './histeroscopia.
 import { MaterialModule} from '../../material.module';
 import { NgxFileHelpersModule } from 'ngx-file-helpers';
 import { MomentDateAdapter} from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatIconModule } from '@angular/material';
 import { LOCALE_ID } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 export const MY_FORMATS = {
   parse: {
@@ -40,7 +41,9 @@ const routes: Routes = [
     NgxFileHelpersModule,
     RouterModule.forChild(routes),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule,
+    HttpClientModule
   ],
   declarations: [HisteroscopiaPage, DialogEditarDescricaoImagem],
   entryComponents: [DialogEditarDescricaoImagem],
