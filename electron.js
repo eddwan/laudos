@@ -1,8 +1,20 @@
-const {app, BrowserWindow, Menu, ipcMain, shell} = require('electron')
+const {app, BrowserWindow, Menu, ipcMain, shell, autoUpdater} = require('electron')
 const path = require('path')
 const url = require('url')
 const isMac = process.platform === 'darwin'
 const os = require("os");
+
+autoUpdater.setFeedURL({
+  provider: "github",
+  repo: "laudos",
+  owner: "eddwan",
+  releaseType: 'release',
+  private: false,
+  protocol: 'https',
+  host: 'github.com',
+  vPrefixedTagName: true,
+  token: "782f3ce9857e5b1ec89d77a056862d834fd0f13f"
+})
 
 const template = [
   ...(isMac ? [{
@@ -379,7 +391,13 @@ const template = [
       // when you should delete the corresponding element.
       win = null
     })
+
+    setInterval(() => {
+      autoUpdater.checkForUpdates().then( res => console.log(res))
+    }, 60000)
+    
   }
+  
   try {
     // This method will be called when Electron has finished
     // initialization and is ready to create browser windows.

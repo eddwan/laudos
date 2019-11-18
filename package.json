@@ -2,13 +2,13 @@
   "name": "laudos",
   "productName": "Sistema de Laudos Médicos",
   "description": "Sistema de Laudos Médicos",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "author": {
     "name": "Eddwan Hallen",
     "email": "eddwan@gmail.com",
     "url": "https://github.com/eddwan"
   },
-  "repository": "https://github.com/eddwan/laudos-test-v2",
+  "repository": "https://github.com/eddwan/laudos",
   "copyright": "© 2019, Eddwan Hallen",
   "private": true,
   "main": "electron.js",
@@ -73,6 +73,7 @@
     "cordova-sqlcipher-adapter": "0.4.0",
     "core-js": "2.6.3",
     "electron-store": "^4.0.0",
+    "electron-updater": "^4.2.0",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
     "is-online": "^8.2.0",
