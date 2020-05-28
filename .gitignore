@@ -22,4 +22,8 @@ release/
 platforms/
 app.db/
 resources/ios
+<<<<<<< HEAD
 env
+=======
+env
+>>>>>>> 503728e0da9905ad23a9c7400affa68d5e0a0c2a
