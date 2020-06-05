@@ -1,43 +1,67 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import Auth from '@aws-amplify/auth';
+import { Hub } from '@aws-amplify/core';
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ConfigService, authStorageService } from './config.service';
-import { Sistema } from '../models/config';
-import { AmplifyService }  from 'aws-amplify-angular';
-import { Auth, Hub } from 'aws-amplify';
+
+export interface AuthState {
+  isLoggedIn: boolean;
+  username: string | null;
+  id: string | null;
+  email: string | null;
+  name: string | null;
+}
+
+const initialAuthState = {
+  isLoggedIn: false,
+  username: null,
+  id: null,
+  email: null,
+  name: null
+};
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class AuthService {
-    sistema:Sistema
-    storedUser:any;
-    
-    constructor(
-        private amplify:AmplifyService,
-        private http: HttpClient, 
-        private authStorage: authStorageService,
-        private configService:ConfigService
-        ) { 
-            this.sistema = this.configService.getData("sistema")
-            // obtem os dados da sessão armazenados em disco
-            this.storedUser = this.authStorage.getAll() 
-        }
-        
-        public validarToken(idToken:string){
-            return this.http.post('https://ijvw7834z1.execute-api.us-east-1.amazonaws.com/prod/validatoken', {}, {headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': idToken})})
-            
-        }
-        
-        
-        private createCompleteRoute = (route: string, envAddress: string) => {
-            return `${envAddress}/${route}`;
-        }
-        
-        private generateHeaders = () => {
-            return {
-                headers: new HttpHeaders({'Content-Type': 'application/json', 'x-api-key': this.sistema.cloud.apiKey})
-            }
-        }
+  private readonly _authState = new BehaviorSubject<AuthState>(
+    initialAuthState
+  );
+
+  /** AuthState as an Observable */
+  readonly auth$ = this._authState.asObservable();
+
+  /** Observe the isLoggedIn slice of the auth state */
+  readonly isLoggedIn$ = this.auth$.pipe(map(state => state.isLoggedIn));
+
+  constructor() {
+    // Get the user on creation of this service
+    Auth.currentAuthenticatedUser().then(
+      (user: any) => this.setUser(user),
+      _err => this._authState.next(initialAuthState)
+    );
+
+    // Use Hub channel 'auth' to get notified on changes
+    Hub.listen('auth', ({ payload: { event, data, message } }) => {
+      if (event === 'signIn') {
+        // On 'signIn' event, the data is a CognitoUser object
+        this.setUser(data);
+      } else {
+        this._authState.next(initialAuthState);
+      }
+    });
+  }
+
+  private setUser(user: any) {
+    if (!user) {
+      return;
     }
-    
+
+    const {
+      attributes: { sub: id, email, name },
+      username
+    } = user;
+
+    this._authState.next({ isLoggedIn: true, id, username, email, name });
+  }
+}

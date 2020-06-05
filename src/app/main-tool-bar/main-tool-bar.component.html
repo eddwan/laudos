@@ -10,7 +10,7 @@
         <mat-chip [ngStyle]="{ backgroundColor: online ? '#b9f6ca' : '#ff8a80' }">{{ online ? 'OnLine' : 'OffLine' }}</mat-chip>
       </mat-chip-list>
     </span>
-    <span class="fill-remaining-space"></span>
+    <span class="fill-remaining-space">{{user.name}}</span>
     <span>
       <button mat-icon-button matTooltip="Página principal" routerLink="/" routerDirection='root'>
         <i class="material-icons">home</i>

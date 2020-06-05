@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth, Hub } from 'aws-amplify';
 import { Router } from '@angular/router';
-import { authStorageService } from '../services/config.service';
 
 @Component({
     selector: 'app-user-authentication',
@@ -15,9 +13,7 @@ export class UserAuthenticationComponent implements OnInit {
     }
     
     ngOnInit() {
-        Auth.currentAuthenticatedUser().then(user => {
-            this.router.navigate(['/'], { replaceUrl: true });
-        }).catch( error => console.error(error))
+
     }
     
 }

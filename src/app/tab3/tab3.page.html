@@ -157,7 +157,7 @@
     <mat-card class="laudo-card">
       <mat-card-header>
         <mat-card-title>Cloud</mat-card-title>
-        <mat-card-subtitle>Integração e sincronização com banco de dados de laudos na cloud</mat-card-subtitle>
+        <mat-card-subtitle>Integração e sincronização com banco de dados de laudos e pacientes na cloud</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <ol>
@@ -166,7 +166,7 @@
               <mat-slide-toggle [(ngModel)]="this.config.sistema.cloud.enabled">Habilitar integração Cloud!</mat-slide-toggle>
             </div>
             <div style="width: 50%">
-              <mat-slide-toggle [(ngModel)]="this.config.sistema.cloud.autoSync">Habilitar sincronismo automático</mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="this.config.sistema.cloud.autoSync" *ngIf="this.config.sistema.cloud.enabled">Habilitar sincronismo automático</mat-slide-toggle>
             </div>
           </li>
           <li class="mat-form-field--inline">

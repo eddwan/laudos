@@ -299,13 +299,6 @@ const template = [
     }})
   }
   
-  console.log("Verificando authStorage")
-  const authStorage = new Store({name: "authStorage"});
-  if(!authStorage.get("user", false)){
-    console.log("Não existe dados de um usuario logado anteriormente. Criando authStorage.")
-    authStorage.set({ user: { } })
-  }
-  
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
   
   let win, serve
@@ -356,9 +349,8 @@ const template = [
         win.webContents.send('online-status', status);
       }, 3000)
     })  
-
-    ipcMain.on('pdfPreview', (event, data, fname='temp.pdf')=>{
     
+    ipcMain.on('pdfPreview', (event, data, fname='temp.pdf')=>{
       
       const filename = path.join(app.getPath('temp'),fname)
       try{
@@ -372,7 +364,7 @@ const template = [
       }catch(error){
         console.log(error)
       }
-
+      
       shell.openItem(filename)
     })
     
@@ -412,3 +404,4 @@ const template = [
     // Catch Error
     // throw e;
   }
+  

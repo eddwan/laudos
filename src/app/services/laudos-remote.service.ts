@@ -3,16 +3,29 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { Sistema } from '../models/config';
-
+import { Auth } from 'aws-amplify';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LaudosRemoteService {
   sistema:Sistema
+  idToken = "";
 
-  constructor(private http: HttpClient, private configService:ConfigService) { 
+  constructor(private http: HttpClient, private configService:ConfigService,private authService:AuthService) { 
     this.sistema = this.configService.getData("sistema")
+    this.authService.isLoggedIn$.subscribe(
+      isLoggedIn => {
+        if(isLoggedIn){
+          Auth.currentSession().then(user => {
+            this.idToken = user.getIdToken().getJwtToken()
+          })
+        }else{
+          this.idToken = ""
+        }
+      }
+    );
   }
 
   public getDataTable = (route: string) => {
@@ -42,8 +55,9 @@ export class LaudosRemoteService {
   }
  
   private generateHeaders = () => {
+   
     return {
-      headers: new HttpHeaders({'Content-Type': 'application/json', 'x-api-key': this.sistema.cloud.apiKey})
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.idToken})
     }
   }
 }
