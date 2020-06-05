@@ -22,10 +22,21 @@ import { MainToolBarComponent} from './main-tool-bar/main-tool-bar.component'
 import { NgxFileHelpersModule } from 'ngx-file-helpers';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
-import { ConfigService, ModelosService } from './services/config.service';
+import { ConfigService, ModelosService, authStorageService } from './services/config.service';
+
+/* Add Amplify imports */
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import Amplify from 'aws-amplify';
+import awsconfig from '../aws-exports';
+import { AmplifyService } from 'aws-amplify-angular';
+import { UserAuthenticationComponent } from './auth/user-authentication.component';
+import { AuthService } from './services/auth.service';
+
+/* Configure Amplify resources */
+Amplify.configure(awsconfig);
 
 @NgModule({
-  declarations: [AppComponent, MainToolBarComponent, ConfirmationDialogComponent],
+  declarations: [AppComponent, MainToolBarComponent, ConfirmationDialogComponent, UserAuthenticationComponent],
   entryComponents: [ConfirmationDialogComponent],
   imports: [
     BrowserModule, 
@@ -35,6 +46,7 @@ import { ConfigService, ModelosService } from './services/config.service';
     BrowserAnimationsModule, 
     MaterialModule, 
     HttpClientModule, 
+    AmplifyUIAngularModule,
     NgxFileHelpersModule,
     FormsModule, 
     ReactiveFormsModule],
@@ -45,6 +57,9 @@ import { ConfigService, ModelosService } from './services/config.service';
     MessageService,
     ConfigService,
     ModelosService,
+    AuthService,
+    authStorageService,
+    AmplifyService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

@@ -1,19 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SkipSelf } from '@angular/core';
 import { ipcRenderer, remote } from 'electron';
 import { ConfigService } from '../services/config.service';
 import { Sistema, Empresa } from '../models/config';
+import { BROWSER_STORAGE, BrowserStorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-main-tool-bar',
   templateUrl: './main-tool-bar.component.html',
   styleUrls: ['./main-tool-bar.component.scss'],
+  providers: [
+    BrowserStorageService,
+    { provide: BROWSER_STORAGE, useFactory: () => sessionStorage }
+  ]
 })
 export class MainToolBarComponent implements OnInit {
   online: boolean = false;
   sistema: Sistema;
   empresa: Empresa;
   
-  constructor(private config:ConfigService){
+  constructor(
+    private config:ConfigService,
+    @SkipSelf() private localStorageService: BrowserStorageService
+    ){
     this.sistema = this.config.getData("sistema")
     this.empresa = this.config.getData("empresa")
   }
@@ -23,6 +31,7 @@ export class MainToolBarComponent implements OnInit {
     ipcRenderer.on('online-status', (event,arg)=>{
       this.online = <boolean>arg
     })
+    console.log(JSON.parse(localStorage.getItem("isLoggedIn")))
   }
 
   btnExit(){

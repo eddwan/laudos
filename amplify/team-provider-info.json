@@ -1,0 +1,26 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-laudosdesktop-dev-170447-authRole",
+            "UnauthRoleArn": "arn:aws:iam::336666552738:role/amplify-laudosdesktop-dev-170447-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::336666552738:role/amplify-laudosdesktop-dev-170447-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-laudosdesktop-dev-170447-deployment",
+            "UnauthRoleName": "amplify-laudosdesktop-dev-170447-unauthRole",
+            "StackName": "amplify-laudosdesktop-dev-170447",
+            "StackId": "arn:aws:cloudformation:us-east-1:336666552738:stack/amplify-laudosdesktop-dev-170447/a6137cc0-a69e-11ea-9c05-0aece6d977c1",
+            "AmplifyAppId": "d1ive3sconb22g"
+        },
+        "categories": {
+            "auth": {
+                "laudosdesktopfe669c38": {}
+            },
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d1ive3sconb22g",
+                    "type": "manual"
+                }
+            }
+        }
+    }
+}

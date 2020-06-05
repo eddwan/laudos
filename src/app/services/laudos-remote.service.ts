@@ -17,7 +17,7 @@ export class LaudosRemoteService {
 
   public getDataTable = (route: string) => {
     return this.http.get(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), this.generateHeaders()).pipe(
-      map( res => JSON.parse(res["body"]))
+      map( res => JSON.parse(JSON.stringify(res)))
     );
   }
  

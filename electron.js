@@ -299,6 +299,12 @@ const template = [
     }})
   }
   
+  console.log("Verificando authStorage")
+  const authStorage = new Store({name: "authStorage"});
+  if(!authStorage.get("user", false)){
+    console.log("Não existe dados de um usuario logado anteriormente. Criando authStorage.")
+    authStorage.set({ user: { } })
+  }
   
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
   

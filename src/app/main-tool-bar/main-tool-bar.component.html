@@ -15,6 +15,9 @@
       <button mat-icon-button matTooltip="Página principal" routerLink="/" routerDirection='root'>
         <i class="material-icons">home</i>
       </button>
+      <button mat-icon-button matTooltip="Login" routerLink="/login" routerDirection='root' *ngIf="!isLoggedIn">
+        <i class="material-icons">login</i>
+      </button>
       <button mat-button [matMenuTriggerFor]="menu">Novo Laudo</button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item routerLink="/histeroscopia" routerDirection='root'>Histeroscopia</button>
