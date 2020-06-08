@@ -9,7 +9,7 @@
     </span>
     &nbsp;
     <span>
-      <button mat-raised-button [matMenuTriggerFor]="menu">
+      <button [hidden]="this.laudo.status == 'new'" mat-raised-button [matMenuTriggerFor]="menu">
           <i class="material-icons">print</i> Imprimir
       </button>
       <mat-menu #menu="matMenu">

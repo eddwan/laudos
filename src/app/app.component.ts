@@ -55,11 +55,11 @@ export class AppComponent implements OnInit {
         this.authService.isLoggedIn$.subscribe(
           isLoggedIn => {
             this.isLoggedIn = isLoggedIn;
-            if(isLoggedIn){
+            if(isLoggedIn && this.sistema.cloud.enabled){
               this._snackBar.open("Sessão ativada com sucesso!", "Fechar", {duration: 3000});
-              this.router.navigate(['/'], { replaceUrl: true });
+              // this.router.navigate(['/'], { replaceUrl: true });
             }else{
-              this._snackBar.open("Sua sessão expirou. É necessário fazer login novamente.", "Fechar", {duration: 5000});
+              if(this.sistema.cloud.enabled) this._snackBar.open("Sua sessão expirou. É necessário fazer login novamente.", "Fechar", {duration: 5000});
             }
           }
           );
