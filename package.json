@@ -86,6 +86,7 @@
     "jquery": "^3.5.1",
     "jspdf": "^1.5.3",
     "moment": "^2.24.0",
+    "ngx-avatar": "^4.0.0",
     "ngx-electron": "2.1.1",
     "ngx-file-helpers": "^2.0.0",
     "node-sass": "^4.14.1",

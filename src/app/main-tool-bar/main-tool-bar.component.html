@@ -6,7 +6,13 @@
     </span>
     <span class="fill-remaining-space"></span>
     <span class="centralized-title-elements">
-      <span *ngIf="this.sistema.cloud.enabled && user.name" [matBadge]="online ? 'O' : ''" matBadgePosition="above after" [matTooltip]="online ? 'Online' : 'Offline'">{{user.name}}</span>
+      
+      <span *ngIf="this.sistema.cloud.enabled && user.name">
+        <ngx-avatar
+            [src]="avatar"
+            [name]="user.name"
+            [style]="customStyle"></ngx-avatar> {{user.name}}
+      </span>
       <button mat-button matTooltip="Fazer Login" routerLink="/login" routerDirection='root' *ngIf="this.sistema.cloud.enabled && !user.name">
         <i class="material-icons">login</i> Fazer login
       </button>

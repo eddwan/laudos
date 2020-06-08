@@ -32,6 +32,8 @@ import { AmplifyService } from 'aws-amplify-angular';
 import { UserAuthenticationComponent } from './auth/user-authentication.component';
 import { AuthService } from './services/auth.service';
 
+import { AvatarModule } from "ngx-avatar";
+
 /* Configure Amplify resources */
 Amplify.configure(awsconfig);
 
@@ -49,6 +51,7 @@ Amplify.configure(awsconfig);
     AmplifyUIAngularModule,
     NgxFileHelpersModule,
     FormsModule, 
+    AvatarModule,
     ReactiveFormsModule],
   providers: [
     StatusBar,
