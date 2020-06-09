@@ -1,8 +1,8 @@
-<h1 mat-dialog-title>{{title || "Tem certeza?"}}</h1>
+<h1 mat-dialog-title>{{data.title || "Tem certeza?"}}</h1>
 <mat-dialog-content>
-  {{message}}
+  {{data.message}}
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-raised-button (click)="onNoClick()">{{ btnNo || "Não"}}</button>
-  <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial color="{{ color || 'warn'}}">{{ btnYes || "Sim, excluir!" }}</button>
+  <button mat-raised-button (click)="onNoClick()">{{ data.btnNo || "Não"}}</button>
+  <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial color="{{ data.colorYes || 'warn'}}">{{ data.btnYes || "Sim, excluir!" }}</button>
 </mat-dialog-actions>

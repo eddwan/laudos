@@ -2,22 +2,20 @@ import { Component, OnInit, SkipSelf } from '@angular/core';
 import { ipcRenderer, remote } from 'electron';
 import { ConfigService } from '../services/config.service';
 import { Sistema, Empresa } from '../models/config';
-import { BROWSER_STORAGE, BrowserStorageService } from '../services/storage.service';
 import { AuthService } from '../services/auth.service';
+import { Auth } from 'aws-amplify';
+import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-main-tool-bar',
   templateUrl: './main-tool-bar.component.html',
-  styleUrls: ['./main-tool-bar.component.scss'],
-  providers: [
-    BrowserStorageService,
-    { provide: BROWSER_STORAGE, useFactory: () => sessionStorage }
-  ]
+  styleUrls: ['./main-tool-bar.component.scss']
 })
 export class MainToolBarComponent implements OnInit {
   online: boolean = false;
   sistema: Sistema;
-  empresa: Empresa;
+  empresa: Empresa; 
   isLoggedIn = false;
   user: { id: string; username: string; email: string, name: string };
   avatar = "https://i.pinimg.com/564x/64/34/d7/6434d72ce9e16251c4f41f4e5a146567.jpg";
@@ -33,8 +31,8 @@ export class MainToolBarComponent implements OnInit {
     
   constructor(
     private config:ConfigService,
-    private authService:AuthService,
-    @SkipSelf() private localStorageService: BrowserStorageService
+    public dialog: MatDialog,
+    private authService:AuthService
     ){
       this.sistema = this.config.getData("sistema")
       this.empresa = this.config.getData("empresa")
@@ -77,6 +75,25 @@ export class MainToolBarComponent implements OnInit {
     
     btnExit(){
       remote.app.quit();
+    }
+
+    mnuDesconectar(){
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '400px',
+        data: {
+          message: "Tem certeza que deseja desconectar da sua conta na núvem?",
+          title: "Já está de saída?",
+          btnYes: "Sim",
+          colorYes: "primary"
+        }
+      });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        if(result) {
+          Auth.signOut()
+        }
+      });
+      
     }
     
   }
