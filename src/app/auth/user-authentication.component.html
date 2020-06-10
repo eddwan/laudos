@@ -7,7 +7,7 @@
                 <mat-card-subtitle>Instituto Almeida Andrade</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content style="text-align: center;">
-                <amplify-authenticator>
+                <amplify-authenticator hideDefault={true}>
                     <amplify-sign-in slot="sign-in"></amplify-sign-in>
                     <amplify-sign-up slot="sign-up" usernameAlias="email" [formFields]="formFields"></amplify-sign-up>
                     <amplify-forgot-password slot="forgot-password" usernameAlias="email"></amplify-forgot-password>

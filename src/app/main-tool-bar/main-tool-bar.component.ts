@@ -6,6 +6,7 @@ import { AuthService } from '../services/auth.service';
 import { Auth } from 'aws-amplify';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material';
+import { User } from '../interfaces/user.interface';
 
 @Component({
   selector: 'app-main-tool-bar',
@@ -16,10 +17,8 @@ export class MainToolBarComponent implements OnInit {
   online: boolean = false;
   sistema: Sistema;
   empresa: Empresa; 
-  isLoggedIn = false;
-  user: { id: string; username: string; email: string, name: string };
-  avatar = "https://i.pinimg.com/564x/64/34/d7/6434d72ce9e16251c4f41f4e5a146567.jpg";
-  
+  user:User;
+
   customStyle = {
     border: "3px solid white",
     width: "50px",
@@ -28,7 +27,7 @@ export class MainToolBarComponent implements OnInit {
     textAlign: 'center',
     borderRadius: "50%"
   };
-    
+  
   constructor(
     private config:ConfigService,
     public dialog: MatDialog,
@@ -39,36 +38,32 @@ export class MainToolBarComponent implements OnInit {
     }
     
     ngOnInit() {
-      this.authService.isLoggedIn$.subscribe(
-        isLoggedIn => (this.isLoggedIn = isLoggedIn)
-        );
-        
-        this.authService.auth$.subscribe(({ id, username, email,name }) => {
-          this.user = { id, username, email, name };
-        });
-        
-        this.online = remote.getGlobal("isOnline")
-        ipcRenderer.on('online-status', (event,arg)=>{
-          this.online = <boolean>arg
-          if(<boolean>arg){
-            this.customStyle = {
-              border: "3px solid greenYellow",
-              width: "50px",
-              height: "50px",
-              verticalAlign: 'middle',
-              textAlign: 'center',
-              borderRadius: "50%"
-            }
-          }else{
-            this.customStyle = {
-              border: "3px solid red",
-              width: "50px",
-              height: "50px",
-              verticalAlign: 'middle',
-              textAlign: 'center',
-              borderRadius: "50%"
-            }
+      this.authService.auth$.subscribe((user) => {
+        this.user = user;
+      });
+      
+      this.online = remote.getGlobal("isOnline")
+      ipcRenderer.on('online-status', (event,arg)=>{
+        this.online = <boolean>arg
+        if(<boolean>arg){
+          this.customStyle = {
+            border: "3px solid greenYellow",
+            width: "50px",
+            height: "50px",
+            verticalAlign: 'middle',
+            textAlign: 'center',
+            borderRadius: "50%"
           }
+        }else{
+          this.customStyle = {
+            border: "3px solid red",
+            width: "50px",
+            height: "50px",
+            verticalAlign: 'middle',
+            textAlign: 'center',
+            borderRadius: "50%"
+          }
+        }
         
       })
     }
@@ -76,7 +71,7 @@ export class MainToolBarComponent implements OnInit {
     btnExit(){
       remote.app.quit();
     }
-
+    
     mnuDesconectar(){
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         width: '400px',
@@ -91,6 +86,10 @@ export class MainToolBarComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if(result) {
           Auth.signOut()
+          // Auth.currentAuthenticatedUser().then( user => {
+          //   Auth.updateUserAttributes(user, {'picture':'https://instituto-dev.s3.amazonaws.com/2f2101c6-edef-40be-8a0e-90f65a612591'})
+          // })
+          
         }
       });
       

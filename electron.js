@@ -350,6 +350,10 @@ const template = [
       }, 3000)
     })  
     
+    ipcMain.on('reloadApp', (event)=>{
+      win.webContents.reload();
+    })
+
     ipcMain.on('pdfPreview', (event, data, fname='temp.pdf')=>{
       
       const filename = path.join(app.getPath('temp'),fname)

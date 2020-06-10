@@ -8,12 +8,12 @@
       <span class="userinfo" *ngIf="this.sistema.cloud.enabled && user.name">
         <div class="userinfo-avatar">
           <ngx-avatar
-          [src]="avatar"
+          [src]="user.picture"
           [name]="user.name"
           [matMenuTriggerFor]="appMenu"
           [style]="customStyle"></ngx-avatar>
           <mat-menu #appMenu="matMenu">
-            <button mat-menu-item>
+            <button mat-menu-item routerLink="/profile" routerDirection='root'>
               <mat-icon>account_circle</mat-icon>
               <span>Meus dados</span>
             </button>
@@ -26,7 +26,7 @@
         </div>
         <div class="userinfo-text">
           <span class="userinfo-text-name">{{user.name}}</span>
-          <span class="userinfo-text-myaccount">{{user.name}}</span>
+          <span class="userinfo-text-myaccount">{{user['custom:crm'] ? 'CRM '+user['custom:crm']+' | ': null}} {{user['custom:specialty']}}</span>
         </div>
       </span>
       <button mat-button matTooltip="Fazer Login" routerLink="/login" routerDirection='root' *ngIf="this.sistema.cloud.enabled && !user.name">

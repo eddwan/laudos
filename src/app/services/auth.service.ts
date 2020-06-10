@@ -3,28 +3,23 @@ import Auth from '@aws-amplify/auth';
 import { Hub } from '@aws-amplify/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-export interface AuthState {
-  isLoggedIn: boolean;
-  username: string | null;
-  id: string | null;
-  email: string | null;
-  name: string | null;
-}
+import { User } from '../interfaces/user.interface';
 
 const initialAuthState = {
   isLoggedIn: false,
   username: null,
   id: null,
   email: null,
-  name: null
+  name: null, 
+  picture: null,
+  'custom:specialty': null
 };
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly _authState = new BehaviorSubject<AuthState>(
+  private readonly _authState = new BehaviorSubject<User>(
     initialAuthState
   );
 
@@ -57,11 +52,7 @@ export class AuthService {
       return;
     }
 
-    const {
-      attributes: { sub: id, email, name },
-      username
-    } = user;
-
-    this._authState.next({ isLoggedIn: true, id, username, email, name });
+    user.attributes.isLoggedIn = true
+    this._authState.next(user.attributes);
   }
 }

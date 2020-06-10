@@ -11,7 +11,9 @@ const routes: Routes = [
   { path: 'modelos/histeroscopia', loadChildren: './modelos/histeroscopia/histeroscopia.module#HisteroscopiaPageModule' },
   { path: 'modelos/laparoscopia', loadChildren: './modelos/laparoscopia/laparoscopia.module#LaparoscopiaPageModule' },
   { path: 'tab4', loadChildren: './tab4/tab4.module#Tab4PageModule' },
+  { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' },
   { path: 'login', component: UserAuthenticationComponent}
+  
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
