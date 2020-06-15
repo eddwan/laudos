@@ -14,14 +14,23 @@
                 <mat-card-header>
                     <mat-card-title>Sua foto</mat-card-title>
                 </mat-card-header>
+                <webcam [height]="500" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+		 [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions" (cameraSwitched)="cameraWasSwitched($event)"
+		 (initError)="handleInitError($event)"></webcam>
                 <img mat-card-image src="{{user.picture}}">
+                <img [src]="webcamImage.imageAsDataUrl" />
                 <mat-card-content>
                     <p>
                         Para atualizar sua fotografia, veja as opções abaixo.
                     </p>
+                    <h4 *ngIf="errors.length > 0">Messages:</h4>
+<ul *ngFor="let error of errors">
+	<li>{{error | json}}</li>
+</ul>
                 </mat-card-content>
                 <mat-card-actions>
-                    <button mat-flat-button color="primary">NOVA FOTO</button>
+                    <button mat-flat-button color="primary" (click)="triggerSnapshot();">NOVA FOTO</button>
+                    <button mat-flat-button color="primary" (click)="showNextWebcam(true);">NOVA FOTO</button>
                     <button mat-flat-button color="warn" (click)="removePicture()" *ngIf="user.picture">REMOVER FOTO</button>
                 </mat-card-actions>
             </mat-card>
