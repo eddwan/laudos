@@ -9,9 +9,10 @@ import { ProfilePage } from './profile.page';
 import { MaterialModule} from '../../material.module';
 import { NgxFileHelpersModule } from 'ngx-file-helpers';
 import { MomentDateAdapter} from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { LOCALE_ID } from '@angular/core';
 import {WebcamModule} from 'ngx-webcam';
+import {CameraComponent} from '../../components/camera/camera.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -44,7 +45,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [ProfilePage],
+  declarations: [ProfilePage, CameraComponent],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },

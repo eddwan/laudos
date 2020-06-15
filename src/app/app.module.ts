@@ -1,5 +1,3 @@
-import 'hammerjs';
-
 import { NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { RouterModule, RouteReuseStrategy } from '@angular/router'

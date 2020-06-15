@@ -5,7 +5,7 @@ import { Sistema, Empresa } from '../models/config';
 import { AuthService } from '../services/auth.service';
 import { Auth } from 'aws-amplify';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
-import { MatDialog } from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 import { User } from '../interfaces/user.interface';
 
 @Component({

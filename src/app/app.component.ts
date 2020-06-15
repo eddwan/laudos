@@ -9,7 +9,7 @@ import { SyncServices } from './services/sync.services';
 import { ConfigService } from './services/config.service';
 import { Sistema } from './models/config';
 import { interval } from 'rxjs';
-import { MatSnackBar } from '@angular/material';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import { AuthService } from './services/auth.service';
 
 @Component({

@@ -10,6 +10,7 @@ const initialAuthState = {
   username: null,
   id: null,
   email: null,
+  phone_number: null,
   name: null, 
   picture: null,
   'custom:specialty': null

@@ -1,6 +1,10 @@
 import { LaudosRemoteService } from '../services/laudos-remote.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatTableDataSource, MatSort, MatPaginator, MatSnackBar, MatDialog } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 import { LaudoRemote } from '../models/laudo-remote';
 import { LaudosLocalService } from '../services/laudos-local.service';
 import * as uuid from 'uuid';

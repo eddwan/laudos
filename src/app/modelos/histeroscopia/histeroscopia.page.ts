@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { LaudosLocalService } from '../../services/laudos-local.service';
 import { LaudoHisteroscopia } from '../../models/laudo'
-import { MatSnackBar } from '@angular/material';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import { ModelosService } from '../../services/config.service';
 
 @Component({

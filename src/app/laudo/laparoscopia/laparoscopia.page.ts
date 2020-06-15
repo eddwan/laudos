@@ -4,7 +4,9 @@ import { LaudosLocalService } from '../../services/laudos-local.service';
 import * as uuid from 'uuid';
 import { LaudoLaparoscopia } from '../../models/laudo'
 import { ActivatedRoute } from '@angular/router';
-import { MatDatepickerInputEvent, MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ImprimirService } from '../../services/imprimir.service';
 import { ConfigService } from '../../services/config.service';
 import { Sistema } from '../../models/config';
