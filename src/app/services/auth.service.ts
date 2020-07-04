@@ -12,7 +12,7 @@ const initialAuthState = {
   email: null,
   phone_number: null,
   name: null, 
-  picture: null,
+  'custom:cpf': null,
   'custom:specialty': null
 };
 

@@ -5,6 +5,7 @@ import { LaudoDataTableItem } from '../models/laudo';
 import { LaudoRemote } from '../models/laudo-remote';
 import * as moment from 'moment';
 import * as uuid from 'uuid';
+import { Auth } from 'aws-amplify';
 
 @Injectable({
   providedIn: 'root'
@@ -43,48 +44,56 @@ export class SyncServices {
     
     private getLaudosRemotos(): LaudoRemote[]{
       let response:LaudoRemote[] = []
-      this.laudosRemoteService.getDataTable("laudos/table").subscribe( res =>{
-        res.forEach(item =>{
-          response.push(<LaudoRemote>{
-            _id: item._id,
-            version: item.version,
-            created_at: item.created_at,
-            created_by: item.created_by,
-            updated_at: item.updated_at,
-            updated_by: item.updated_by
+      Auth.currentSession().then(user =>{
+        this.laudosRemoteService.getDataTable("laudos/tabela").then(data =>{
+          data.subscribe( res =>{
+            res.forEach(item =>{
+              response.push(<LaudoRemote>{
+                _id: item._id,
+                version: item.version,
+                created_at: item.created_at,
+                created_by: item.created_by,
+                updated_at: item.updated_at,
+                updated_by: item.updated_by
+              })
+            })
           })
         })
       })
-      
+
       return response as LaudoRemote[]
     }
     
     public downloadLaudo(id:string, forceSave:boolean=false){
-      this.laudosRemoteService.read('laudo', {_id: id}).subscribe(
-        res => {
-          let isNew = true
-          this.laudosLocalService.getDataTable().subscribe(laudos => {
-            laudos.forEach( laudo => {
-              if(laudo["_id"] = res["_id"]){
-                isNew = false
-                if(forceSave){
-                  this.laudosLocalService.forceSaveData(laudo["filename"], res)
-                }else{
-                  this.laudosLocalService.saveData(laudo["filename"], res, 'remote-saved')
+      Auth.currentSession().then(user =>{
+      this.laudosRemoteService.read('laudos/'+id).then(data => {
+        data.subscribe(
+          res => {
+            let isNew = true
+            this.laudosLocalService.getDataTable().subscribe(laudos => {
+              laudos.forEach( laudo => {
+                if(laudo["_id"] = res["_id"]){
+                  isNew = false
+                  if(forceSave){
+                    this.laudosLocalService.forceSaveData(laudo["filename"], res)
+                  }else{
+                    this.laudosLocalService.saveData(laudo["filename"], res, 'remote-saved')
+                  }
                 }
-              }
+              });
             });
-          });
-          if(isNew){
-            if(forceSave){
-              this.laudosLocalService.forceSaveData(uuid.v4()+".json", res)
-            }else{
-              this.laudosLocalService.saveData(uuid.v4()+".json", res, 'remote-saved')
+            if(isNew){
+              if(forceSave){
+                this.laudosLocalService.forceSaveData(uuid.v4()+".json", res)
+              }else{
+                this.laudosLocalService.saveData(uuid.v4()+".json", res, 'remote-saved')
+              }
             }
+            return "Laudo baixado com sucesso!"
           }
-          return "Laudo baixado com sucesso!"
-        }
-        )
+          )
+      })
+      })
       }
       
       public synchronize(){
@@ -121,9 +130,11 @@ export class SyncServices {
               if( moment(local.updated_at).diff(remote.updated_at, 'seconds', true) > 0){
                 let localFull = this.laudosLocalService.getData(local.filename)
                 // put local to /laudo which handles the timestamp and versions differences
-                this.laudosRemoteService.update("laudo", localFull).subscribe(res =>{
-                  console.log(res)
-                  this.laudosLocalService.setStatus(local.filename, this.translateLocalToRemoteStatus(localFull.status))
+                this.laudosRemoteService.update("laudos", localFull).then(data =>{
+                  data.subscribe(res =>{
+                    console.log(res)
+                    this.laudosLocalService.setStatus(local.filename, this.translateLocalToRemoteStatus(localFull.status))
+                  })
                 })
               }
             }
@@ -138,26 +149,30 @@ export class SyncServices {
         let laudo = this.laudosLocalService.getData(filename)
         if(laudo["_id"]==""){
           delete laudo["_id"]
-          this.laudosRemoteService.create("laudo", JSON.stringify(laudo)).subscribe(res => {
-            if(res){
-              if(res["_id"]){
-                laudo["_id"] = res["_id"];
-                this.laudosLocalService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]));
+          this.laudosRemoteService.create("laudos", JSON.stringify(laudo)).then(data =>{
+            data.subscribe(res => {
+              if(res){
+                if(res["_id"]){
+                  laudo["_id"] = res["_id"];
+                  this.laudosLocalService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]));
+                }
+              }else{
+                console.error("Ocorreu um erro ao gravar o laudo", res)
               }
-            }else{
-              console.error("Ocorreu um erro ao gravar o laudo", res)
-            }
-          });
+            })
+          })
         }else{
           console.log("Já existe um laudo remoto! Tentando atualizar dados.")
           laudo["_id"]=laudo["_id"]
-          this.laudosRemoteService.update("laudo", JSON.stringify(laudo)).subscribe(res => {
-            if(res){
-              this.laudosLocalService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]));
-            }else{
-              console.log("Não encontrado remoto");
-              this.laudosLocalService.saveData(filename, laudo, "remote-error" );
-            }
+          this.laudosRemoteService.update("laudos", JSON.stringify(laudo)).then(data =>{
+            data.subscribe(res => {
+              if(res){
+                this.laudosLocalService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]));
+              }else{
+                console.log("Não encontrado remoto");
+                this.laudosLocalService.saveData(filename, laudo, "remote-error" );
+              }
+            })
           })
         }            
       }

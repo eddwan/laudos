@@ -4,65 +4,63 @@ import { map } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { Sistema } from '../models/config';
 import { Auth } from 'aws-amplify';
-import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LaudosRemoteService {
   sistema:Sistema
-  idToken = "";
+  HTTPHeaders = {'Accept': 'application/json' }
   
   constructor(
     private http: HttpClient, 
-    private configService:ConfigService,
-    private authService:AuthService
+    private configService:ConfigService
     ) { 
       this.sistema = this.configService.getData("sistema")
-      this.authService.isLoggedIn$.subscribe(
-        isLoggedIn => {
-          if(isLoggedIn){
-            Auth.currentSession().then(user => {
-              this.idToken = user.getIdToken().getJwtToken()
-            })
-          }else{
-            this.idToken = ""
-          }
-        }
+      
+    }
+    
+    public getDataTable = async (route: string) => { 
+      return this.http.get(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), await this.generateHeaders()).pipe(
+        map( res => JSON.parse(JSON.stringify(res)))
         );
+        // return this.generateHeaders().then( headers =>{
+        //   return this.http.get(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), headers).pipe(
+        //     map( res => JSON.parse(JSON.stringify(res)))
+        //     );
+        // })      
       }
       
-      public getDataTable = (route: string) => {
-        return this.http.get(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), this.generateHeaders()).pipe(
-          map( res => JSON.parse(JSON.stringify(res)))
-          );
-        }
-        
-        public read = (route: string, params: any) => {
-          return this.http.get<any>(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), {headers: this.generateHeaders().headers, params: params});
-        }
-        
-        public create = (route: string, body) => {
-          return this.http.post(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), body, this.generateHeaders());
-        }
-        
-        public update = (route: string, body) => {
-          return this.http.put(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), body, this.generateHeaders());
-        }
-        
-        public delete = (route: string, params: any) => {
-          return this.http.delete<any>(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), {headers: this.generateHeaders().headers, params: params});
-        }
-        
-        private createCompleteRoute = (route: string, envAddress: string) => {
-          return `${envAddress}/${route}`;
-        }
-        
-        private generateHeaders = () => {
+      public read = async (route: string) => {
+        return this.http.get<any>(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), await this.generateHeaders());
+      }
+      
+      public create = async (route: string, body) => {
+        return this.http.post(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), body, await this.generateHeaders());
+      }
+      
+      public update = async (route: string, body) => {
+        return this.http.put(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), body, await this.generateHeaders());
+      }
+      
+      public delete = async (route: string) => {
+        return this.http.delete<any>(this.createCompleteRoute(route, this.sistema.cloud.apiUrl), await this.generateHeaders());
+      }
+      
+      private createCompleteRoute = (route: string, envAddress: string) => {
+        return `${envAddress}/${route}`;
+      }
+      
+      private generateHeaders = () => {
+        return new Promise( ( resolve, reject ) =>{
+          Auth.currentSession().then(user => {
+            this.HTTPHeaders["Authorization"] = user.getIdToken().getJwtToken()
+            resolve({
+              headers: new HttpHeaders(this.HTTPHeaders)
+            })
+          })
           
-          return {
-            headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.idToken})
-          }
-        }
+        })
       }
-      
+    }
+    

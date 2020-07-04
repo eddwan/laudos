@@ -10,16 +10,6 @@
     </mat-toolbar>
     <div class="paper">
         <div class="paper-flex">
-            <mat-card class="picture-card">
-                <mat-card-header>
-                    <mat-card-title>Sua foto</mat-card-title>
-                </mat-card-header>
-                <app-camera width="368" height="368" *ngIf="!user.picture && !webcamImage" (pictureTaken)="handleImage($event)"></app-camera>
-                <img mat-card-image *ngIf="webcamImage" [src]="user.picture || webcamImage.imageAsDataUrl">
-                <mat-card-actions>
-                    <button mat-flat-button color="warn" (click)="removePicture()" *ngIf="user.picture || webcamImage">Remover / Alterar</button>
-                </mat-card-actions>
-            </mat-card>
             <mat-card class="profile-card">
                 <mat-card-header>
                     <mat-card-title>Dados Pessoais</mat-card-title>

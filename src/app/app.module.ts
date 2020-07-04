@@ -31,7 +31,6 @@ import { UserAuthenticationComponent } from './auth/user-authentication.componen
 import { AuthService } from './services/auth.service';
 
 import { AvatarModule } from "ngx-avatar";
-import {WebcamModule} from 'ngx-webcam';
 
 /* Configure Amplify resources */
 Amplify.configure(awsconfig);
@@ -50,7 +49,6 @@ Amplify.configure(awsconfig);
     AmplifyUIAngularModule,
     NgxFileHelpersModule,
     FormsModule, 
-    WebcamModule,
     AvatarModule,
     ReactiveFormsModule],
   providers: [

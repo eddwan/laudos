@@ -11,7 +11,6 @@ import { NgxFileHelpersModule } from 'ngx-file-helpers';
 import { MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { LOCALE_ID } from '@angular/core';
-import {WebcamModule} from 'ngx-webcam';
 import {CameraComponent} from '../../components/camera/camera.component';
 
 export const MY_FORMATS = {
@@ -38,7 +37,6 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    WebcamModule,
     MaterialModule,
     NgxFileHelpersModule,
     RouterModule.forChild(routes),
