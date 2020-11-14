@@ -379,7 +379,9 @@ const template = [
         console.log(error)
       }
       
-      shell.openItem(filename)
+      shell.openPath(filename).then( ()=>{
+        win.webContents.send('finishPreview', 'ok')
+      })
     })
     
     // win.webContents.openDevTools()

@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import * as isUUID from 'is-uuid';
+import { ipcRenderer } from 'electron';
 
 export interface DescricaoImagemDialogData {
   descricao: string;
@@ -35,6 +36,7 @@ export class LaparoscopiaPage implements OnInit {
   public isHover: boolean;
   public files: Array<ReadFileImproved> = [];
   public laudo:LaudoLaparoscopia;
+  private imprimindo:boolean = false;
   events: string[] = [];
 
   constructor(
@@ -46,7 +48,12 @@ export class LaparoscopiaPage implements OnInit {
   ) { }
 
   print(){
+    this.imprimindo = true;
     this.imprimirService.gerarLaudoLaparoscopia(this.laudo)
+    ipcRenderer.on('finishPreview', (event, arg) => {
+      this.imprimindo = false
+      console.log(arg) // prints "pong"
+    })
   }
   
   addFile(file: ReadFileImproved) {
