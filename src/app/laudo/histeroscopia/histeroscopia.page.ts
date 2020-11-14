@@ -39,7 +39,7 @@ export class HisteroscopiaPage implements OnInit {
   public isHover: boolean;
   public files: Array<ReadFileImproved> = [];
   public laudo:LaudoHisteroscopia;
-  private imprimindo:boolean = false;
+  public imprimindo:boolean = false;
   events: string[] = [];
   toggleMenopausaAmenorreia:[string];
     

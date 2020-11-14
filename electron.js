@@ -4,12 +4,12 @@ const url = require('url')
 const isMac = process.platform === 'darwin'
 const os = require("os");
 
-console.log("IS CAMERA ENABLED? ", systemPreferences.getMediaAccessStatus("camera"))
-if(systemPreferences.getMediaAccessStatus("camera") != "granted"){
-  systemPreferences.askForMediaAccess("camera").then( res =>{
-    console.log("IS CAMERA ENABLED? ", res, systemPreferences.getMediaAccessStatus("camera"))
-  })
-}
+// console.log("IS CAMERA ENABLED? ", systemPreferences.getMediaAccessStatus("camera"))
+// if(systemPreferences.getMediaAccessStatus("camera") != "granted"){
+//   systemPreferences.askForMediaAccess("camera").then( res =>{
+//     console.log("IS CAMERA ENABLED? ", res, systemPreferences.getMediaAccessStatus("camera"))
+//   })
+// }
 
 const template = [
   ...(isMac ? [{
@@ -321,8 +321,7 @@ const template = [
         webSecurity: false
       },
       center: true,
-      titleBarStyle: 'hiddenInset',
-      icon: path.join(__dirname, './resources/electron/icons/64x64.png')
+      titleBarStyle: 'hiddenInset'
     })
     
     win.maximize();

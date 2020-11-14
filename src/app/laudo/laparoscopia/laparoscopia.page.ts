@@ -36,7 +36,7 @@ export class LaparoscopiaPage implements OnInit {
   public isHover: boolean;
   public files: Array<ReadFileImproved> = [];
   public laudo:LaudoLaparoscopia;
-  private imprimindo:boolean = false;
+  public imprimindo:boolean = false;
   events: string[] = [];
 
   constructor(

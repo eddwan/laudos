@@ -25,15 +25,14 @@ import { ConfigService, ModelosService, authStorageService } from './services/co
 /* Add Amplify imports */
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 import Amplify from 'aws-amplify';
-import awsconfig from '../aws-exports';
 import { AmplifyService } from 'aws-amplify-angular';
 import { UserAuthenticationComponent } from './auth/user-authentication.component';
 import { AuthService } from './services/auth.service';
 
 import { AvatarModule } from "ngx-avatar";
 
-/* Configure Amplify resources */
-Amplify.configure(awsconfig);
+// /* Configure Amplify resources */
+// Amplify.configure(awsconfig);
 
 @NgModule({
   declarations: [AppComponent, MainToolBarComponent, ConfirmationDialogComponent, UserAuthenticationComponent],
