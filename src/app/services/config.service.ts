@@ -44,3 +44,26 @@ export class ModelosService{
         this.store.set("modelo", data);
     }
 }
+
+export class authStorageService{
+    store = new Store({name: "authStorage"});
+
+    constructor(){ }
+    
+    saveData(key, value){
+        this.store.set(key, value)
+    }
+
+    saveObject(obj){
+        this.store.set(obj)
+    }
+
+    getData(key){
+        return this.store.get(key) || {}
+    }
+
+    getAll(){
+        return this.store.store || {};
+    }
+
+}

@@ -1,8 +1,15 @@
-const {app, BrowserWindow, Menu, ipcMain, shell} = require('electron')
+const {app, BrowserWindow, Menu, ipcMain, shell, systemPreferences} = require('electron')
 const path = require('path')
 const url = require('url')
 const isMac = process.platform === 'darwin'
 const os = require("os");
+
+console.log("IS CAMERA ENABLED? ", systemPreferences.getMediaAccessStatus("camera"))
+if(systemPreferences.getMediaAccessStatus("camera") != "granted"){
+  systemPreferences.askForMediaAccess("camera").then( res =>{
+    console.log("IS CAMERA ENABLED? ", res, systemPreferences.getMediaAccessStatus("camera"))
+  })
+}
 
 const template = [
   ...(isMac ? [{
@@ -299,7 +306,6 @@ const template = [
     }})
   }
   
-  
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true
   
   let win, serve
@@ -310,7 +316,10 @@ const template = [
     win = new BrowserWindow({
       width: 1800,
       height: 1200,
-      webPreferences: {webSecurity: false},
+      webPreferences: {
+        nodeIntegration: true,
+        webSecurity: false
+      },
       center: true,
       titleBarStyle: 'hiddenInset',
       icon: path.join(__dirname, './resources/electron/icons/64x64.png')
@@ -350,9 +359,12 @@ const template = [
         win.webContents.send('online-status', status);
       }, 3000)
     })  
+    
+    ipcMain.on('reloadApp', (event)=>{
+      win.webContents.reload();
+    })
 
     ipcMain.on('pdfPreview', (event, data, fname='temp.pdf')=>{
-    
       
       const filename = path.join(app.getPath('temp'),fname)
       try{
@@ -366,8 +378,10 @@ const template = [
       }catch(error){
         console.log(error)
       }
-
-      shell.openItem(filename)
+      
+      shell.openPath(filename).then( ()=>{
+        win.webContents.send('finishPreview', 'ok')
+      })
     })
     
     // win.webContents.openDevTools()
@@ -406,3 +420,4 @@ const template = [
     // Catch Error
     // throw e;
   }
+  

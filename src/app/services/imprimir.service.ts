@@ -27,7 +27,7 @@ export class ImprimirService {
         let buff = new Buffer(files[filename].content.split(';base64,').pop(), 'base64')
         Jimp.read(buff).then( img => {
           // console.log(file.content)
-          img.resize(720,Jimp.AUTO).crop(180,30,360,360).getBase64(img.getMIME(), (err, res)=>{
+          img.resize(720,Jimp.AUTO).crop(180,20,360,360).circle().brightness(0.15).getBase64(img.getMIME(), (err, res)=>{
             if(err){
               console.error(err)
               reject(err)
@@ -98,14 +98,14 @@ export class ImprimirService {
       // FIM DADOS MEDICO EXAMINANTE
       
       // RODAPÉ 3 CM
-      doc.line(0, 277, 210, 277);
+      doc.line(0, 279, 210, 279);
       doc.setFontStyle("normal").setFontSize(8)
-      .text(105,280,this.empresa.endereco.logradouro + ", " + this.empresa.endereco.numero + " - " + this.empresa.endereco.complemento, 'center')
-      .text(105,283,this.empresa.endereco.bairro + " - " + this.empresa.endereco.cidade + " / " + this.empresa.endereco.uf + " - CEP: " + this.empresa.endereco.cep, 'center');
+      .text(105,282,this.empresa.endereco.logradouro + ", " + this.empresa.endereco.numero + " - " + this.empresa.endereco.complemento, 'center')
+      .text(105,285,this.empresa.endereco.bairro + " - " + this.empresa.endereco.cidade + " / " + this.empresa.endereco.uf + " - CEP: " + this.empresa.endereco.cep, 'center');
       if(this.empresa.telefones.length >0){
-        doc.text(105,286,"Telefones:"+this.empresa.telefones.join(" / ")+" - Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
+        doc.text(105,288,"Telefones:"+this.empresa.telefones.join(" / ")+" - Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
       }else{
-        doc.text(105,286,"Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
+        doc.text(105,288,"Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
       }
       // FIM RODAPÉ
       
@@ -198,12 +198,12 @@ export class ImprimirService {
       
       if((typeof imagensAjustadas !== 'undefined') && type === "singlePage"){
         var imgCount = 0;
-        var linha=55;
+        var linha=51;
         
         Object.keys(imagensAjustadas).forEach((filename) => {
           if(imgCount < 6){
-            doc.addImage(imagensAjustadas[filename].content, imagensAjustadas[filename].type, 160, linha, 30, 30, filename, 'FAST').setFontSize(8).text(175,(linha+33),imagensAjustadas[filename].descricao,"center");
-            linha += 35;
+            doc.addImage(imagensAjustadas[filename].content, imagensAjustadas[filename].type, 165, linha, 33, 33, filename, 'FAST').setFontSize(8).text(180,(linha+36),imagensAjustadas[filename].descricao,"center");
+            linha += 38;
           }else{
             console.log("Não foi possivel adicionar a imagem: "+filename);
           }
@@ -255,14 +255,14 @@ export class ImprimirService {
         // FIM DADOS MEDICO EXAMINANTE
         
         // RODAPÉ 3 CM
-        doc.line(0, 277, 210, 277);
+        doc.line(0, 279, 210, 279);
         doc.setFontStyle("normal").setFontSize(8)
-        .text(105,280,this.empresa.endereco.logradouro + ", " + this.empresa.endereco.numero + " - " + this.empresa.endereco.complemento, 'center')
-        .text(105,283,this.empresa.endereco.bairro + " - " + this.empresa.endereco.cidade + " / " + this.empresa.endereco.uf + " - CEP: " + this.empresa.endereco.cep, 'center');
+        .text(105,282,this.empresa.endereco.logradouro + ", " + this.empresa.endereco.numero + " - " + this.empresa.endereco.complemento, 'center')
+        .text(105,285,this.empresa.endereco.bairro + " - " + this.empresa.endereco.cidade + " / " + this.empresa.endereco.uf + " - CEP: " + this.empresa.endereco.cep, 'center');
         if(this.empresa.telefones.length >0){
-          doc.text(105,286,"Telefones:"+this.empresa.telefones.join(" / ")+" - Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
+          doc.text(105,288,"Telefones:"+this.empresa.telefones.join(" / ")+" - Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
         }else{
-          doc.text(105,286,"Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
+          doc.text(105,288,"Email: "+this.empresa.email+" - Website: "+this.empresa.website, 'center');
         }
         // FIM RODAPÉ
         

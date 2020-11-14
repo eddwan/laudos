@@ -1,0 +1,48 @@
+mat-toolbar{
+    background-color: #dedede;
+  }
+  :host{
+    background-color: #eeeeee;
+  }
+  
+  .profile{
+    overflow-y: auto;
+    background-color: #eeeeee;
+  }
+  .paper{
+    margin: auto;
+    width: 90% ;
+    min-width: 850px;
+    &-flex{
+      display: flex;
+    }
+  }
+  .empty-space {
+    /* This fills the remaining space, by using flexbox. 
+    Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+  }
+  
+  .profile-card {
+    margin: 15px;
+    flex: 1;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  
+  .picture{
+    &-card {
+      flex: 1;
+      text-align: center;
+      max-width: 400px;
+      margin: 15px;
+    }
+  
+    &-header-image {
+      background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+      background-size: cover;
+    }
+  }

@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ConfigService } from '../services/config.service';
 import { Sistema, Empresa } from '../models/config';
-import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 export interface AutocompletarDialogData {
   descricao: string;

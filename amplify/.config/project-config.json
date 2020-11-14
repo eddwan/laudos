@@ -1,0 +1,17 @@
+{
+    "projectName": "laudosdesktop",
+    "version": "3.0",
+    "frontend": "javascript",
+    "javascript": {
+        "framework": "angular",
+        "config": {
+            "SourceDir": "src",
+            "DistributionDir": "dist",
+            "BuildCommand": "npm run electron:mac",
+            "StartCommand": "npm run electron:dev"
+        }
+    },
+    "providers": [
+        "awscloudformation"
+    ]
+}

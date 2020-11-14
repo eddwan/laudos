@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
+import { UserAuthenticationComponent } from './auth/user-authentication.component';
 
 const routes: Routes = [
   { path: '', loadChildren: './tabs/tabs.module#TabsPageModule' },
@@ -9,7 +10,10 @@ const routes: Routes = [
   { path: 'laparoscopia/:filename', loadChildren: './laudo/laparoscopia/laparoscopia.module#LaparoscopiaPageModule' },
   { path: 'modelos/histeroscopia', loadChildren: './modelos/histeroscopia/histeroscopia.module#HisteroscopiaPageModule' },
   { path: 'modelos/laparoscopia', loadChildren: './modelos/laparoscopia/laparoscopia.module#LaparoscopiaPageModule' },
-  { path: 'tab4', loadChildren: './tab4/tab4.module#Tab4PageModule' }
+  { path: 'tab4', loadChildren: './tab4/tab4.module#Tab4PageModule' },
+  { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule' },
+  { path: 'login', component: UserAuthenticationComponent}
+  
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

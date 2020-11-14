@@ -1,25 +1,42 @@
 <mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span>
+  <mat-toolbar-row class="toolbar-container">
+    <span class="toolbar-left">
       <div class="toolbar-title">Sistema de Laudos Médicos</div>
       <div class="toolbar-subtitle">{{ this.empresa.nome }}</div>
     </span>
-    <span class="fill-remaining-space"></span>
-    <span [hidden]="!this.sistema.cloud.enabled">
-      <mat-chip-list>
-        <mat-chip [ngStyle]="{ backgroundColor: online ? '#b9f6ca' : '#ff8a80' }">{{ online ? 'OnLine' : 'OffLine' }}</mat-chip>
-      </mat-chip-list>
+    <span class="toolbar-center">
+      <span class="userinfo" *ngIf="this.sistema.cloud.enabled && user.name">
+        <div class="userinfo-avatar">
+          <ngx-avatar
+          [name]="user.name"
+          [matMenuTriggerFor]="appMenu"
+          [style]="customStyle"></ngx-avatar>
+          <mat-menu #appMenu="matMenu">
+            <button mat-menu-item routerLink="/profile" routerDirection='root'>
+              <mat-icon>account_circle</mat-icon>
+              <span>Meus dados</span>
+            </button>
+            <button mat-menu-item (click)="mnuDesconectar()">
+              <mat-icon>exit_to_app</mat-icon>
+              <span>Desconetar</span>
+            </button>
+          </mat-menu>
+          
+        </div>
+        <div class="userinfo-text">
+          <span class="userinfo-text-name">{{user.name}}</span>
+          <span class="userinfo-text-myaccount">{{user['custom:crm'] ? 'CRM '+user['custom:crm']+' | ': null}} {{user['custom:specialty']}}</span>
+        </div>
+      </span>
+      <button mat-button matTooltip="Fazer Login" routerLink="/login" routerDirection='root' *ngIf="this.sistema.cloud.enabled && !user.name">
+        <i class="material-icons">login</i> Fazer login
+      </button>
     </span>
-    <span class="fill-remaining-space"></span>
-    <span>
+    <span class="toolbar-right">
       <button mat-icon-button matTooltip="Página principal" routerLink="/" routerDirection='root'>
         <i class="material-icons">home</i>
       </button>
-      <button mat-button [matMenuTriggerFor]="menu">Novo Laudo</button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="/histeroscopia" routerDirection='root'>Histeroscopia</button>
-        <button mat-menu-item routerLink="/laparoscopia" routerDirection='root'>Laparoscopia</button>
-      </mat-menu>
+      
       <button mat-button (click)="btnExit()">Sair</button>
     </span>
   </mat-toolbar-row>

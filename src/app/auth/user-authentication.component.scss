@@ -1,0 +1,23 @@
+.page{
+    overflow-y: auto;
+    background-color: #eeeeee;
+    height: 100%;
+}
+
+mat-toolbar{
+    background-color: #dedede;
+}
+
+
+.header-image {
+    background-image: url('http://www.institutoalmeidaandrade.com.br/wp-content/uploads/2019/08/logo3-sm.png');
+    background-size: cover;
+}
+
+.card-login {
+    margin: 15px;
+}
+.paper-login{
+    margin: auto;
+    max-width: 550px;
+}

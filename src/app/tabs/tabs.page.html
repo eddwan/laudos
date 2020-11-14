@@ -2,7 +2,7 @@
   
   <ion-tab-bar slot="bottom" color="light">
     
-    <ion-tab-button tab="tab1" [disabled]="!online" [hidden]="!this.sistema.cloud.enabled">
+    <ion-tab-button tab="tab1" [disabled]="!online || !isLoggedIn" [hidden]="!this.sistema.cloud.enabled">
       <ion-icon name="cloud"></ion-icon>
       <ion-label>Laudos na núvem</ion-label>
     </ion-tab-button>

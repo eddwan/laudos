@@ -8,11 +8,12 @@
       </button>
     </span>
     <span>
-      <button [hidden]="this.laudo.status == 'new'" mat-raised-button matTooltip="Imprimir" color="default" (click)="print()">
+      <button [hidden]="this.laudo.status == 'new'" mat-raised-button matTooltip="Imprimir" color="default" (click)="print()" [disabled]="this.imprimindo == true">
         <i class="material-icons">print</i> Imprimir
       </button>
     </span>
   </mat-toolbar>
+  <mat-progress-bar mode="indeterminate" [hidden]="this.laudo.status == 'new' || this.imprimindo == false"></mat-progress-bar>
   <div class="paper">
     <mat-card class="laudo-card">
       <mat-card-header>

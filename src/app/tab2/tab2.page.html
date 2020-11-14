@@ -7,7 +7,12 @@
     </span>
     <span class="example-fill-remaining-space"></span>
     <span>
-      <button mat-stroked-button matTooltip="Atualizar a lista de laudos" (click)="getAllLaudos()">
+      <button mat-flat-button [matMenuTriggerFor]="menu" color="primary">Novo Laudo</button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/histeroscopia" routerDirection='root'>Histeroscopia</button>
+        <button mat-menu-item routerLink="/laparoscopia" routerDirection='root'>Laparoscopia</button>
+      </mat-menu>
+      <button mat-flat-button matTooltip="Atualizar a lista de laudos" (click)="getAllLaudos()">
         <i class="material-icons">refresh</i>
       </button>
     </span>

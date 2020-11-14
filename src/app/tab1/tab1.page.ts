@@ -1,6 +1,10 @@
 import { LaudosRemoteService } from '../services/laudos-remote.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatTableDataSource, MatSort, MatPaginator, MatSnackBar, MatDialog } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 import { LaudoRemote } from '../models/laudo-remote';
 import { LaudosLocalService } from '../services/laudos-local.service';
 import * as uuid from 'uuid';
@@ -27,7 +31,8 @@ export class Tab1Page  implements OnInit, AfterViewInit {
     private laudosLocalService:LaudosLocalService){}
     
     ngOnInit() {
-      this.getAllLaudos();
+        this.getAllLaudos();
+      
     }
     
     ngAfterViewInit(): void {
@@ -40,19 +45,21 @@ export class Tab1Page  implements OnInit, AfterViewInit {
     }
     
     public getAllLaudos = () => {
-      this.laudosRemoteService.getDataTable('laudos/table')
-      .subscribe(res => {
-        let teste: LaudoRemote[] = []
-        res.forEach(item =>{
-          teste.push(<LaudoRemote>{
-            _id: item._id,
-            nome: item.nome,
-            tipo: item.tipo,
-            data_exame: new Date(item.data_exame).toLocaleDateString()
+      this.laudosRemoteService.getDataTable('laudos/tabela').then( data =>{
+        data.subscribe(res => {
+          console.log(res)
+          let teste: LaudoRemote[] = []
+          res.forEach(item =>{
+            teste.push(<LaudoRemote>{
+              _id: item._id,
+              nome: item.nome,
+              tipo: item.tipo,
+              data_exame: new Date(item.data_exame).toLocaleDateString()
+            })
           })
+          // this.dataSource.data = res as LaudoRemote[];
+          this.dataSource.data = teste
         })
-        // this.dataSource.data = res as LaudoRemote[];
-        this.dataSource.data = teste
       })
       
     }
@@ -70,12 +77,14 @@ export class Tab1Page  implements OnInit, AfterViewInit {
       
       dialogRef.afterClosed().subscribe(result => {
         if(result) {
-          this.laudosRemoteService.delete("laudo", {_id: id}).subscribe(
-            res => {
-              console.log(res);
-              this.getAllLaudos();
-            }
-            )
+          this.laudosRemoteService.delete("laudos/"+id).then( data =>{
+            data.subscribe(
+              res => {
+                console.log(res);
+                this.getAllLaudos();
+              }
+              )
+          })
           }
         });
         
@@ -83,32 +92,34 @@ export class Tab1Page  implements OnInit, AfterViewInit {
       }
       
       public downloadLaudo(id:string){
-        this.laudosRemoteService.read('laudo', {_id: id}).subscribe(
-          res => {
-            let isNew = true
-
-            this.laudosLocalService.getDataTable().subscribe(laudos => {
-              laudos.forEach( laudo => {
-                if(laudo["_id"] === res["_id"]){
-                  isNew = false
-                  console.log("Not new. Updating local " + laudo["filename"])
-                  this.laudosLocalService.saveData(laudo["filename"], res, 'remote-saved')
-                }
+        this.laudosRemoteService.read('laudos/'+id).then(data=>{
+          data.subscribe(
+            res => {
+              let isNew = true
+  
+              this.laudosLocalService.getDataTable().subscribe(laudos => {
+                laudos.forEach( laudo => {
+                  if(laudo["_id"] === res["_id"]){
+                    isNew = false
+                    console.log("Not new. Updating local " + laudo["filename"])
+                    this.laudosLocalService.saveData(laudo["filename"], res, 'remote-saved')
+                  }
+                });
               });
-            });
-
-            
-            if(isNew){
-              console.log("New file. Creating local")
-              res["status"] = "new"
-              this.laudosLocalService.saveData(uuid.v4()+".json", res, 'remote-saved')
+  
+              
+              if(isNew){
+                console.log("New file. Creating local")
+                res["status"] = "new"
+                this.laudosLocalService.saveData(uuid.v4()+".json", res, 'remote-saved')
+              }
+  
+              this._snackBar.open("Laudo baixado com sucesso!", "Fechar", {
+                duration: 3000,
+              });
             }
-
-            this._snackBar.open("Laudo baixado com sucesso!", "Fechar", {
-              duration: 3000,
-            });
-          }
-          )
+            )
+        })
         }
         
         public redirectToDelete = (id: string) => {

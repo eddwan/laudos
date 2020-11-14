@@ -1,5 +1,10 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+
 import { LaudoDataTableItem} from '../models/laudo';
 import { LaudosLocalService} from '../services/laudos-local.service';
 import { ConfirmationDialogComponent } from '../shared/confirmation-dialog/confirmation-dialog.component';
@@ -114,31 +119,37 @@ export class Tab2Page  implements OnInit {
       let laudo = this.laudosLocaisService.getData(filename)
       if(laudo["_id"]==""){
         delete laudo["_id"]
-        this.laudosRemoteService.create("laudo", JSON.stringify(laudo)).subscribe(res => {
-          if(res){
-            if(res["_id"]){
-              laudo["_id"] = res["_id"];
-              let result = this.laudosLocaisService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]));
-              if(result){
-                this.laudosRemoteService.update("laudo", JSON.stringify(laudo)).subscribe( res => {
-                  console.log(res, result)
-                })
+        this.laudosRemoteService.create("laudo", JSON.stringify(laudo)).then(data =>{
+          data.subscribe(res => {
+            if(res){
+              if(res["_id"]){
+                laudo["_id"] = res["_id"];
+                let result = this.laudosLocaisService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]));
+                if(result){
+                  this.laudosRemoteService.update("laudo", JSON.stringify(laudo)).then(data =>{
+                    data.subscribe( res => {
+                      console.log(res, result)
+                    })
+                  })
+                }
               }
+            }else{
+              console.error("Ocorreu um erro ao gravar o laudo", res)
             }
-          }else{
-            console.error("Ocorreu um erro ao gravar o laudo", res)
-          }
-        });
+          })
+        })
       }else{
         console.log("Já existe um laudo remoto! Tentando atualizar dados.")
         laudo["_id"]=laudo["_id"]
-        this.laudosRemoteService.update("laudo", JSON.stringify(laudo)).subscribe(res => {
-          if(res){
-            this.laudosLocaisService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]));
-          }else{
-            console.log("Não encontrado remoto");
-            this.laudosLocaisService.saveData(filename, laudo, "remote-error" );
-          }
+        this.laudosRemoteService.update("laudo", JSON.stringify(laudo)).then( data =>{
+          data.subscribe(res => {
+            if(res){
+              this.laudosLocaisService.saveData(filename, laudo, this.translateLocalToRemoteStatus(laudo["status"]));
+            }else{
+              console.log("Não encontrado remoto");
+              this.laudosLocaisService.saveData(filename, laudo, "remote-error" );
+            }
+          })
         })
       }
       this.getAllLaudos();

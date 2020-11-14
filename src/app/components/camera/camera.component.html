@@ -1,0 +1,19 @@
+<div>
+    <div>
+        <webcam [height]="height" [width]="width" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+        [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions" (cameraSwitched)="cameraWasSwitched($event)"
+        (initError)="handleInitError($event)"></webcam>
+    </div>
+    <div class="fab-buttons">
+        <div style="text-align: left; flex: 1;">
+            <button mat-fab color="primary" (click)="triggerSnapshot();"  aria-label="Fotografar" matTooltip="Fotografar">
+                <mat-icon>camera_enhance</mat-icon>
+            </button>
+        </div>
+        <div style="text-align: right;  flex: 1;">
+            <button mat-fab color="accent" (click)="showNextWebcam(true);" aria-label="Redefinir a camera" matTooltip="Redefinir a camera">
+                <mat-icon>flip_camera_ios</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

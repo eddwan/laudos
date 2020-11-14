@@ -4,7 +4,9 @@ import { LaudosLocalService } from '../../services/laudos-local.service';
 import * as uuid from 'uuid';
 import { LaudoHisteroscopia } from '../../models/laudo'
 import { ActivatedRoute } from '@angular/router';
-import { MatDatepickerInputEvent, MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ImprimirService } from '../../services/imprimir.service';
 import * as moment from 'moment'
 import { ConfigService } from '../../services/config.service';
@@ -15,6 +17,7 @@ import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
+import { ipcRenderer } from 'electron';
 
 export interface DescricaoImagemDialogData {
   descricao: string;
@@ -36,6 +39,7 @@ export class HisteroscopiaPage implements OnInit {
   public isHover: boolean;
   public files: Array<ReadFileImproved> = [];
   public laudo:LaudoHisteroscopia;
+  private imprimindo:boolean = false;
   events: string[] = [];
   toggleMenopausaAmenorreia:[string];
     
@@ -60,9 +64,13 @@ export class HisteroscopiaPage implements OnInit {
     }
 
     print(type:string = "singlePage"){
+      this.imprimindo = true;
       this.imprimirService.gerarLaudoHisteroscopia(this.laudo, type)
-      // let status = this.laudo.status.split("-")[0]
-      // this.laudosLocalService.saveData(this.filename, this.laudo, status+'-printed')
+
+      ipcRenderer.on('finishPreview', (event, arg) => {
+        this.imprimindo = false
+        console.log(arg) // prints "pong"
+      })
     }
   
     addFile(file: ReadFileImproved) {

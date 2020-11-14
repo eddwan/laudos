@@ -1,0 +1,43 @@
+<div class="profile">
+    <mat-toolbar>
+        <span>Perfil do usuário</span>
+        <span class="empty-space"></span>
+        <span>
+            <button mat-raised-button matTooltip="Salvar" color="primary" (click)="saveProfile()">
+                <i class="material-icons">save</i> Salvar
+            </button>
+        </span>
+    </mat-toolbar>
+    <div class="paper">
+        <div class="paper-flex">
+            <mat-card class="profile-card">
+                <mat-card-header>
+                    <mat-card-title>Dados Pessoais</mat-card-title>
+                    <mat-card-subtitle></mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>
+                        <mat-form-field class="full-width">
+                            <input matInput [(ngModel)]="user.name" placeholder="Nome completo">
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field class="full-width">
+                            <input matInput [(ngModel)]="user['custom:crm']" placeholder="CRM">
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field class="full-width">
+                            <input matInput [(ngModel)]="user['custom:specialty']" placeholder="Especialidade">
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field class="full-width">
+                            <input matInput [(ngModel)]="user.phone_number" placeholder="Número de Telefone">
+                        </mat-form-field>
+                    </p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

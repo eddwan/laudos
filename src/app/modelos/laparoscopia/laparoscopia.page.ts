@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReadFile, ReadMode } from 'ngx-file-helpers';
 import { LaudoLaparoscopia } from '../../models/laudo'
-import { MatSnackBar } from '@angular/material';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import { ModelosService } from '../../services/config.service';
 
 @Component({

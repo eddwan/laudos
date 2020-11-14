@@ -4,7 +4,9 @@ import { LaudosLocalService } from '../../services/laudos-local.service';
 import * as uuid from 'uuid';
 import { LaudoLaparoscopia } from '../../models/laudo'
 import { ActivatedRoute } from '@angular/router';
-import { MatDatepickerInputEvent, MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ImprimirService } from '../../services/imprimir.service';
 import { ConfigService } from '../../services/config.service';
 import { Sistema } from '../../models/config';
@@ -12,6 +14,7 @@ import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import * as isUUID from 'is-uuid';
+import { ipcRenderer } from 'electron';
 
 export interface DescricaoImagemDialogData {
   descricao: string;
@@ -33,6 +36,7 @@ export class LaparoscopiaPage implements OnInit {
   public isHover: boolean;
   public files: Array<ReadFileImproved> = [];
   public laudo:LaudoLaparoscopia;
+  private imprimindo:boolean = false;
   events: string[] = [];
 
   constructor(
@@ -44,7 +48,12 @@ export class LaparoscopiaPage implements OnInit {
   ) { }
 
   print(){
+    this.imprimindo = true;
     this.imprimirService.gerarLaudoLaparoscopia(this.laudo)
+    ipcRenderer.on('finishPreview', (event, arg) => {
+      this.imprimindo = false
+      console.log(arg) // prints "pong"
+    })
   }
   
   addFile(file: ReadFileImproved) {
