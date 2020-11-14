@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
+import { ipcRenderer } from 'electron';
 
 export interface DescricaoImagemDialogData {
   descricao: string;
@@ -38,6 +39,7 @@ export class HisteroscopiaPage implements OnInit {
   public isHover: boolean;
   public files: Array<ReadFileImproved> = [];
   public laudo:LaudoHisteroscopia;
+  private imprimindo:boolean = false;
   events: string[] = [];
   toggleMenopausaAmenorreia:[string];
     
@@ -62,9 +64,13 @@ export class HisteroscopiaPage implements OnInit {
     }
 
     print(type:string = "singlePage"){
+      this.imprimindo = true;
       this.imprimirService.gerarLaudoHisteroscopia(this.laudo, type)
-      // let status = this.laudo.status.split("-")[0]
-      // this.laudosLocalService.saveData(this.filename, this.laudo, status+'-printed')
+
+      ipcRenderer.on('finishPreview', (event, arg) => {
+        this.imprimindo = false
+        console.log(arg) // prints "pong"
+      })
     }
   
     addFile(file: ReadFileImproved) {
