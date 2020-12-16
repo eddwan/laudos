@@ -31,7 +31,8 @@ import { AuthService } from './services/auth.service';
 
 import { AvatarModule } from "ngx-avatar";
 
-// /* Configure Amplify resources */
+// import awsconfig from '../aws-exports';
+/* Configure Amplify resources */
 // Amplify.configure(awsconfig);
 
 @NgModule({

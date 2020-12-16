@@ -27,7 +27,7 @@ export class ImprimirService {
         let buff = new Buffer(files[filename].content.split(';base64,').pop(), 'base64')
         Jimp.read(buff).then( img => {
           // console.log(file.content)
-          img.resize(720,Jimp.AUTO).crop(180,20,360,360).circle().brightness(0.15).getBase64(img.getMIME(), (err, res)=>{
+          img.resize(720,Jimp.AUTO).crop(180,20,360,360).brightness(0.15).getBase64(img.getMIME(), (err, res)=>{
             if(err){
               console.error(err)
               reject(err)
@@ -198,12 +198,12 @@ export class ImprimirService {
       
       if((typeof imagensAjustadas !== 'undefined') && type === "singlePage"){
         var imgCount = 0;
-        var linha=51;
+        var linha=50;
         
         Object.keys(imagensAjustadas).forEach((filename) => {
-          if(imgCount < 6){
-            doc.addImage(imagensAjustadas[filename].content, imagensAjustadas[filename].type, 165, linha, 33, 33, filename, 'FAST').setFontSize(8).text(180,(linha+36),imagensAjustadas[filename].descricao,"center");
-            linha += 38;
+          if(imgCount < 5){
+            doc.addImage(imagensAjustadas[filename].content, imagensAjustadas[filename].type, 160, linha, 41, 41, filename, 'FAST').setFontSize(8).text(180,(linha+44),imagensAjustadas[filename].descricao,"center");
+            linha += 46;
           }else{
             console.log("Não foi possivel adicionar a imagem: "+filename);
           }

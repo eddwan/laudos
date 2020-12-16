@@ -54,12 +54,12 @@ export class HisteroscopiaPage implements OnInit {
     ){ 
       this.matIconRegistry.addSvgIcon(
         "txt-and-img",
-        this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/txt-and-img.svg")
+        this.domSanitizer.bypassSecurityTrustResourceUrl("assets/txt-and-img.svg")
       );
 
       this.matIconRegistry.addSvgIcon(
         "img-only",
-        this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/img-only.svg")
+        this.domSanitizer.bypassSecurityTrustResourceUrl("assets/img-only.svg")
       );
     }
 
