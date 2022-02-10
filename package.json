@@ -90,7 +90,7 @@
     "ngx-electron": "2.2.0",
     "ngx-file-helpers": "^4.0.0",
     "ngx-webcam": "^0.3.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "pdfjs": "^2.3.9",
     "popper.js": "^1.16.1",
     "resize-base64": "^1.0.12",
