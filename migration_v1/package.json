@@ -9,7 +9,7 @@
   "author": "Eddwan Hallen <eddwan@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "pouchdb": "^7.1.1",
     "pouchdb-node": "^7.1.1",
     "pouchdb-replication-stream": "^1.2.9"
